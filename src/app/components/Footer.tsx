@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 export function Footer() {
   return (
     <footer style={{
-      background: "#050210",
+      background: "#F7F4FF",
       padding: "6rem 2rem 3rem",
       position: "relative",
       overflow: "hidden",
@@ -14,7 +14,7 @@ export function Footer() {
         left: 0,
         right: 0,
         height: "1px",
-        background: "linear-gradient(90deg, transparent, rgba(123,47,190,0.6), rgba(196,181,253,0.4), rgba(123,47,190,0.6), transparent)",
+        background: "linear-gradient(90deg, transparent, #6F00FF, transparent)",
       }} />
 
       {/* Background text */}
@@ -25,7 +25,7 @@ export function Footer() {
         transform: "translateX(-50%)",
         fontFamily: "'Bebas Neue', sans-serif",
         fontSize: "clamp(6rem, 18vw, 14rem)",
-        color: "rgba(196,181,253,0.03)",
+        color: "rgba(111,0,255,0.1)",
         whiteSpace: "nowrap",
         pointerEvents: "none",
         userSelect: "none",
@@ -40,17 +40,17 @@ export function Footer() {
             <div style={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: "2.5rem",
-              color: "#F5F0EA",
+              color: "#111111",
               lineHeight: 1,
               marginBottom: "1rem",
             }}>
               DAILY<br />
-              <span style={{ WebkitTextStroke: "1px #C4B5FD", color: "transparent" }}>FEMINISM</span>
+              <span style={{ WebkitTextStroke: "1px #6F00FF", color: "transparent" }}>FEMINISM</span>
             </div>
             <p style={{
               fontFamily: "'Playfair Display', serif",
               fontStyle: "italic",
-              color: "rgba(196,181,253,0.5)",
+              color: "rgba(17,17,17,0.62)",
               fontSize: "0.9rem",
               lineHeight: 1.65,
             }}>
@@ -64,31 +64,31 @@ export function Footer() {
               fontFamily: "'IBM Plex Mono', monospace",
               fontSize: "0.65rem",
               letterSpacing: "0.25em",
-              color: "#7B2FBE",
+              color: "#6F00FF",
               textTransform: "uppercase",
               marginBottom: "1.25rem",
             }}>
               Explore
             </div>
-            {["Theory Atlas", "Spectrum Map", "Quiz", "Reading Room", "Timeline"].map((item, i) => (
+            {["Theory Atlas", "Quiz", "Spectrum Map", "Reading Room", "Timeline"].map((item, i) => (
               <div key={item} style={{ marginBottom: "0.6rem" }}>
                 <button
                   onClick={() => {
-                    const ids = ["#atlas", "#spectrum", "#quiz", "#reading", "#timeline"];
+                    const ids = ["#atlas", "#quiz", "#spectrum", "#reading", "#timeline"];
                     document.querySelector(ids[i])?.scrollIntoView({ behavior: "smooth" });
                   }}
                   style={{
                     background: "none",
                     border: "none",
-                    color: "rgba(196,181,253,0.45)",
+                    color: "rgba(17,17,17,0.56)",
                     cursor: "pointer",
                     fontFamily: "'Space Grotesk', sans-serif",
                     fontSize: "0.85rem",
                     padding: 0,
                     transition: "color 0.2s",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#C4B5FD")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(196,181,253,0.45)")}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#6F00FF")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(17,17,17,0.56)")}
                 >
                   {item}
                 </button>
@@ -102,7 +102,7 @@ export function Footer() {
               fontFamily: "'IBM Plex Mono', monospace",
               fontSize: "0.65rem",
               letterSpacing: "0.25em",
-              color: "#7B2FBE",
+              color: "#6F00FF",
               textTransform: "uppercase",
               marginBottom: "1.25rem",
             }}>
@@ -113,7 +113,7 @@ export function Footer() {
                 <span style={{
                   fontFamily: "'Space Grotesk', sans-serif",
                   fontSize: "0.85rem",
-                  color: "rgba(196,181,253,0.35)",
+                  color: "rgba(17,17,17,0.5)",
                 }}>
                   {t} Feminism
                 </span>
@@ -127,7 +127,7 @@ export function Footer() {
               fontFamily: "'IBM Plex Mono', monospace",
               fontSize: "0.65rem",
               letterSpacing: "0.25em",
-              color: "#7B2FBE",
+              color: "#6F00FF",
               textTransform: "uppercase",
               marginBottom: "1.25rem",
             }}>
@@ -136,15 +136,15 @@ export function Footer() {
             <blockquote style={{
               margin: 0,
               padding: "1rem 1.25rem",
-              borderLeft: "2px solid rgba(123,47,190,0.5)",
+              borderLeft: "5px solid #6F00FF",
               fontFamily: "'Playfair Display', serif",
               fontStyle: "italic",
-              color: "rgba(196,181,253,0.5)",
+              color: "rgba(17,17,17,0.58)",
               fontSize: "0.9rem",
               lineHeight: 1.65,
             }}>
               "Feminism is not simply a struggle to end male chauvinism or a movement to ensure that women will have equal rights with men; it is a commitment to eradicating the ideology of domination."
-              <footer style={{ marginTop: "0.5rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", fontStyle: "normal", color: "rgba(196,181,253,0.35)", letterSpacing: "0.1em" }}>
+              <footer style={{ marginTop: "0.5rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", fontStyle: "normal", color: "#6F00FF", letterSpacing: "0.1em" }}>
                 — bell hooks
               </footer>
             </blockquote>
@@ -154,7 +154,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div style={{
           paddingTop: "2rem",
-          borderTop: "1px solid rgba(196,181,253,0.08)",
+          borderTop: "1px solid rgba(111,0,255,0.35)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -164,7 +164,7 @@ export function Footer() {
           <span style={{
             fontFamily: "'IBM Plex Mono', monospace",
             fontSize: "0.65rem",
-            color: "rgba(196,181,253,0.25)",
+            color: "rgba(17,17,17,0.44)",
             letterSpacing: "0.1em",
           }}>
             ♀ Daily Feminism — A Digital Museum Experience
@@ -172,7 +172,7 @@ export function Footer() {
           <span style={{
             fontFamily: "'IBM Plex Mono', monospace",
             fontSize: "0.65rem",
-            color: "rgba(196,181,253,0.2)",
+            color: "rgba(17,17,17,0.38)",
           }}>
             For education, reflection, and solidarity.
           </span>

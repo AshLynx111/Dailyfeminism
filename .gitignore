@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.superpowers/
+screenshots/
+vite-dev*.log
+vite-dev.pid

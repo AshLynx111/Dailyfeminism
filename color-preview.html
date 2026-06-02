@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Daily Feminism Color Preview</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --violet: #6f00ff;
+        --deep-violet: #24004d;
+        --soft-violet: #a78bfa;
+        --ink: #111111;
+        --black: #050505;
+        --paper: #f7f4ff;
+        --paper-2: #f5f5f5;
+        --mist: #ebe4ff;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        background: #ece7f7;
+        font-family: Arial, sans-serif;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: 34px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 24px;
+        margin: 0 auto 28px;
+        max-width: 1280px;
+      }
+
+      .eyebrow {
+        margin-bottom: 10px;
+        color: var(--violet);
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: Impact, "Arial Narrow", sans-serif;
+        font-size: clamp(42px, 8vw, 96px);
+        line-height: 0.88;
+        letter-spacing: 0;
+      }
+
+      .note {
+        max-width: 430px;
+        margin: 0;
+        color: rgba(17, 17, 17, 0.62);
+        font-family: Georgia, serif;
+        font-size: 17px;
+        font-style: italic;
+        line-height: 1.55;
+      }
+
+      .compare {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+
+      .board {
+        min-height: 700px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(17, 17, 17, 0.12);
+        box-shadow: 0 24px 80px rgba(17, 17, 17, 0.16);
+      }
+
+      .board.dark {
+        color: var(--paper-2);
+        background:
+          linear-gradient(90deg, rgba(111, 0, 255, 0.18) 1px, transparent 1px),
+          linear-gradient(0deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+          var(--black);
+        background-size: 64px 64px;
+      }
+
+      .board.light {
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 20% 28%, rgba(111, 0, 255, 0.13), transparent 26%),
+          linear-gradient(90deg, rgba(111, 0, 255, 0.12) 1px, transparent 1px),
+          linear-gradient(0deg, rgba(17, 17, 17, 0.055) 1px, transparent 1px),
+          var(--paper);
+        background-size: auto, 64px 64px, 64px 64px, auto;
+      }
+
+      .board-title {
+        position: absolute;
+        left: 30px;
+        top: 24px;
+        z-index: 4;
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        color: var(--violet);
+      }
+
+      .headline {
+        position: absolute;
+        left: clamp(26px, 5vw, 58px);
+        top: 120px;
+        z-index: 4;
+      }
+
+      .headline strong {
+        display: block;
+        font-family: Impact, "Arial Narrow", sans-serif;
+        font-size: clamp(78px, 9vw, 132px);
+        line-height: 0.82;
+      }
+
+      .outline {
+        color: transparent;
+        -webkit-text-stroke: 2px var(--violet);
+      }
+
+      .subtitle {
+        position: absolute;
+        left: clamp(30px, 5vw, 62px);
+        top: 340px;
+        z-index: 4;
+        width: min(390px, calc(100% - 80px));
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: 20px;
+        font-style: italic;
+        line-height: 1.45;
+      }
+
+      .dark .subtitle {
+        color: rgba(245, 245, 245, 0.78);
+      }
+
+      .light .subtitle {
+        color: rgba(17, 17, 17, 0.72);
+      }
+
+      .collage {
+        position: absolute;
+        right: -22px;
+        bottom: 72px;
+        width: min(46%, 330px);
+        height: 410px;
+        border: 1px solid rgba(111, 0, 255, 0.42);
+        transform: rotate(2deg);
+        overflow: hidden;
+      }
+
+      .dark .collage {
+        background:
+          linear-gradient(120deg, rgba(245, 245, 245, 0.64), rgba(245, 245, 245, 0.2)),
+          repeating-linear-gradient(0deg, transparent 0 16px, rgba(5, 5, 5, 0.16) 16px 17px);
+        opacity: 0.78;
+      }
+
+      .light .collage {
+        background:
+          linear-gradient(120deg, rgba(17, 17, 17, 0.11), rgba(111, 0, 255, 0.09)),
+          repeating-linear-gradient(0deg, transparent 0 16px, rgba(17, 17, 17, 0.06) 16px 17px),
+          #ffffff;
+        opacity: 0.96;
+      }
+
+      .portrait {
+        position: absolute;
+        right: 36px;
+        top: 72px;
+        width: 170px;
+        height: 230px;
+        border-radius: 48% 48% 0 0;
+        background:
+          radial-gradient(circle at 52% 28%, rgba(17, 17, 17, 0.32), transparent 18%),
+          linear-gradient(160deg, rgba(17, 17, 17, 0.2), rgba(17, 17, 17, 0.54));
+        filter: grayscale(1);
+      }
+
+      .bar {
+        position: absolute;
+        z-index: 3;
+        background: var(--violet);
+      }
+
+      .bar.one {
+        left: 42px;
+        top: 82px;
+        width: 240px;
+        height: 22px;
+      }
+
+      .bar.two {
+        left: 86px;
+        top: 124px;
+        width: 280px;
+        height: 18px;
+      }
+
+      .bar.three {
+        left: 58px;
+        bottom: 92px;
+        width: 190px;
+        height: 20px;
+      }
+
+      .paper-card {
+        position: absolute;
+        left: 48px;
+        bottom: 150px;
+        z-index: 3;
+        width: 260px;
+        min-height: 116px;
+        padding: 18px;
+        transform: rotate(-3deg);
+        clip-path: polygon(0 2%, 3% 0, 12% 2%, 23% 0, 36% 1%, 50% 0, 66% 2%, 82% 0, 100% 2%, 100% 98%, 96% 100%, 82% 98%, 66% 100%, 48% 99%, 31% 100%, 14% 98%, 0 100%);
+      }
+
+      .dark .paper-card {
+        color: var(--black);
+        background: var(--paper-2);
+      }
+
+      .light .paper-card {
+        color: var(--ink);
+        background: #ffffff;
+        border: 1px solid rgba(111, 0, 255, 0.35);
+        box-shadow: 10px 10px 0 rgba(111, 0, 255, 0.18);
+      }
+
+      .paper-card h2 {
+        margin: 0 0 8px;
+        font-family: Impact, "Arial Narrow", sans-serif;
+        font-size: 30px;
+        line-height: 1;
+      }
+
+      .paper-card p {
+        margin: 0;
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        line-height: 1.5;
+        letter-spacing: 0.08em;
+      }
+
+      .stamp {
+        position: absolute;
+        z-index: 4;
+        right: 82px;
+        top: 286px;
+        padding: 9px 12px;
+        transform: rotate(-2deg);
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        background: var(--violet);
+        color: #ffffff;
+      }
+
+      .circle {
+        position: absolute;
+        right: -90px;
+        bottom: -90px;
+        width: 260px;
+        height: 260px;
+        border: 34px solid var(--violet);
+        border-radius: 50%;
+      }
+
+      .dark .circle {
+        opacity: 0.42;
+      }
+
+      .light .circle {
+        opacity: 0.22;
+      }
+
+      .palette {
+        position: absolute;
+        left: 30px;
+        right: 30px;
+        bottom: 24px;
+        z-index: 5;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .swatch {
+        min-height: 54px;
+        padding: 10px;
+        border: 1px solid rgba(17, 17, 17, 0.12);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        font-family: "Courier New", monospace;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+      }
+
+      .dark .swatch {
+        border-color: rgba(245, 245, 245, 0.16);
+      }
+
+      .recommend {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        z-index: 6;
+        padding: 8px 12px;
+        background: var(--violet);
+        color: #ffffff;
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+      }
+
+      @media (max-width: 900px) {
+        .page {
+          padding: 22px;
+        }
+
+        .header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .compare {
+          grid-template-columns: 1fr;
+        }
+
+        .board {
+          min-height: 660px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <div>
+          <div class="eyebrow">Color Preview / not applied to main app</div>
+          <h1>BLACK PURPLE<br />VS LIGHT PAPER</h1>
+        </div>
+        <p class="note">
+          右边是我建议你先考虑的方向：亮白纸面把明度拉上去，紫色仍然是主视觉，但黑色只负责压重点。
+        </p>
+      </header>
+
+      <section class="compare" aria-label="color direction comparison">
+        <article class="board dark">
+          <div class="board-title">A / CURRENT FEEL / BLACK PURPLE</div>
+          <div class="bar one"></div>
+          <div class="bar two"></div>
+          <div class="bar three"></div>
+          <div class="headline">
+            <strong>DAILY</strong>
+            <strong class="outline">FEMINISM</strong>
+          </div>
+          <p class="subtitle">更像地下展览、夜间档案馆、冲击强，但整体会偏压、偏暗。</p>
+          <div class="collage"><div class="portrait"></div></div>
+          <div class="paper-card">
+            <h2>ARCHIVE</h2>
+            <p>BLACK / PURPLE / WHITE / HIGH CONTRAST</p>
+          </div>
+          <div class="stamp">CURRENT</div>
+          <div class="circle"></div>
+          <div class="palette">
+            <div class="swatch" style="background:#050505;color:#f5f5f5">BLACK<br />#050505</div>
+            <div class="swatch" style="background:#6f00ff;color:#fff">PURPLE<br />#6F00FF</div>
+            <div class="swatch" style="background:#24004d;color:#fff">DEEP<br />#24004D</div>
+            <div class="swatch" style="background:#f5f5f5;color:#111">WHITE<br />#F5F5F5</div>
+          </div>
+        </article>
+
+        <article class="board light">
+          <div class="recommend">RECOMMENDED</div>
+          <div class="board-title">B / BRIGHTER FEEL / LIGHT PAPER PURPLE</div>
+          <div class="bar one"></div>
+          <div class="bar two"></div>
+          <div class="bar three"></div>
+          <div class="headline">
+            <strong>DAILY</strong>
+            <strong class="outline">FEMINISM</strong>
+          </div>
+          <p class="subtitle">更像 feminist zine、展览海报、白纸拼贴；更亮、更透气，也更适合长页面阅读。</p>
+          <div class="collage"><div class="portrait"></div></div>
+          <div class="paper-card">
+            <h2>ARCHIVE</h2>
+            <p>PAPER / PURPLE / INK / SOFTER CONTRAST</p>
+          </div>
+          <div class="stamp">START</div>
+          <div class="circle"></div>
+          <div class="palette">
+            <div class="swatch" style="background:#f7f4ff;color:#111">PAPER<br />#F7F4FF</div>
+            <div class="swatch" style="background:#6f00ff;color:#fff">PURPLE<br />#6F00FF</div>
+            <div class="swatch" style="background:#ebe4ff;color:#111">MIST<br />#EBE4FF</div>
+            <div class="swatch" style="background:#111111;color:#fff">INK<br />#111111</div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import img1 from "figma:asset/9b362052e5b7524cc56549a710bbf89c-1.jpg";
+import woolfWaves from "../../imports/collage/woolf-waves.jpg";
 
 const books = [
   {
@@ -13,7 +14,7 @@ const books = [
     body: "The foundational text of liberal feminism. Wollstonecraft argues that women appear inferior only from lack of education. She demands equal educational opportunity as the bedrock of political equality.",
     rot: "-1.2deg",
     offset: "0px",
-    paperBg: "#F0E8D2",
+    paperBg: "#FFFFFF",
   },
   {
     num: "002",
@@ -25,7 +26,7 @@ const books = [
     body: "Butler's revolutionary thesis: gender is not something you are — it is something you do. Acts, gestures, and desire create the illusion of a stable gender self. This detonated feminist theory.",
     rot: "2.5deg",
     offset: "12px",
-    paperBg: "#E8E4F0",
+    paperBg: "#F1EBFF",
   },
   {
     num: "003",
@@ -37,7 +38,7 @@ const books = [
     body: "Essays and speeches by the visionary Black lesbian feminist. Lorde maps the intersections of race, gender, class, and sexuality with extraordinary force — essential reading.",
     rot: "-3deg",
     offset: "5px",
-    paperBg: "#E0ECF0",
+    paperBg: "#FFFFFF",
   },
   {
     num: "004",
@@ -49,7 +50,7 @@ const books = [
     body: "Federici traces how the transition to capitalism required destroying women's communal power. The witch hunts were deliberate attacks on female autonomy. A paradigm-shifting materialist analysis.",
     rot: "1.5deg",
     offset: "-8px",
-    paperBg: "#EDE8DC",
+    paperBg: "#F4F0FF",
   },
   {
     num: "005",
@@ -61,7 +62,7 @@ const books = [
     body: "The radical feminist breakthrough. Millett analyses literature to show how patriarchy pervades culture — not just law. The personal is political. Sex is power.",
     rot: "-2deg",
     offset: "18px",
-    paperBg: "#F0E4E0",
+    paperBg: "#FFFFFF",
   },
   {
     num: "006",
@@ -73,7 +74,7 @@ const books = [
     body: "Davis traces the inseparable history of race, class, and gender in American life. The suffrage movement's racism undermined its own goals. Liberation requires solidarity across all these axes.",
     rot: "3deg",
     offset: "0px",
-    paperBg: "#E8F0EC",
+    paperBg: "#F2ECFF",
   },
   {
     num: "007",
@@ -85,7 +86,7 @@ const books = [
     body: "Engels locates the origin of women's oppression in the emergence of private property and the patriarchal family — the world historical defeat of the female sex.",
     rot: "-1.5deg",
     offset: "8px",
-    paperBg: "#ECE8E4",
+    paperBg: "#FFFFFF",
   },
   {
     num: "008",
@@ -97,7 +98,7 @@ const books = [
     body: "Gilligan challenges male-centered developmental psychology. Women's ethics of care and relational moral reasoning are not inferior — they are different. The first major work of cultural feminism.",
     rot: "2deg",
     offset: "-5px",
-    paperBg: "#E4ECE8",
+    paperBg: "#F3EFFF",
   },
 ];
 
@@ -108,11 +109,28 @@ export function ReadingArchive() {
 
   const shown = filter === "ALL" ? books : books.filter((b) => b.theory === filter);
 
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const theory = (event as CustomEvent<{ theory?: string }>).detail?.theory;
+      if (!theory) return;
+      setFilter(theory);
+      window.setTimeout(() => {
+        document.querySelector(`[data-reading-theory="${theory}"]`)?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 120);
+    };
+
+    window.addEventListener("dailyfeminism:read-mode", handler);
+    return () => window.removeEventListener("dailyfeminism:read-mode", handler);
+  }, []);
+
   return (
     <section
       id="reading"
       style={{
-        background: "#0D0D0D",
+        background: "#F7F4FF",
         position: "relative",
         padding: "6rem 3rem 10rem",
         overflow: "hidden",
@@ -122,8 +140,9 @@ export function ReadingArchive() {
       {/* Halftone dots */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
-        backgroundImage: `radial-gradient(circle, rgba(220,210,190,0.05) 1px, transparent 1px)`,
-        backgroundSize: "20px 20px",
+        backgroundImage: "radial-gradient(circle, rgba(17,17,17,0.12) 1px, transparent 1.5px), repeating-linear-gradient(0deg, transparent 0 15px, rgba(17,17,17,0.035) 15px 16px)",
+        backgroundSize: "18px 18px, auto",
+        opacity: 0.35,
       }} />
 
       {/* Grain */}
@@ -135,20 +154,29 @@ export function ReadingArchive() {
 
       {/* Archive image - big right side */}
       <div style={{
-        position: "absolute", right: "-5%", top: "10%",
-        width: "28%", zIndex: 1,
-        opacity: 0.07, mixBlendMode: "luminosity",
-        transform: "rotate(1deg)",
+        position: "absolute", right: "-4%", top: "8%",
+        width: "min(36vw, 480px)", zIndex: 1,
+        opacity: 0.08,
+        transform: "rotate(2deg)",
       }}>
-        <img src={img1} alt="" style={{ width: "100%", filter: "grayscale(1) contrast(1.2)", mixBlendMode: "screen" }} />
+        <img src={woolfWaves} alt="" style={{ width: "100%" }} />
+      </div>
+
+      <div style={{
+        position: "absolute", left: "-8%", bottom: "4%",
+        width: "min(30vw, 360px)", zIndex: 1,
+        opacity: 0.05,
+        transform: "rotate(-4deg)",
+      }}>
+        <img src={img1} alt="" style={{ width: "100%" }} />
       </div>
 
       <div style={{ maxWidth: "1100px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ marginBottom: "3.5rem" }}>
-          <div style={{ borderTop: "3px solid #EDE8D8", borderBottom: "1px solid rgba(237,232,216,0.2)", padding: "0.4rem 0", marginBottom: "0.35rem" }}>
-            <div style={{ borderBottom: "1px solid rgba(237,232,216,0.1)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
-              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: "#EDE8D8", opacity: 0.3 }}>
+          <div style={{ borderTop: "3px solid #6F00FF", borderBottom: "1px solid rgba(111,0,255,0.28)", padding: "0.4rem 0", marginBottom: "0.35rem" }}>
+            <div style={{ borderBottom: "1px solid rgba(111,0,255,0.16)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: "#6F00FF", opacity: 1 }}>
                 FEMINIST ARCHIVE — SECTION V — READING ROOM
               </span>
             </div>
@@ -157,15 +185,15 @@ export function ReadingArchive() {
           <h2 style={{
             fontFamily: "'Bebas Neue', sans-serif",
             fontSize: "clamp(3rem, 8vw, 6.5rem)",
-            color: "#EDE8D8", lineHeight: 0.88, letterSpacing: "0.01em",
+            color: "#111111", lineHeight: 0.88, letterSpacing: "0.01em",
           }}>
             READING<br />
-            <span style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(237,232,216,0.35)" }}>
+            <span style={{ color: "transparent", WebkitTextStroke: "1.5px #6F00FF" }}>
               ARCHIVE
             </span>
           </h2>
 
-          <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(212,200,168,0.45)", fontStyle: "italic", marginTop: "0.75rem" }}>
+          <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(17,17,17,0.68)", fontStyle: "italic", marginTop: "0.75rem" }}>
             Eight essential texts. The feminist library.
           </p>
         </motion.div>
@@ -178,9 +206,9 @@ export function ReadingArchive() {
               onClick={() => setFilter(f)}
               style={{
                 padding: "0.3rem 0.8rem",
-                background: filter === f ? "rgba(237,232,216,0.12)" : "transparent",
-                border: filter === f ? "1px solid rgba(237,232,216,0.4)" : "1px solid rgba(237,232,216,0.1)",
-                color: filter === f ? "#EDE8D8" : "rgba(237,232,216,0.3)",
+                background: filter === f ? "#6F00FF" : "transparent",
+                border: filter === f ? "1px solid #6F00FF" : "1px solid rgba(111,0,255,0.18)",
+                color: filter === f ? "#FFFFFF" : "rgba(17,17,17,0.52)",
                 cursor: "pointer",
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: "0.58rem", letterSpacing: "0.12em",
@@ -198,6 +226,8 @@ export function ReadingArchive() {
             {shown.map((book, i) => (
               <motion.div
                 key={book.num}
+                id={`reading-${book.theory.toLowerCase()}-${book.num}`}
+                data-reading-theory={book.theory}
                 layout
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -210,48 +240,48 @@ export function ReadingArchive() {
                   onClick={() => setOpen(book)}
                   style={{
                     width: "100%",
-                    background: book.paperBg,
-                    border: "none",
+                    background: `linear-gradient(180deg, ${book.paperBg}, #F7F4FF)`,
+                    border: "1px solid rgba(111,0,255,0.55)",
                     cursor: "pointer",
                     padding: "1.5rem",
                     textAlign: "left",
                     position: "relative",
                     clipPath: "polygon(0 2%, 1.5% 0, 4% 1.5%, 8% 0.5%, 14% 2%, 20% 0, 27% 1.5%, 36% 0.5%, 46% 1.5%, 57% 0, 68% 1%, 79% 0.5%, 89% 1.5%, 96% 0, 100% 1%, 100% 98%, 98% 100%, 94% 98.5%, 89% 100%, 83% 98%, 76% 100%, 69% 98.5%, 61% 100%, 52% 98%, 43% 100%, 34% 99%, 25% 100%, 16% 98.5%, 8% 100%, 3% 98.5%, 0 100%)",
-                    filter: "drop-shadow(0 3px 10px rgba(0,0,0,0.3))",
+                    boxShadow: filter === book.theory ? "10px 10px 0 rgba(111,0,255,0.18), 0 3px 10px rgba(17,17,17,0.1)" : "0 3px 10px rgba(17,17,17,0.1)",
                     minHeight: "200px",
                     display: "flex",
                     flexDirection: "column",
-                    transition: "filter 0.2s",
+                    transition: "box-shadow 0.2s, transform 0.2s",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.filter = "drop-shadow(0 8px 24px rgba(0,0,0,0.45))")}
-                  onMouseLeave={(e) => (e.currentTarget.style.filter = "drop-shadow(0 3px 10px rgba(0,0,0,0.3))")}
+                  onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "0 8px 22px rgba(17,17,17,0.14)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.boxShadow = filter === book.theory ? "10px 10px 0 rgba(111,0,255,0.18), 0 3px 10px rgba(17,17,17,0.1)" : "0 3px 10px rgba(17,17,17,0.1)")}
                 >
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.6rem" }}>
-                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", color: "rgba(13,13,13,0.4)", letterSpacing: "0.15em" }}>
+                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", color: "#6F00FF", letterSpacing: "0.15em" }}>
                       {book.num}
                     </span>
-                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "rgba(13,13,13,0.35)", letterSpacing: "0.1em" }}>
+                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "rgba(17,17,17,0.52)", letterSpacing: "0.1em" }}>
                       {book.theory}
                     </span>
                   </div>
 
-                  <div style={{ height: "1px", background: "rgba(13,13,13,0.12)", marginBottom: "0.75rem" }} />
+                  <div style={{ height: "1px", background: "rgba(111,0,255,0.75)", marginBottom: "0.75rem" }} />
 
-                  <h3 style={{ fontFamily: "'IM Fell English', serif", fontSize: "1rem", color: "#0D0D0D", lineHeight: 1.25, marginBottom: "0.4rem" }}>
+                  <h3 style={{ fontFamily: "'IM Fell English', serif", fontSize: "1rem", color: "#111111", lineHeight: 1.25, marginBottom: "0.4rem" }}>
                     {book.title}
                   </h3>
 
-                  <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.72rem", color: "rgba(13,13,13,0.5)", fontStyle: "italic" }}>
+                  <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.72rem", color: "rgba(17,17,17,0.58)", fontStyle: "italic" }}>
                     {book.author}, {book.year}
                   </p>
 
-                  <div style={{ height: "1px", background: "rgba(13,13,13,0.08)", margin: "0.75rem 0" }} />
+                  <div style={{ height: "1px", background: "rgba(111,0,255,0.35)", margin: "0.75rem 0" }} />
 
-                  <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", color: "rgba(13,13,13,0.45)", fontStyle: "italic", lineHeight: 1.5, flex: 1 }}>
+                  <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", color: "rgba(17,17,17,0.56)", fontStyle: "italic", lineHeight: 1.5, flex: 1 }}>
                     {book.quote.length > 90 ? book.quote.slice(0, 87) + "…\"" : book.quote}
                   </p>
 
-                  <div style={{ marginTop: "0.75rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "rgba(13,13,13,0.3)", letterSpacing: "0.1em" }}>
+                  <div style={{ marginTop: "0.75rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "#6F00FF", letterSpacing: "0.1em" }}>
                     ↗ OPEN FILE
                   </div>
                 </motion.button>
@@ -271,8 +301,7 @@ export function ReadingArchive() {
             onClick={() => setOpen(null)}
             style={{
               position: "fixed", inset: 0, zIndex: 2000,
-              background: "rgba(13,13,13,0.82)",
-              backdropFilter: "blur(6px)",
+              background: "rgba(17,17,17,0.42)",
               display: "flex", alignItems: "center", justifyContent: "center",
               padding: "1.5rem",
             }}
@@ -283,41 +312,42 @@ export function ReadingArchive() {
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
               style={{
-                background: open.paperBg,
+                background: `linear-gradient(180deg, ${open.paperBg}, #F7F4FF)`,
+                border: "1px solid rgba(111,0,255,0.65)",
                 maxWidth: "560px", width: "100%",
                 padding: "3rem",
                 position: "relative",
                 clipPath: "polygon(0 1%, 2% 0, 5% 1.5%, 11% 0, 20% 1%, 32% 0, 46% 1.5%, 61% 0, 75% 1%, 88% 0, 96% 1.5%, 100% 0, 100% 99%, 97% 100%, 91% 98.5%, 83% 100%, 73% 99%, 62% 100%, 50% 98.5%, 38% 100%, 27% 99%, 17% 100%, 8% 98.5%, 2% 100%, 0 99%)",
-                filter: "drop-shadow(0 20px 60px rgba(0,0,0,0.5))",
+                boxShadow: "0 20px 60px rgba(17,17,17,0.18)",
                 maxHeight: "85vh", overflowY: "auto",
               }}
             >
               <button
                 onClick={() => setOpen(null)}
-                style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "none", cursor: "pointer", color: "rgba(13,13,13,0.4)", fontSize: "1.1rem" }}
+                style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "none", cursor: "pointer", color: "#6F00FF", fontSize: "1.1rem" }}
               >
                 ×
               </button>
 
-              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.25em", color: "rgba(13,13,13,0.4)", marginBottom: "0.4rem" }}>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.25em", color: "#6F00FF", marginBottom: "0.4rem" }}>
                 FILE {open.num} — {open.theory} — {open.year}
               </div>
-              <h2 style={{ fontFamily: "'IM Fell English', serif", fontSize: "1.6rem", color: "#0D0D0D", lineHeight: 1.15, marginBottom: "0.3rem" }}>
+              <h2 style={{ fontFamily: "'IM Fell English', serif", fontSize: "1.6rem", color: "#111111", lineHeight: 1.15, marginBottom: "0.3rem" }}>
                 {open.title}
               </h2>
-              <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(13,13,13,0.55)", fontStyle: "italic", marginBottom: "1.5rem" }}>
+              <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(17,17,17,0.66)", fontStyle: "italic", marginBottom: "1.5rem" }}>
                 — {open.author}
               </p>
 
-              <div style={{ height: "2px", background: "rgba(13,13,13,0.12)", marginBottom: "1.5rem" }} />
+              <div style={{ height: "2px", background: "rgba(111,0,255,0.55)", marginBottom: "1.5rem" }} />
 
-              <blockquote style={{ margin: "0 0 1.25rem", padding: "0.8rem 1rem", borderLeft: "2px solid rgba(13,13,13,0.25)" }}>
-                <p style={{ fontFamily: "'IM Fell English', serif", fontStyle: "italic", fontSize: "0.92rem", color: "#0D0D0D", lineHeight: 1.6, opacity: 0.75 }}>
+              <blockquote style={{ margin: "0 0 1.25rem", padding: "0.8rem 1rem", borderLeft: "5px solid #6F00FF", background: "rgba(111,0,255,0.16)" }}>
+                <p style={{ fontFamily: "'IM Fell English', serif", fontStyle: "italic", fontSize: "0.92rem", color: "#111111", lineHeight: 1.6, opacity: 0.78 }}>
                   {open.quote}
                 </p>
               </blockquote>
 
-              <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.88rem", color: "#0D0D0D", lineHeight: 1.7, opacity: 0.75 }}>
+              <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.88rem", color: "#111111", lineHeight: 1.7, opacity: 0.7 }}>
                 {open.body}
               </p>
             </motion.div>
@@ -327,21 +357,21 @@ export function ReadingArchive() {
 
       {/* Footer */}
       <div style={{ maxWidth: "1100px", margin: "6rem auto 0", position: "relative", zIndex: 2 }}>
-        <div style={{ height: "1px", background: "rgba(237,232,216,0.1)", marginBottom: "2rem" }} />
+        <div style={{ height: "1px", background: "rgba(111,0,255,0.22)", marginBottom: "2rem" }} />
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1rem" }}>
           <div>
-            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "2rem", color: "#EDE8D8", lineHeight: 1, opacity: 0.3 }}>
+            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "2rem", color: "#6F00FF", lineHeight: 1, opacity: 0.36 }}>
               DAILY FEMINISM
             </div>
-            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.5rem", color: "rgba(237,232,216,0.2)", letterSpacing: "0.2em", marginTop: "0.3rem" }}>
+            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.5rem", color: "rgba(17,17,17,0.34)", letterSpacing: "0.2em", marginTop: "0.3rem" }}>
               A LIVING COLLAGE EXHIBITION — FOR EDUCATION & SOLIDARITY
             </div>
           </div>
           <blockquote style={{ maxWidth: "300px", textAlign: "right" }}>
-            <p style={{ fontFamily: "'IM Fell English', serif", fontStyle: "italic", fontSize: "0.78rem", color: "rgba(212,200,168,0.25)", lineHeight: 1.6 }}>
+            <p style={{ fontFamily: "'IM Fell English', serif", fontStyle: "italic", fontSize: "0.78rem", color: "rgba(17,17,17,0.42)", lineHeight: 1.6 }}>
               "Feminism is not simply a struggle to end male chauvinism — it is a commitment to eradicating the ideology of domination."
             </p>
-            <cite style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.5rem", color: "rgba(212,200,168,0.18)", letterSpacing: "0.1em" }}>
+            <cite style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.5rem", color: "rgba(111,0,255,0.42)", letterSpacing: "0.1em" }}>
               — bell hooks
             </cite>
           </blockquote>

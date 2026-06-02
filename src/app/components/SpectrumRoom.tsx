@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import mirrorGarden from "../../imports/collage/mirror-garden.jpg";
 
 const nodes = [
-  { id: "liberal", label: "LIBERAL", x: 340, y: 110, r: 48, fill: "#D4B896", stroke: "#8B5A2B" },
-  { id: "radical", label: "RADICAL", x: 580, y: 210, r: 52, fill: "#C89898", stroke: "#6B1A1A" },
-  { id: "socialist", label: "SOCIALIST", x: 500, y: 390, r: 50, fill: "#C8C090", stroke: "#5A5000" },
-  { id: "marxist", label: "MARXIST", x: 210, y: 360, r: 46, fill: "#C0B8B0", stroke: "#3A3030" },
-  { id: "cultural", label: "CULTURAL", x: 120, y: 200, r: 46, fill: "#B8C8B0", stroke: "#1A4020" },
-  { id: "postmodern", label: "POSTMODERN", x: 310, y: 510, r: 52, fill: "#C0B0C8", stroke: "#2A0A5A" },
-  { id: "intersectional", label: "INTERSECTIONAL", x: 510, y: 550, r: 58, fill: "#A8C0C8", stroke: "#0A2A3A" },
+  { id: "liberal", label: "LIBERAL", x: 340, y: 110, r: 48, fill: "#F5F5F5", stroke: "#6F00FF" },
+  { id: "radical", label: "RADICAL", x: 580, y: 210, r: 52, fill: "#6F00FF", stroke: "#F5F5F5" },
+  { id: "socialist", label: "SOCIALIST", x: 500, y: 390, r: 50, fill: "#F5F5F5", stroke: "#6F00FF" },
+  { id: "marxist", label: "MARXIST", x: 210, y: 360, r: 46, fill: "#24004D", stroke: "#6F00FF" },
+  { id: "cultural", label: "CULTURAL", x: 120, y: 200, r: 46, fill: "#F5F5F5", stroke: "#6F00FF" },
+  { id: "postmodern", label: "POSTMODERN", x: 310, y: 510, r: 52, fill: "#6F00FF", stroke: "#F5F5F5" },
+  { id: "intersectional", label: "INTERSECTIONAL", x: 510, y: 550, r: 58, fill: "#F5F5F5", stroke: "#6F00FF" },
 ];
 
 const connections = [
@@ -60,7 +61,7 @@ export function SpectrumRoom() {
     <section
       id="spectrum"
       style={{
-        background: "#0D0D0D",
+        background: "#F7F4FF",
         position: "relative",
         padding: "6rem 3rem 8rem",
         overflow: "hidden",
@@ -70,8 +71,9 @@ export function SpectrumRoom() {
       {/* Halftone dot texture */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
-        backgroundImage: `radial-gradient(circle, rgba(220,210,190,0.06) 1px, transparent 1px)`,
-        backgroundSize: "18px 18px",
+        backgroundImage: "radial-gradient(circle, rgba(17,17,17,0.12) 1px, transparent 1.5px), repeating-linear-gradient(0deg, transparent 0 15px, rgba(17,17,17,0.035) 15px 16px)",
+        backgroundSize: "18px 18px, auto",
+        opacity: 0.36,
       }} />
 
       {/* Grain */}
@@ -81,13 +83,28 @@ export function SpectrumRoom() {
         backgroundSize: "200px 200px", opacity: 0.5,
       }} />
 
-      {/* Purple wash */}
+      {/* Collage layer */}
       <div style={{
-        position: "absolute", bottom: "-20%", left: "-10%",
-        width: "60%", height: "80%",
-        background: "radial-gradient(ellipse, rgba(44,10,94,0.25) 0%, transparent 65%)",
+        position: "absolute", bottom: "3%", left: "-5%",
+        width: "min(34vw, 430px)",
         zIndex: 0, pointerEvents: "none",
+        opacity: 0.08,
+        transform: "rotate(-3deg)",
       }} />
+      <img
+        src={mirrorGarden}
+        alt=""
+        style={{
+          position: "absolute",
+          bottom: "4%",
+          left: "-5%",
+          width: "min(34vw, 430px)",
+          zIndex: 0,
+          opacity: 0.08,
+          transform: "rotate(-3deg)",
+          pointerEvents: "none",
+        }}
+      />
 
       {/* Section header */}
       <motion.div
@@ -99,23 +116,23 @@ export function SpectrumRoom() {
         <div style={{
           fontFamily: "'IBM Plex Mono', monospace",
           fontSize: "0.55rem", letterSpacing: "0.3em",
-          color: "#D4C8A8", opacity: 0.4, marginBottom: "0.75rem",
+          color: "#6F00FF", opacity: 1, marginBottom: "0.75rem",
         }}>
           FEMINIST ARCHIVE — SECTION III — SPECTRUM MAP
         </div>
         <h2 style={{
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: "clamp(3rem, 8vw, 6.5rem)",
-          color: "#EDE8D8", lineHeight: 0.88,
+          color: "#111111", lineHeight: 0.88,
         }}>
           THEORY<br />
-          <span style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(212,200,168,0.5)" }}>
+          <span style={{ color: "transparent", WebkitTextStroke: "1.5px #6F00FF" }}>
             SPECTRUM
           </span>
         </h2>
         <p style={{
           fontFamily: "'Special Elite', cursive",
-          fontSize: "0.85rem", color: "rgba(212,200,168,0.55)",
+          fontSize: "0.85rem", color: "rgba(17,17,17,0.62)",
           fontStyle: "italic", marginTop: "0.75rem",
         }}>
           A map of tensions, overlaps, and alliances.
@@ -126,9 +143,9 @@ export function SpectrumRoom() {
             onClick={() => { setCompareMode(!compareMode); setCompare([]); }}
             style={{
               padding: "0.35rem 0.9rem",
-              background: compareMode ? "rgba(212,200,168,0.15)" : "transparent",
-              border: "1px solid rgba(212,200,168,0.25)",
-              color: "rgba(212,200,168,0.7)",
+              background: compareMode ? "#6F00FF" : "transparent",
+              border: "1px solid #6F00FF",
+              color: compareMode ? "#F5F5F5" : "#6F00FF",
               cursor: "pointer",
               fontFamily: "'IBM Plex Mono', monospace",
               fontSize: "0.6rem", letterSpacing: "0.12em",
@@ -137,7 +154,7 @@ export function SpectrumRoom() {
             {compareMode ? "▪ COMPARING" : "COMPARE MODE"}
           </button>
           {compareMode && (
-            <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", color: "rgba(212,200,168,0.35)", paddingTop: "0.35rem", fontStyle: "italic" }}>
+            <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", color: "rgba(17,17,17,0.5)", paddingTop: "0.35rem", fontStyle: "italic" }}>
               click two nodes
             </span>
           )}
@@ -152,8 +169,8 @@ export function SpectrumRoom() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           style={{
-            border: "1px solid rgba(212,200,168,0.08)",
-            background: "rgba(0,0,0,0.3)",
+            border: "1px solid rgba(111,0,255,0.28)",
+            background: "rgba(255,255,255,0.64)",
             position: "relative",
           }}
         >
@@ -168,7 +185,7 @@ export function SpectrumRoom() {
                 <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
               </filter>
               <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse">
-                <circle cx="8" cy="8" r="0.8" fill="rgba(212,200,168,0.06)" />
+                <circle cx="8" cy="8" r="0.8" fill="rgba(17,17,17,0.08)" />
               </pattern>
             </defs>
 
@@ -186,7 +203,7 @@ export function SpectrumRoom() {
                 <g key={i}>
                   <line
                     x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-                    stroke={isActive || isCompared ? "rgba(212,200,168,0.6)" : "rgba(212,200,168,0.1)"}
+                    stroke={isActive || isCompared ? "#6F00FF" : "rgba(17,17,17,0.16)"}
                     strokeWidth={isActive || isCompared ? conn.w * 2 : conn.w * 0.8}
                     strokeDasharray={isActive || isCompared ? "none" : "3,5"}
                     filter={isActive ? "url(#hand-drawn)" : undefined}
@@ -197,7 +214,7 @@ export function SpectrumRoom() {
                     <text
                       x={(a.x + b.x) / 2}
                       y={(a.y + b.y) / 2 - 7}
-                      fill="rgba(212,200,168,0.5)"
+                      fill="#6F00FF"
                       fontSize="8"
                       textAnchor="middle"
                       fontFamily="'IBM Plex Mono', monospace"
@@ -270,28 +287,28 @@ export function SpectrumRoom() {
               <motion.div key="comp" initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}
                 style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
               >
-                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: "rgba(212,200,168,0.4)", marginBottom: "0.25rem" }}>
+                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: "#6F00FF", marginBottom: "0.25rem" }}>
                   COMPARING
                 </div>
                 {compare.map((id) => {
                   const n = getNode(id);
                   return (
                     <div key={id} style={{
-                      padding: "1.25rem", background: "rgba(212,200,168,0.04)",
+                      padding: "1.25rem", background: "rgba(255,255,255,0.72)",
                       border: `1px solid ${n.stroke}40`,
                     }}>
                       <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.2rem", color: n.fill, marginBottom: "0.4rem" }}>
                         {n.label}
                       </div>
-                      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.78rem", color: "rgba(212,200,168,0.65)", lineHeight: 1.55 }}>
+                      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.78rem", color: "rgba(17,17,17,0.68)", lineHeight: 1.55 }}>
                         {descriptions[id]}
                       </p>
                     </div>
                   );
                 })}
                 <button onClick={() => setCompare([])} style={{
-                  background: "none", border: "1px solid rgba(212,200,168,0.15)",
-                  color: "rgba(212,200,168,0.35)", cursor: "pointer",
+                  background: "none", border: "1px solid rgba(111,0,255,0.6)",
+                  color: "#6F00FF", cursor: "pointer",
                   fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.6rem",
                   letterSpacing: "0.1em", padding: "0.4rem",
                 }}>
@@ -305,16 +322,16 @@ export function SpectrumRoom() {
                   return (
                     <div style={{
                       padding: "1.5rem",
-                      background: "rgba(212,200,168,0.03)",
+                      background: "rgba(255,255,255,0.72)",
                       border: `1px solid ${n.stroke}50`,
                     }}>
                       <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.8rem", color: n.fill, lineHeight: 1, marginBottom: "0.5rem" }}>
                         {n.label}
                       </div>
-                      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(212,200,168,0.65)", lineHeight: 1.6, marginBottom: "1rem" }}>
+                      <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(17,17,17,0.68)", lineHeight: 1.6, marginBottom: "1rem" }}>
                         {descriptions[active]}
                       </p>
-                      <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.15em", color: "rgba(212,200,168,0.35)", marginBottom: "0.5rem" }}>
+                      <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.15em", color: "#6F00FF", marginBottom: "0.5rem" }}>
                         CONNECTED TO:
                       </div>
                       {connections
@@ -324,7 +341,7 @@ export function SpectrumRoom() {
                           return (
                             <div key={other.id} style={{ display: "flex", gap: "0.4rem", alignItems: "center", marginBottom: "0.3rem" }}>
                               <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: other.fill, flexShrink: 0 }} />
-                              <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", color: "rgba(212,200,168,0.5)" }}>
+                              <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", color: "rgba(17,17,17,0.5)" }}>
                                 {other.label} <em>— {c.label}</em>
                               </span>
                             </div>
@@ -336,9 +353,9 @@ export function SpectrumRoom() {
               </motion.div>
             ) : (
               <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                style={{ padding: "1.5rem", border: "1px solid rgba(212,200,168,0.07)", background: "rgba(212,200,168,0.02)" }}
+                style={{ padding: "1.5rem", border: "1px solid rgba(111,0,255,0.28)", background: "rgba(255,255,255,0.72)" }}
               >
-                <p style={{ fontFamily: "'Special Elite', cursive", fontStyle: "italic", fontSize: "0.82rem", color: "rgba(212,200,168,0.3)", lineHeight: 1.65 }}>
+                <p style={{ fontFamily: "'Special Elite', cursive", fontStyle: "italic", fontSize: "0.82rem", color: "rgba(17,17,17,0.56)", lineHeight: 1.65 }}>
                   {compareMode
                     ? "Click two nodes to compare their theoretical positions."
                     : "Hover a node to see connections and alliances between traditions."}
@@ -347,7 +364,7 @@ export function SpectrumRoom() {
                   {nodes.map((n) => (
                     <div key={n.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.35rem" }}>
                       <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: n.fill, border: `1px solid ${n.stroke}`, flexShrink: 0 }} />
-                      <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.58rem", color: "rgba(212,200,168,0.35)", letterSpacing: "0.06em" }}>
+                      <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.58rem", color: "rgba(17,17,17,0.52)", letterSpacing: "0.06em" }}>
                         {n.label}
                       </span>
                     </div>

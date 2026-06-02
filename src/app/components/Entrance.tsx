@@ -1,276 +1,440 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
-import img1 from "figma:asset/9b362052e5b7524cc56549a710bbf89c-1.jpg";
-import img2 from "figma:asset/c16b39abb2f8e74ec1e49a0fd3a23c96-1.jpg";
+import sewingRoad from "../../imports/9b362052e5b7524cc56549a710bbf89c-1.jpg";
+import blueHands from "../../imports/c16b39abb2f8e74ec1e49a0fd3a23c96-1.jpg";
 
 const fragments = [
-  { text: "THE PERSONAL IS POLITICAL", top: "20%", left: "62%", rot: "-2deg", size: "0.62rem", mono: true },
-  { text: "VOL. I — 1848 — 1970 — 1989 — NOW", top: "81%", left: "6%", rot: "1.5deg", size: "0.58rem", mono: true },
-  { text: "consciousness\nraising", top: "58%", left: "74%", rot: "-5deg", size: "0.85rem", italic: true },
-  { text: "from theory to praxis", top: "91%", left: "42%", rot: "0.5deg", size: "0.65rem", italic: true },
-  { text: "♀ FEMINIST ARCHIVE ♀", top: "6%", left: "42%", rot: "0deg", size: "0.6rem", mono: true },
-  { text: "SISTERHOOD IS\nGLOBAL", top: "44%", left: "52%", rot: "3deg", size: "1.1rem", display: true },
-  { text: "patriarchy is a structure, not a destiny.", top: "65%", left: "3%", rot: "-1.2deg", size: "0.72rem", italic: true },
-  { text: "1848", top: "35%", left: "36%", rot: "-8deg", size: "3rem", display: true, ghost: true },
-  { text: "—————", top: "74%", left: "58%", rot: "2deg", size: "1rem", mono: true },
+  { text: "THE PERSONAL IS POLITICAL", top: "18%", left: "64%", rot: "-2deg", tone: "violet" },
+  { text: "NO GODS / NO MASTERS / NO SILENCE", top: "30%", left: "6%", rot: "-1deg", tone: "white" },
+  { text: "SISTERHOOD IS GLOBAL", top: "52%", left: "56%", rot: "2deg", tone: "dark" },
+  { text: "FROM THEORY TO PRAXIS", top: "72%", left: "8%", rot: "1.5deg", tone: "violet" },
+  { text: "ARCHIVE / ATLAS / QUIZ", top: "82%", left: "61%", rot: "-3deg", tone: "white" },
 ];
+
+const violet = "#6F00FF";
+const deepViolet = "#24004D";
+const nearBlack = "#111111";
+const paperWhite = "#F5F5F5";
+const paper = "#F7F4FF";
 
 export function Entrance() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const yFast = useTransform(scrollYProgress, [0, 1], [0, -160]);
-  const ySlow = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const fadeOut = useTransform(scrollYProgress, [0.4, 0.85], [1, 0]);
+  const yFast = useTransform(scrollYProgress, [0, 1], [0, -56]);
+  const ySlow = useTransform(scrollYProgress, [0, 1], [0, -32]);
+  const titleY = useTransform(scrollYProgress, [0, 1], [0, -44]);
 
   return (
-    <div
+    <section
       id="entrance"
       ref={ref}
       style={{
         position: "relative",
-        height: "100vh",
         minHeight: "720px",
+        height: "100vh",
         overflow: "hidden",
-        background: "#EDE8D8",
+        background: paper,
+        color: nearBlack,
+        isolation: "isolate",
       }}
     >
-      {/* Grain overlay */}
-      <div style={{
-        position: "absolute", inset: 0, zIndex: 30, pointerEvents: "none",
-        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E")`,
-        backgroundSize: "180px 180px",
-        opacity: 0.6,
-      }} />
+      <style>
+        {`
+          @media (max-width: 700px) {
+            .entrance-subtitle {
+              left: 2.25rem !important;
+              top: 58vh !important;
+              max-width: calc(100vw - 4.5rem) !important;
+            }
 
-      {/* Purple ink wash */}
-      <div style={{
-        position: "absolute", top: "-20%", right: "-15%",
-        width: "75%", height: "95%",
-        background: "radial-gradient(ellipse at 60% 40%, rgba(44,10,94,0.12) 0%, rgba(44,10,94,0.04) 50%, transparent 72%)",
-        zIndex: 1, pointerEvents: "none",
-      }} />
+            .entrance-spine {
+              display: none !important;
+            }
 
-      {/* Horizontal press lines */}
-      {[46, 47.8, 49].map((t, i) => (
-        <div key={i} style={{
-          position: "absolute", top: `${t}%`, left: 0, right: 0,
-          height: i === 1 ? "2px" : "1px",
-          background: i === 1 ? "rgba(13,13,13,0.18)" : "rgba(13,13,13,0.07)",
-          zIndex: 15, pointerEvents: "none",
-        }} />
-      ))}
+            .entrance-fragment {
+              font-size: 0.48rem !important;
+              letter-spacing: 0.09em !important;
+              box-shadow: 5px 5px 0 rgba(0,0,0,0.25) !important;
+            }
 
-      {/* Spine text - left edge */}
-      <div style={{
-        position: "absolute", left: "1.2rem", top: "50%",
-        transform: "translateY(-50%) rotate(-90deg)",
-        fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem",
-        color: "#2C0A5E", letterSpacing: "0.28em", zIndex: 25,
-        whiteSpace: "nowrap", opacity: 0.55,
-      }}>
-        FEMINIST ARCHIVE — EST. 1792 — ISSUE NO. 1 — CLASSIFIED
-      </div>
+            .entrance-fragment[data-fragment="0"] {
+              display: none !important;
+            }
 
-      {/* Protest photo - background ghost layer */}
-      <div style={{
-        position: "absolute", top: "15%", left: "28%", width: "36%",
-        zIndex: 3, opacity: 0.15, mixBlendMode: "multiply",
-        transform: "rotate(1.2deg)",
-      }}>
-        <img
-          src="https://images.unsplash.com/photo-1687602234660-4ec339ef6583?w=700&q=65"
-          alt=""
-          style={{ width: "100%", filter: "grayscale(1) contrast(1.4)" }}
-        />
-      </div>
+            .entrance-fragment[data-fragment="2"] {
+              display: none !important;
+            }
 
-      {/* Marching women - ghost */}
-      <div style={{
-        position: "absolute", bottom: "0", left: "18%", width: "28%",
-        zIndex: 4, opacity: 0.12, mixBlendMode: "multiply",
-        transform: "rotate(-0.8deg)",
-      }}>
-        <img
-          src="https://images.unsplash.com/photo-1697183381110-afb6d440c305?w=600&q=65"
-          alt=""
-          style={{ width: "100%", filter: "grayscale(1) contrast(1.2)" }}
-        />
-      </div>
+            .entrance-fragment[data-fragment="4"] {
+              display: none !important;
+            }
 
-      {/* Sewing woman - primary image, large right */}
-      <motion.div style={{
-        position: "absolute", right: "-6%", bottom: 0,
-        height: "95%", zIndex: 8, y: yFast,
-      }}>
-        <img
-          src={img1}
-          alt="Feminist collage — woman sewing"
-          style={{
-            height: "100%", width: "auto",
-            filter: "saturate(0.6) contrast(1.08) sepia(0.12)",
-            mixBlendMode: "multiply",
-          }}
-        />
-      </motion.div>
+            .entrance-title-daily {
+              font-size: 5.45rem !important;
+            }
 
-      {/* Digital hands collage - left overlay */}
-      <motion.div style={{
-        position: "absolute", left: "2%", top: "-8%",
-        height: "82%", zIndex: 9, y: ySlow,
-      }}>
-        <img
-          src={img2}
-          alt="Digital feminist collage"
-          style={{
-            height: "100%", width: "auto",
-            filter: "saturate(0.25) contrast(1.3) sepia(0.04)",
-            mixBlendMode: "multiply",
-            transform: "rotate(-1.8deg)",
-          }}
-        />
-      </motion.div>
+            .entrance-title-feminism {
+              font-size: 3.45rem !important;
+            }
+          }
+        `}
+      </style>
 
-      {/* DAILY — massive title */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 1,
+          background:
+            "linear-gradient(90deg, rgba(111,0,255,0.12) 0 1px, transparent 1px 100%), linear-gradient(0deg, rgba(17,17,17,0.055) 0 1px, transparent 1px 100%)",
+          backgroundSize: "72px 72px",
+          opacity: 0.75,
+        }}
+      />
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 2,
+          backgroundImage:
+            "radial-gradient(rgba(17,17,17,0.12) 1px, transparent 1.5px), radial-gradient(rgba(111,0,255,0.25) 1px, transparent 1.5px)",
+          backgroundPosition: "0 0, 12px 12px",
+          backgroundSize: "28px 28px",
+          maskImage: "linear-gradient(90deg, black 0 34%, transparent 34% 58%, black 58% 100%)",
+          opacity: 0.26,
+          pointerEvents: "none",
+        }}
+      />
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 25,
+          pointerEvents: "none",
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E\")",
+          backgroundSize: "160px 160px",
+          opacity: 0.06,
+          contain: "paint",
+        }}
+      />
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: "clamp(14px, 2vw, 24px)",
+          background: violet,
+          zIndex: 9,
+        }}
+      />
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          right: "-9vw",
+          bottom: "11%",
+          width: "clamp(170px, 24vw, 360px)",
+          aspectRatio: "1",
+          border: "clamp(18px, 3vw, 42px) solid rgba(111,0,255,0.22)",
+          borderRadius: "50%",
+          zIndex: 5,
+        }}
+      />
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "clamp(34px, 8vw, 110px)",
+          top: "6%",
+          width: "clamp(130px, 18vw, 260px)",
+          height: "clamp(12px, 1.5vw, 22px)",
+          background: violet,
+          boxShadow: "88px 34px 0 rgba(255,255,255,0.86), 38px 68px 0 rgba(111,0,255,0.72)",
+          zIndex: 10,
+        }}
+      />
+
       <motion.div
-        style={{ position: "absolute", top: "1%", left: "-2%", zIndex: 12, y: ySlow }}
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "clamp(18px, 4vw, 58px)",
+          top: "8%",
+          width: "clamp(150px, 24vw, 350px)",
+          height: "76%",
+          y: ySlow,
+          zIndex: 6,
+          transform: "rotate(-1.5deg)",
+        }}
       >
-        <div style={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: "clamp(7rem, 19vw, 17rem)",
-          lineHeight: 0.82,
-          color: "#0D0D0D",
-          letterSpacing: "-0.01em",
-          userSelect: "none",
-        }}>
+        <img
+          src={blueHands}
+          alt=""
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "50% 18%",
+            filter: "grayscale(1) contrast(1.2) brightness(1.18)",
+            opacity: 0.22,
+          }}
+        />
+        <div
+          className="entrance-title-daily"
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(180deg, rgba(111,0,255,0.12), transparent 58%, rgba(111,0,255,0.16))",
+          }}
+        />
+      </motion.div>
+
+      <motion.div
+        style={{
+          position: "absolute",
+          right: "-5%",
+          bottom: 0,
+          height: "96%",
+          width: "min(62vw, 760px)",
+          y: yFast,
+          zIndex: 7,
+        }}
+      >
+        <img
+          src={sewingRoad}
+          alt="Vintage collage of a woman sewing a road"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            objectPosition: "right bottom",
+            filter: "grayscale(1) contrast(1.06) brightness(1.22)",
+            opacity: 0.34,
+          }}
+        />
+      </motion.div>
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          right: "6%",
+          top: "10%",
+          bottom: "16%",
+          width: "min(38vw, 460px)",
+          zIndex: 8,
+          background:
+            "linear-gradient(90deg, transparent 0 45%, rgba(111,0,255,0.82) 45% 49%, transparent 49% 100%), linear-gradient(0deg, transparent 0 24%, rgba(255,255,255,0.92) 24% 27%, transparent 27% 100%)",
+          clipPath: "polygon(10% 0, 100% 0, 90% 100%, 0 92%)",
+          opacity: 0.24,
+        }}
+      />
+
+      <motion.div
+        style={{
+          position: "absolute",
+          left: "clamp(2rem, 8vw, 7rem)",
+          top: "clamp(7.5rem, 18vh, 11rem)",
+          zIndex: 14,
+          y: titleY,
+        }}
+        initial={{ opacity: 0, x: -36 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+      >
+        <div
+          className="entrance-title-feminism"
+          style={{
+            fontFamily: "'Bebas Neue', Impact, sans-serif",
+            fontSize: "clamp(6.2rem, 17vw, 16rem)",
+            lineHeight: 0.82,
+            color: nearBlack,
+            letterSpacing: 0,
+            userSelect: "none",
+            textShadow: "0 12px 34px rgba(111,0,255,0.14)",
+          }}
+        >
           DAILY
         </div>
-      </motion.div>
-
-      {/* FEMINISM — outlined */}
-      <motion.div
-        style={{ position: "absolute", top: "27%", left: "-1%", zIndex: 13, y: ySlow }}
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 0.18, ease: "easeOut" }}
-      >
-        <div style={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: "clamp(4.5rem, 13vw, 12rem)",
-          lineHeight: 0.85,
-          color: "transparent",
-          WebkitTextStroke: "2px #2C0A5E",
-          letterSpacing: "0.01em",
-          userSelect: "none",
-        }}>
+        <div
+          style={{
+            fontFamily: "'Bebas Neue', Impact, sans-serif",
+            fontSize: "clamp(4.4rem, 12vw, 11rem)",
+            lineHeight: 0.82,
+            color: "transparent",
+          WebkitTextStroke: `2px ${violet}`,
+            letterSpacing: 0,
+            userSelect: "none",
+          }}
+        >
           FEMINISM
         </div>
       </motion.div>
 
-      {/* Subtitle under title */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9 }}
+      <motion.p
+        className="entrance-subtitle"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7, duration: 0.7 }}
         style={{
-          position: "absolute", top: "50%", left: "1rem",
-          fontFamily: "'IM Fell English', serif",
-          fontStyle: "italic",
-          fontSize: "clamp(0.85rem, 1.5vw, 1.1rem)",
-          color: "#2C0A5E",
+          position: "absolute",
+          left: "clamp(2.2rem, 8vw, 7.2rem)",
+          top: "clamp(25rem, 58vh, 32rem)",
+          maxWidth: "min(440px, 68vw)",
           zIndex: 14,
-          maxWidth: "260px",
-          lineHeight: 1.5,
-          transform: "translateY(1rem)",
+          margin: 0,
+          fontFamily: "'IM Fell English', Georgia, serif",
+          fontStyle: "italic",
+          fontSize: "clamp(1rem, 2vw, 1.35rem)",
+          lineHeight: 1.42,
+          color: "rgba(17,17,17,0.72)",
         }}
       >
-        Explore the many voices<br />of feminist thought
-      </motion.div>
+        Explore feminist thought through collage, theory, memory, and self-discovery.
+      </motion.p>
 
-      {/* Scattered fragments */}
-      {fragments.map((f, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 + i * 0.12 }}
-          style={{
-            position: "absolute",
-            top: f.top, left: f.left,
-            transform: `rotate(${f.rot})`,
-            fontFamily: f.display ? "'Bebas Neue', sans-serif"
-              : f.mono ? "'IBM Plex Mono', monospace"
-              : "'Special Elite', cursive",
-            fontSize: f.size,
-            color: f.ghost ? "rgba(44,10,94,0.08)" : f.display ? "rgba(13,13,13,0.55)" : "#0D0D0D",
-            fontStyle: f.italic ? "italic" : "normal",
-            letterSpacing: f.mono ? "0.15em" : "0.04em",
-            zIndex: f.ghost ? 2 : 16,
-            whiteSpace: "pre-line",
-            lineHeight: 1.35,
-            userSelect: "none",
-          }}
-        >
-          {f.text}
-        </motion.div>
-      ))}
+      {fragments.map((fragment, index) => {
+        const palette =
+          fragment.tone === "violet"
+              ? { background: violet, color: paperWhite, border: "rgba(17,17,17,0.18)" }
+            : fragment.tone === "dark"
+              ? { background: "rgba(17,17,17,0.92)", color: paperWhite, border: "rgba(111,0,255,0.72)" }
+              : { background: "rgba(255,255,255,0.92)", color: nearBlack, border: "rgba(111,0,255,0.42)" };
 
-      {/* Archive stamp box */}
-      <div style={{
-        position: "absolute", bottom: "18%", right: "14%",
-        zIndex: 17, transform: "rotate(9deg)",
-        border: "2px solid rgba(44,10,94,0.3)",
-        padding: "0.4rem 0.8rem",
-        fontFamily: "'IBM Plex Mono', monospace",
-        fontSize: "0.6rem", color: "rgba(44,10,94,0.3)",
-        letterSpacing: "0.25em", lineHeight: 1.6,
-      }}>
-        ARCHIVE<br />CLASSIFIED<br />♀ 1848
+        return (
+          <motion.div
+            key={fragment.text}
+            className="entrance-fragment"
+            data-fragment={index}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.55 + index * 0.12 }}
+            style={{
+              position: "absolute",
+              top: fragment.top,
+              left: fragment.left,
+              transform: `rotate(${fragment.rot})`,
+              zIndex: 13,
+              padding: "0.32rem 0.55rem",
+              border: `1px solid ${palette.border}`,
+              background: palette.background,
+              color: palette.color,
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "clamp(0.48rem, 0.9vw, 0.68rem)",
+              lineHeight: 1.2,
+              letterSpacing: "0.12em",
+              whiteSpace: "nowrap",
+              boxShadow: "8px 8px 0 rgba(0,0,0,0.25)",
+              userSelect: "none",
+            }}
+          >
+            {fragment.text}
+          </motion.div>
+        );
+      })}
+
+      <div
+        className="entrance-spine"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "2.5rem",
+          top: "50%",
+          transform: "translateY(-50%) rotate(-90deg)",
+          zIndex: 16,
+          color: "rgba(111,0,255,0.72)",
+          fontFamily: "'IBM Plex Mono', monospace",
+          fontSize: "0.62rem",
+          letterSpacing: "0.26em",
+          whiteSpace: "nowrap",
+        }}
+      >
+        FEMINIST ARCHIVE / PURPLE ISSUE / 1792 TO NOW
       </div>
 
-      {/* Torn paper bottom edge */}
-      <div style={{
-        position: "absolute", bottom: 0, left: 0, right: 0,
-        height: "60px", zIndex: 28, pointerEvents: "none",
-        clipPath: "polygon(0 100%, 0 30%, 2% 55%, 5% 20%, 8% 45%, 12% 10%, 16% 40%, 20% 8%, 25% 38%, 30% 12%, 35% 42%, 40% 6%, 45% 35%, 50% 15%, 55% 40%, 60% 5%, 65% 38%, 70% 12%, 75% 44%, 80% 8%, 85% 38%, 90% 14%, 95% 40%, 98% 18%, 100% 35%, 100% 100%)",
-        background: "#EDE8D8",
-      }} />
-
-      {/* Enter CTA */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
+      <div
+        aria-hidden="true"
         style={{
-          position: "absolute", bottom: "2.5rem",
-          left: "50%", transform: "translateX(-50%)",
-          zIndex: 25, textAlign: "center",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: "clamp(125px, 18vh, 176px)",
+          zIndex: 18,
+          background: `linear-gradient(180deg, transparent, ${paper} 58%, ${paper})`,
+          pointerEvents: "none",
+        }}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.65 }}
+        style={{
+          position: "absolute",
+          left: "50%",
+          bottom: "clamp(2rem, 5vh, 3.4rem)",
+          transform: "translateX(-50%)",
+          zIndex: 20,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "0.75rem",
         }}
       >
-        <motion.button
+        <button
           onClick={() => document.querySelector("#atlas")?.scrollIntoView({ behavior: "smooth" })}
-          whileHover={{ letterSpacing: "0.3em" }}
           style={{
-            background: "none", border: "none", cursor: "pointer",
-            fontFamily: "'Special Elite', cursive",
-            fontSize: "0.75rem", color: "#0D0D0D",
-            letterSpacing: "0.2em", display: "flex",
-            flexDirection: "column", alignItems: "center", gap: "0.3rem",
-            transition: "letter-spacing 0.3s",
+            minWidth: "clamp(150px, 18vw, 210px)",
+            padding: "0.86rem 1.25rem",
+            background: violet,
+            color: paperWhite,
+            border: "1px solid rgba(255,255,255,0.72)",
+            cursor: "pointer",
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: "0.76rem",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            boxShadow: `10px 10px 0 ${deepViolet}`,
+            transition: "transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease",
+          }}
+          onMouseEnter={(event) => {
+            event.currentTarget.style.transform = "translateY(-3px)";
+            event.currentTarget.style.boxShadow = `13px 13px 0 ${deepViolet}`;
+            event.currentTarget.style.background = "#A78BFA";
+          }}
+          onMouseLeave={(event) => {
+            event.currentTarget.style.transform = "translateY(0)";
+            event.currentTarget.style.boxShadow = `10px 10px 0 ${deepViolet}`;
+            event.currentTarget.style.background = violet;
           }}
         >
-          ENTER THE ARCHIVE
-          <motion.span
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            style={{ display: "block" }}
-          >
-            ↓
-          </motion.span>
-        </motion.button>
+          START
+        </button>
+        <motion.span
+          aria-hidden="true"
+          animate={{ y: [0, 7, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          style={{
+            color: "rgba(17,17,17,0.52)",
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: "1.2rem",
+          }}
+        >
+          ↓
+        </motion.span>
       </motion.div>
-    </div>
+    </section>
   );
 }

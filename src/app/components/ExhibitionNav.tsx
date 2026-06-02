@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from "motion/react";
 const rooms = [
   { label: "I. ENTRANCE", href: "#entrance" },
   { label: "II. ATLAS", href: "#atlas" },
-  { label: "III. SPECTRUM", href: "#spectrum" },
-  { label: "IV. QUIZ", href: "#quiz" },
+  { label: "III. QUIZ", href: "#quiz" },
+  { label: "IV. SPECTRUM", href: "#spectrum" },
   { label: "V. ARCHIVE", href: "#reading" },
 ];
 
@@ -35,10 +35,9 @@ export function ExhibitionNav() {
           padding: "0 2rem",
           height: "52px",
           display: "flex", alignItems: "center", justifyContent: "space-between",
-          background: scrolled ? "rgba(13,13,13,0.9)" : "transparent",
-          backdropFilter: scrolled ? "blur(8px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(237,232,216,0.08)" : "none",
-          transition: "all 0.4s ease",
+          background: scrolled ? "rgba(247,244,255,0.96)" : "transparent",
+          borderBottom: scrolled ? "1px solid rgba(111,0,255,0.45)" : "none",
+          transition: "background 0.25s ease, border-color 0.25s ease",
         }}
       >
         <button
@@ -47,7 +46,7 @@ export function ExhibitionNav() {
             background: "none", border: "none", cursor: "pointer",
             fontFamily: "'IBM Plex Mono', monospace",
             fontSize: "0.6rem", letterSpacing: "0.25em",
-            color: scrolled ? "rgba(237,232,216,0.6)" : "rgba(13,13,13,0.5)",
+          color: scrolled ? "#6F00FF" : "rgba(17,17,17,0.72)",
             transition: "color 0.4s",
           }}
         >
@@ -64,11 +63,11 @@ export function ExhibitionNav() {
                 background: "none", border: "none", cursor: "pointer",
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: "0.52rem", letterSpacing: "0.18em",
-                color: scrolled ? "rgba(237,232,216,0.4)" : "rgba(13,13,13,0.4)",
+                color: scrolled ? "rgba(17,17,17,0.52)" : "rgba(17,17,17,0.5)",
                 transition: "all 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = scrolled ? "rgba(237,232,216,0.9)" : "rgba(13,13,13,0.9)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = scrolled ? "rgba(237,232,216,0.4)" : "rgba(13,13,13,0.4)")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#6F00FF")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = scrolled ? "rgba(17,17,17,0.52)" : "rgba(17,17,17,0.5)")}
             >
               {r.label}
             </button>
@@ -83,7 +82,7 @@ export function ExhibitionNav() {
             background: "none", border: "none", cursor: "pointer",
             fontFamily: "'IBM Plex Mono', monospace",
             fontSize: "0.7rem",
-            color: scrolled ? "rgba(237,232,216,0.6)" : "rgba(13,13,13,0.6)",
+            color: scrolled ? "#6F00FF" : "rgba(17,17,17,0.7)",
           }}
         >
           {open ? "✕" : "≡"}
@@ -98,9 +97,8 @@ export function ExhibitionNav() {
             exit={{ opacity: 0, y: -10 }}
             style={{
               position: "fixed", top: "52px", left: 0, right: 0, zIndex: 499,
-              background: "rgba(13,13,13,0.96)",
-              backdropFilter: "blur(12px)",
-              borderBottom: "1px solid rgba(237,232,216,0.08)",
+              background: "rgba(247,244,255,0.96)",
+              borderBottom: "1px solid rgba(111,0,255,0.45)",
               padding: "1.5rem 2rem",
               display: "flex", flexDirection: "column", gap: "1rem",
             }}
@@ -113,7 +111,7 @@ export function ExhibitionNav() {
                   background: "none", border: "none", cursor: "pointer",
                   fontFamily: "'IBM Plex Mono', monospace",
                   fontSize: "0.65rem", letterSpacing: "0.2em",
-                  color: "rgba(237,232,216,0.5)",
+                  color: "rgba(17,17,17,0.72)",
                   textAlign: "left",
                   transition: "color 0.2s",
                 }}

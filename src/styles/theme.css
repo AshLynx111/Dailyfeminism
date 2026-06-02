@@ -2,6 +2,13 @@
 
 :root {
   --font-size: 16px;
+  --daily-violet: #6F00FF;
+  --daily-violet-deep: #24004D;
+  --daily-violet-soft: #A78BFA;
+  --daily-paper: #F7F4FF;
+  --daily-paper-mist: #EBE4FF;
+  --daily-black: #111111;
+  --daily-ink: #F5F5F5;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
@@ -123,7 +130,7 @@
   * {
     @apply border-border outline-ring/50;
     scrollbar-width: thin;
-    scrollbar-color: rgba(44, 10, 94, 0.6) rgba(13, 13, 13, 0.8);
+    scrollbar-color: rgba(111, 0, 255, 0.72) rgba(247, 244, 255, 0.92);
   }
 
   *::-webkit-scrollbar {
@@ -131,22 +138,22 @@
   }
 
   *::-webkit-scrollbar-track {
-    background: rgba(13, 13, 13, 0.9);
+    background: rgba(247, 244, 255, 0.92);
   }
 
   *::-webkit-scrollbar-thumb {
-    background: rgba(44, 10, 94, 0.6);
+    background: rgba(111, 0, 255, 0.72);
     border-radius: 0;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: rgba(44, 10, 94, 0.9);
+    background: rgba(111, 0, 255, 0.92);
   }
 
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
-    background: #0D0D0D;
+    background: var(--daily-paper);
   }
 
   /**

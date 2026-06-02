@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } from "recharts";
 import { RotateCcw } from "lucide-react";
+import cameraRays from "../../imports/collage/camera-rays.jpg";
 
 type Scores = {
   liberal: number; radical: number; socialist: number; marxist: number;
@@ -146,20 +147,26 @@ const questions = [
   },
 ];
 
+const purple = "#6F00FF";
+const deepPurple = "#24004D";
+const black = "#F7F4FF";
+const white = "#111111";
+const paperWhite = "#FFFFFF";
+
 const resultInfo: Record<keyof Scores, { name: string; color: string; paper: string; ink: string; books: string[] }> = {
-  liberal: { name: "Liberal Feminism", color: "#8B5A2B", paper: "#F0E8D2", ink: "#1A0A00",
+  liberal: { name: "Liberal Feminism", color: purple, paper: "#FFFFFF", ink: white,
     books: ["A Vindication of the Rights of Woman — Wollstonecraft", "The Feminine Mystique — Betty Friedan", "The Second Sex — Simone de Beauvoir"] },
-  radical: { name: "Radical Feminism", color: "#6B1A1A", paper: "#EDE0DC", ink: "#1A0000",
+  radical: { name: "Radical Feminism", color: purple, paper: "#FFFFFF", ink: white,
     books: ["Sexual Politics — Kate Millett", "The Dialectic of Sex — Shulamith Firestone", "The Female Eunuch — Germaine Greer"] },
-  socialist: { name: "Socialist Feminism", color: "#5A5000", paper: "#E8E4DC", ink: "#0A0A00",
+  socialist: { name: "Socialist Feminism", color: purple, paper: "#FFFFFF", ink: white,
     books: ["Caliban and the Witch — Silvia Federici", "Women, Race & Class — Angela Davis", "The Unhappy Marriage — Heidi Hartmann"] },
-  marxist: { name: "Marxist Feminism", color: "#3A3030", paper: "#E4E0D8", ink: "#0A0000",
+  marxist: { name: "Marxist Feminism", color: purple, paper: "#FFFFFF", ink: white,
     books: ["The Origin of the Family — Friedrich Engels", "Women and Socialism — Clara Zetkin", "Social Reproduction Theory — Tithi Bhattacharya"] },
-  cultural: { name: "Cultural Feminism", color: "#1A4020", paper: "#E4EAE0", ink: "#001500",
+  cultural: { name: "Cultural Feminism", color: purple, paper: "#FFFFFF", ink: white,
     books: ["In a Different Voice — Carol Gilligan", "Caring — Nel Noddings", "Woman and Nature — Susan Griffin"] },
-  postmodern: { name: "Postmodern Feminism", color: "#2A0A5A", paper: "#E0DDE8", ink: "#050010",
+  postmodern: { name: "Postmodern Feminism", color: purple, paper: "#FFFFFF", ink: white,
     books: ["Gender Trouble — Judith Butler", "A Cyborg Manifesto — Donna Haraway", "Speculum of the Other Woman — Irigaray"] },
-  intersectional: { name: "Intersectional Feminism", color: "#0A2A3A", paper: "#E0E8EC", ink: "#000510",
+  intersectional: { name: "Intersectional Feminism", color: purple, paper: "#FFFFFF", ink: white,
     books: ["Sister Outsider — Audre Lorde", "Mapping the Margins — Kimberlé Crenshaw", "Black Feminist Thought — Patricia Hill Collins"] },
 };
 
@@ -184,7 +191,7 @@ function Results({ scores }: { scores: Scores }) {
         padding: "3rem",
         position: "relative",
         clipPath: "polygon(0 1%, 2% 0, 5% 1%, 12% 0, 20% 1.5%, 30% 0, 42% 1%, 57% 0, 72% 1%, 85% 0, 94% 1%, 100% 0, 100% 99%, 97% 100%, 92% 98.5%, 85% 100%, 77% 99%, 68% 100%, 59% 98.5%, 49% 100%, 39% 99%, 29% 100%, 20% 98.5%, 12% 100%, 5% 99%, 1% 100%, 0 99%)",
-        filter: "drop-shadow(0 10px 40px rgba(0,0,0,0.25))",
+        boxShadow: "0 16px 36px rgba(17,17,17,0.12)",
       }}
     >
       {/* Stamp header */}
@@ -311,7 +318,7 @@ export function QuizRoom() {
     <section
       id="quiz"
       style={{
-        background: "#EDE8D8",
+        background: black,
         padding: "6rem 3rem 8rem",
         position: "relative",
         overflow: "hidden",
@@ -321,14 +328,14 @@ export function QuizRoom() {
       {/* Grain */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
-        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E")`,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E")`,
         backgroundSize: "200px 200px", opacity: 0.5,
       }} />
 
       {/* Photocopy-style border */}
       <div style={{
         position: "absolute", inset: "2rem",
-        border: "1px solid rgba(13,13,13,0.08)",
+        border: "1px solid rgba(111,0,255,0.25)",
         pointerEvents: "none", zIndex: 1,
       }} />
 
@@ -336,14 +343,21 @@ export function QuizRoom() {
       <div style={{
         position: "absolute", top: "5%", right: "2%",
         width: "30%", zIndex: 0,
-        opacity: 0.06, transform: "rotate(1.5deg)",
+        opacity: 0.1, transform: "rotate(1.5deg)",
       }}>
         <img
-          src="https://images.unsplash.com/photo-1761519609203-fabba0a62c87?w=600&q=60"
+          src={cameraRays}
           alt=""
-          style={{ width: "100%", filter: "grayscale(1) contrast(1.5)" }}
+          style={{ width: "100%" }}
         />
       </div>
+
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
+        backgroundImage: "radial-gradient(rgba(17,17,17,0.12) 1px, transparent 1.5px), repeating-linear-gradient(0deg, transparent 0 15px, rgba(17,17,17,0.035) 15px 16px)",
+        backgroundSize: "18px 18px, auto",
+        opacity: 0.35,
+      }} />
 
       <div style={{ maxWidth: "640px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         {/* Masthead */}
@@ -353,19 +367,19 @@ export function QuizRoom() {
           viewport={{ once: true }}
           style={{ marginBottom: "3rem" }}
         >
-          <div style={{ borderTop: "3px solid #0D0D0D", borderBottom: "1px solid #0D0D0D", padding: "0.35rem 0", marginBottom: "0.3rem" }}>
-            <div style={{ borderBottom: "1px solid rgba(13,13,13,0.2)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
-              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: "#0D0D0D", opacity: 0.45 }}>
+          <div style={{ borderTop: `3px solid ${purple}`, borderBottom: `1px solid ${purple}`, padding: "0.35rem 0", marginBottom: "0.3rem" }}>
+            <div style={{ borderBottom: "1px solid rgba(111,0,255,0.18)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: purple, opacity: 1 }}>
                 FEMINIST ARCHIVE — SECTION IV — THEORY ASSESSMENT FORM
               </span>
             </div>
           </div>
 
-          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(3rem, 8vw, 5.5rem)", color: "#0D0D0D", lineHeight: 0.88 }}>
+          <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(3rem, 8vw, 5.5rem)", color: white, lineHeight: 0.88 }}>
             FEMINIST<br />
-            <span style={{ color: "transparent", WebkitTextStroke: "1.5px #2C0A5E" }}>THEORY</span> QUIZ
+            <span style={{ color: "transparent", WebkitTextStroke: `1.5px ${purple}` }}>THEORY</span> QUIZ
           </h2>
-          <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "#2C0A5E", fontStyle: "italic", marginTop: "0.75rem" }}>
+          <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(17,17,17,0.68)", fontStyle: "italic", marginTop: "0.75rem" }}>
             15 questions. Discover your feminist tradition.
           </p>
         </motion.div>
@@ -378,10 +392,10 @@ export function QuizRoom() {
                 <button
                   onClick={reset}
                   style={{
-                    background: "none", border: "1px solid rgba(13,13,13,0.3)",
+                    background: "none", border: `1px solid ${purple}`,
                     padding: "0.6rem 1.5rem", cursor: "pointer",
                     fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem",
-                    letterSpacing: "0.15em", color: "#0D0D0D",
+                    letterSpacing: "0.15em", color: purple,
                     display: "inline-flex", alignItems: "center", gap: "0.4rem",
                   }}
                 >
@@ -394,32 +408,33 @@ export function QuizRoom() {
               {/* Progress bar */}
               <div style={{ marginBottom: "2rem" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.4rem" }}>
-                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.58rem", letterSpacing: "0.15em", color: "rgba(13,13,13,0.4)" }}>
+                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.58rem", letterSpacing: "0.15em", color: "rgba(17,17,17,0.52)" }}>
                     {String(qi + 1).padStart(2, "0")} / {questions.length}
                   </span>
-                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.58rem", color: "#2C0A5E" }}>
+                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.58rem", color: purple }}>
                     {Math.round(progress)}%
                   </span>
                 </div>
-                <div style={{ height: "1px", background: "rgba(13,13,13,0.1)" }}>
-                  <motion.div animate={{ width: `${progress}%` }} style={{ height: "1px", background: "#2C0A5E" }} />
+                <div style={{ height: "1px", background: "rgba(17,17,17,0.14)" }}>
+                  <motion.div animate={{ width: `${progress}%` }} style={{ height: "1px", background: purple }} />
                 </div>
               </div>
 
               {/* Question paper */}
               <div style={{
-                background: "#F5F0E4",
+                background: paperWhite,
+                border: `1px solid ${purple}`,
                 padding: "2rem",
                 marginBottom: "1.5rem",
                 position: "relative",
                 clipPath: "polygon(0 2%, 2% 0, 5% 1.5%, 10% 0, 17% 1%, 25% 0, 35% 1.5%, 46% 0, 58% 1%, 70% 0, 82% 1.5%, 93% 0, 100% 1%, 100% 99%, 97% 100%, 92% 98.5%, 86% 100%, 78% 99%, 70% 100%, 60% 99%, 50% 100%, 39% 99%, 28% 100%, 18% 99%, 9% 100%, 3% 98.5%, 0 100%)",
-                filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.08))",
+                boxShadow: "10px 10px 0 rgba(111,0,255,0.18)",
               }}>
-                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: "#2C0A5E", opacity: 0.5, marginBottom: "0.75rem" }}>
+                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: purple, opacity: 1, marginBottom: "0.75rem" }}>
                   QUESTION {String(qi + 1).padStart(2, "0")}
                 </div>
-                <div style={{ height: "1px", background: "rgba(13,13,13,0.12)", marginBottom: "1rem" }} />
-                <p style={{ fontFamily: "'IM Fell English', serif", fontSize: "1.1rem", color: "#0D0D0D", lineHeight: 1.55 }}>
+                <div style={{ height: "1px", background: "rgba(17,17,17,0.14)", marginBottom: "1rem" }} />
+                <p style={{ fontFamily: "'IM Fell English', serif", fontSize: "1.1rem", color: white, lineHeight: 1.55 }}>
                   {questions[qi].q}
                 </p>
               </div>
@@ -433,24 +448,24 @@ export function QuizRoom() {
                     style={{
                       display: "flex", alignItems: "flex-start", gap: "0.9rem",
                       padding: "0.9rem 1.1rem",
-                      background: sel === i ? "rgba(44,10,94,0.06)" : "rgba(13,13,13,0.02)",
-                      border: `1px solid ${sel === i ? "rgba(44,10,94,0.35)" : "rgba(13,13,13,0.1)"}`,
+                      background: sel === i ? purple : "rgba(255,255,255,0.72)",
+                      border: `1px solid ${sel === i ? purple : "rgba(111,0,255,0.18)"}`,
                       cursor: "pointer", textAlign: "left",
                       transition: "all 0.15s",
                       fontFamily: "'Special Elite', cursive",
-                      fontSize: "0.85rem", color: "#0D0D0D", lineHeight: 1.5,
+                      fontSize: "0.85rem", color: sel === i ? paperWhite : "rgba(17,17,17,0.76)", lineHeight: 1.5,
                     }}
-                    onMouseEnter={(e) => { if (sel !== i) e.currentTarget.style.borderColor = "rgba(13,13,13,0.25)"; }}
-                    onMouseLeave={(e) => { if (sel !== i) e.currentTarget.style.borderColor = "rgba(13,13,13,0.1)"; }}
+                    onMouseEnter={(e) => { if (sel !== i) e.currentTarget.style.borderColor = purple; }}
+                    onMouseLeave={(e) => { if (sel !== i) e.currentTarget.style.borderColor = "rgba(111,0,255,0.18)"; }}
                   >
                     <span style={{
                       width: "20px", height: "20px", flexShrink: 0,
-                      border: `1px solid ${sel === i ? "#2C0A5E" : "rgba(13,13,13,0.3)"}`,
+                      border: `1px solid ${sel === i ? paperWhite : "rgba(17,17,17,0.36)"}`,
                       display: "flex", alignItems: "center", justifyContent: "center",
                       fontFamily: "'IBM Plex Mono', monospace",
                       fontSize: "0.65rem",
-                      color: sel === i ? "#2C0A5E" : "rgba(13,13,13,0.4)",
-                      background: sel === i ? "rgba(44,10,94,0.08)" : "transparent",
+                      color: sel === i ? paperWhite : "rgba(17,17,17,0.58)",
+                      background: sel === i ? deepPurple : "transparent",
                       marginTop: "1px",
                     }}>
                       {sel === i ? "✓" : String.fromCharCode(65 + i)}
@@ -467,9 +482,9 @@ export function QuizRoom() {
                   disabled={sel === null}
                   style={{
                     padding: "0.65rem 1.75rem",
-                    background: sel !== null ? "#2C0A5E" : "transparent",
-                    border: `1px solid ${sel !== null ? "#2C0A5E" : "rgba(13,13,13,0.15)"}`,
-                    color: sel !== null ? "#EDE8D8" : "rgba(13,13,13,0.25)",
+                    background: sel !== null ? purple : "transparent",
+                    border: `1px solid ${sel !== null ? purple : "rgba(111,0,255,0.18)"}`,
+                    color: sel !== null ? paperWhite : "rgba(17,17,17,0.28)",
                     cursor: sel !== null ? "pointer" : "not-allowed",
                     fontFamily: "'IBM Plex Mono', monospace",
                     fontSize: "0.65rem", letterSpacing: "0.15em",
