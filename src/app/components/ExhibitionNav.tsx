@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useLanguage } from "../i18n";
 
 const rooms = [
-  { label: "I. ENTRANCE", href: "#entrance" },
-  { label: "II. ATLAS", href: "#atlas" },
-  { label: "III. QUIZ", href: "#quiz" },
-  { label: "IV. SPECTRUM", href: "#spectrum" },
-  { label: "V. ARCHIVE", href: "#reading" },
+  { en: "I. ENTRANCE", zh: "I. 入口", href: "#entrance" },
+  { en: "II. ATLAS", zh: "II. 图谱", href: "#atlas" },
+  { en: "III. QUIZ", zh: "III. 测验", href: "#quiz" },
+  { en: "IV. SPECTRUM", zh: "IV. 光谱", href: "#spectrum" },
+  { en: "V. ARCHIVE", zh: "V. 档案室", href: "#reading" },
 ];
 
 export function ExhibitionNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { isZh, toggleLanguage, language } = useLanguage();
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 80);
@@ -50,7 +52,7 @@ export function ExhibitionNav() {
             transition: "color 0.4s",
           }}
         >
-          ♀ DAILY FEMINISM
+          ♀ {isZh ? "日常女性主义" : "DAILY FEMINISM"}
         </button>
 
         {/* Desktop rooms */}
@@ -69,9 +71,26 @@ export function ExhibitionNav() {
               onMouseEnter={(e) => (e.currentTarget.style.color = "#6F00FF")}
               onMouseLeave={(e) => (e.currentTarget.style.color = scrolled ? "rgba(17,17,17,0.52)" : "rgba(17,17,17,0.5)")}
             >
-              {r.label}
+              {isZh ? r.zh : r.en}
             </button>
           ))}
+          <button
+            onClick={toggleLanguage}
+            aria-label={isZh ? "Switch to English" : "切换到中文"}
+            title={isZh ? "Switch to English" : "切换到中文"}
+            style={{
+              background: scrolled ? "rgba(111,0,255,0.1)" : "rgba(255,255,255,0.42)",
+              border: "1px solid rgba(111,0,255,0.45)",
+              cursor: "pointer",
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.55rem",
+              letterSpacing: "0.12em",
+              color: "#6F00FF",
+              padding: "0.32rem 0.55rem",
+            }}
+          >
+            {language === "zh" ? "EN" : "中文"}
+          </button>
         </div>
 
         {/* Mobile menu toggle */}
@@ -116,9 +135,28 @@ export function ExhibitionNav() {
                   transition: "color 0.2s",
                 }}
               >
-                {r.label}
+                {isZh ? r.zh : r.en}
               </button>
             ))}
+            <button
+              onClick={() => {
+                toggleLanguage();
+                setOpen(false);
+              }}
+              style={{
+                background: "rgba(111,0,255,0.08)",
+                border: "1px solid rgba(111,0,255,0.45)",
+                cursor: "pointer",
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "0.65rem",
+                letterSpacing: "0.2em",
+                color: "#6F00FF",
+                textAlign: "left",
+                padding: "0.65rem 0.75rem",
+              }}
+            >
+              {language === "zh" ? "SWITCH TO ENGLISH" : "切换到中文"}
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

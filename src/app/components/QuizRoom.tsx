@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer } from "recharts";
 import { RotateCcw } from "lucide-react";
 import cameraRays from "../../imports/collage/camera-rays.jpg";
+import { useLanguage } from "../i18n";
 
 type Scores = {
   liberal: number; radical: number; socialist: number; marxist: number;
@@ -147,30 +148,175 @@ const questions = [
   },
 ];
 
+const questionsZh = [
+  {
+    q: "你认为女性受压迫的主要原因是什么？",
+    options: [
+      "可以通过法律改革的法律与制度障碍",
+      "贯穿所有制度的父权制男性支配",
+      "资本主义与父权制共同作用的交叉结构",
+      "私有财产与资本主义阶级结构",
+    ],
+  },
+  {
+    q: "一位女性的收入明显低于男性同事。解决办法是……",
+    options: [
+      "执行同工同酬和反歧视法律",
+      "彻底拆解父权制企业结构",
+      "组织工会，从根部处理阶级化工资不平等",
+      "承认女性化劳动在不同身份中都被贬值",
+    ],
+  },
+  {
+    q: "你如何理解性别？",
+    options: [
+      "性别是真实存在的，但不应决定权利和机会",
+      "性别是一种等级制度，即男性气质高于女性气质，必须被推翻",
+      "性别是一种社会建构，可以也应该被动摇",
+      "性别只是众多轴线之一，种族、阶级、残障同样塑造它",
+    ],
+  },
+  {
+    q: "家务劳动，包括做饭、清洁和照护儿童，是……",
+    options: [
+      "应被平等分担的工作，政策必须支持这一点",
+      "使女性从属的工具，需要被激进地重新想象",
+      "支撑资本主义的无偿劳动，应该被社会化",
+      "体现照护价值的劳动，社会应当尊重",
+    ],
+  },
+  {
+    q: "一位有色人种女性遭遇职场歧视，最完整的分析是……",
+    options: [
+      "她遭遇的是性别歧视，同样的法律应保护她",
+      "她的种族与性别形成了不能被化约为单一因素的压迫",
+      "她在所有社群中都遭遇父权压迫",
+      "资本主义利用种族与性别分化来获利",
+    ],
+  },
+  {
+    q: "婚姻作为一种制度是……",
+    options: [
+      "可以改革的，它应该成为平等伴侣关系",
+      "女性受压迫的主要场所，应被废除",
+      "服务资本主义再生产需求的经济安排",
+      "承载照护与承诺价值的关系场域",
+    ],
+  },
+  {
+    q: "男性在女性主义中的角色应该是？",
+    options: [
+      "完整盟友，作为平等伙伴参与女性主义运动",
+      "外部支持者，女性主义必须由女性主导",
+      "阶级盟友，跨性别的工人阶级团结是关键",
+      "男性必须解构自己的男性气质和特权",
+    ],
+  },
+  {
+    q: "哪句话最能与你共鸣？",
+    options: [
+      "女性可以通过获得与男性同等的权利实现平等",
+      "主人的工具永远拆不掉主人的房子",
+      "没有社会主义，就没有女性主义",
+      "不存在单一议题的斗争",
+    ],
+  },
+  {
+    q: "性别差异，比如照护和共情等女性化特质……",
+    options: [
+      "与权利和平等问题无关",
+      "确实有价值，却被社会严重低估",
+      "是通过权力和话语维持的社会建构",
+      "由父权等级制造，并服务于这种等级",
+    ],
+  },
+  {
+    q: "只关注中产白人女性的女性主义运动……",
+    options: [
+      "仍然是进步，因为成果最终会惠及所有女性",
+      "忽略了最边缘者，必须以交叉性为中心",
+      "忽略了阶级，工人阶级女性必须进入斗争",
+      "被父权制利用，通过让女性彼此对立而分裂",
+    ],
+  },
+  {
+    q: "生育权是……",
+    options: [
+      "身体自主的个人权利，必须受到法律保护",
+      "父权控制女性身体的核心战场",
+      "被种族和阶级塑造，黑人女性和贫困女性受影响最深",
+      "再生产劳动，是资本主义未来劳动力需求的核心",
+    ],
+  },
+  {
+    q: "技术与数字空间和女性主义的关系是……",
+    options: [
+      "强大的工具，弥合性别数字鸿沟有助于平等",
+      "会复制父权暴力，线上骚扰是结构性的",
+      "逐利平台会剥削性别化和种族化劳动",
+      "能够动摇固定性别范畴，是酷儿抵抗的场域",
+    ],
+  },
+  {
+    q: "“女人”这个类别是……",
+    options: [
+      "值得获得平等权利和承认的重要身份",
+      "由父权制男性支配关系定义",
+      "复杂且充满争议，被种族、阶级等力量塑造",
+      "值得追问和扰动的社会建构",
+    ],
+  },
+  {
+    q: "如果你现在可以改变社会中的一件事……",
+    options: [
+      "让女性在所有领导岗位中获得平等代表",
+      "拆解文化和制度中的父权权力结构",
+      "重新分配财富，终结剥削性的资本主义",
+      "建立重视照护、共情和合作而非竞争的文化",
+    ],
+  },
+  {
+    q: "当下最重要的女性主义前沿是……",
+    options: [
+      "打破玻璃天花板，实现政治平等代表",
+      "消除性暴力及纵容它的文化",
+      "与全球劳动女性建立团结",
+      "废除所有固定身份类别，包括性别本身",
+    ],
+  },
+];
+
 const purple = "#6F00FF";
 const deepPurple = "#24004D";
 const black = "#F7F4FF";
 const white = "#111111";
 const paperWhite = "#FFFFFF";
 
-const resultInfo: Record<keyof Scores, { name: string; color: string; paper: string; ink: string; books: string[] }> = {
-  liberal: { name: "Liberal Feminism", color: purple, paper: "#FFFFFF", ink: white,
-    books: ["A Vindication of the Rights of Woman — Wollstonecraft", "The Feminine Mystique — Betty Friedan", "The Second Sex — Simone de Beauvoir"] },
-  radical: { name: "Radical Feminism", color: purple, paper: "#FFFFFF", ink: white,
-    books: ["Sexual Politics — Kate Millett", "The Dialectic of Sex — Shulamith Firestone", "The Female Eunuch — Germaine Greer"] },
-  socialist: { name: "Socialist Feminism", color: purple, paper: "#FFFFFF", ink: white,
-    books: ["Caliban and the Witch — Silvia Federici", "Women, Race & Class — Angela Davis", "The Unhappy Marriage — Heidi Hartmann"] },
-  marxist: { name: "Marxist Feminism", color: purple, paper: "#FFFFFF", ink: white,
-    books: ["The Origin of the Family — Friedrich Engels", "Women and Socialism — Clara Zetkin", "Social Reproduction Theory — Tithi Bhattacharya"] },
-  cultural: { name: "Cultural Feminism", color: purple, paper: "#FFFFFF", ink: white,
-    books: ["In a Different Voice — Carol Gilligan", "Caring — Nel Noddings", "Woman and Nature — Susan Griffin"] },
-  postmodern: { name: "Postmodern Feminism", color: purple, paper: "#FFFFFF", ink: white,
-    books: ["Gender Trouble — Judith Butler", "A Cyborg Manifesto — Donna Haraway", "Speculum of the Other Woman — Irigaray"] },
-  intersectional: { name: "Intersectional Feminism", color: purple, paper: "#FFFFFF", ink: white,
-    books: ["Sister Outsider — Audre Lorde", "Mapping the Margins — Kimberlé Crenshaw", "Black Feminist Thought — Patricia Hill Collins"] },
+const resultInfo: Record<keyof Scores, { name: string; nameZh: string; color: string; paper: string; ink: string; books: string[]; booksZh: string[] }> = {
+  liberal: { name: "Liberal Feminism", nameZh: "自由主义女性主义", color: purple, paper: "#FFFFFF", ink: white,
+    books: ["A Vindication of the Rights of Woman — Wollstonecraft", "The Feminine Mystique — Betty Friedan", "The Second Sex — Simone de Beauvoir"],
+    booksZh: ["《女权辩护》 — 沃斯通克拉夫特", "《女性的奥秘》 — 贝蒂·弗里丹", "《第二性》 — 西蒙娜·德·波伏瓦"] },
+  radical: { name: "Radical Feminism", nameZh: "激进女性主义", color: purple, paper: "#FFFFFF", ink: white,
+    books: ["Sexual Politics — Kate Millett", "The Dialectic of Sex — Shulamith Firestone", "The Female Eunuch — Germaine Greer"],
+    booksZh: ["《性政治》 — 凯特·米利特", "《性的辩证法》 — 舒拉米斯·费尔斯通", "《女太监》 — 杰梅因·格里尔"] },
+  socialist: { name: "Socialist Feminism", nameZh: "社会主义女性主义", color: purple, paper: "#FFFFFF", ink: white,
+    books: ["Caliban and the Witch — Silvia Federici", "Women, Race & Class — Angela Davis", "The Unhappy Marriage — Heidi Hartmann"],
+    booksZh: ["《卡利班与女巫》 — 西尔维娅·费代里奇", "《妇女、种族与阶级》 — 安吉拉·戴维斯", "《不幸的婚姻》 — 海蒂·哈特曼"] },
+  marxist: { name: "Marxist Feminism", nameZh: "马克思主义女性主义", color: purple, paper: "#FFFFFF", ink: white,
+    books: ["The Origin of the Family — Friedrich Engels", "Women and Socialism — Clara Zetkin", "Social Reproduction Theory — Tithi Bhattacharya"],
+    booksZh: ["《家庭、私有制和国家的起源》 — 恩格斯", "《妇女与社会主义》 — 克拉拉·蔡特金", "《社会再生产理论》 — 蒂西·巴塔查里亚"] },
+  cultural: { name: "Cultural Feminism", nameZh: "文化女性主义", color: purple, paper: "#FFFFFF", ink: white,
+    books: ["In a Different Voice — Carol Gilligan", "Caring — Nel Noddings", "Woman and Nature — Susan Griffin"],
+    booksZh: ["《不同的声音》 — 卡罗尔·吉利根", "《关怀》 — 内尔·诺丁斯", "《女人与自然》 — 苏珊·格里芬"] },
+  postmodern: { name: "Postmodern Feminism", nameZh: "后现代女性主义", color: purple, paper: "#FFFFFF", ink: white,
+    books: ["Gender Trouble — Judith Butler", "A Cyborg Manifesto — Donna Haraway", "Speculum of the Other Woman — Irigaray"],
+    booksZh: ["《性别麻烦》 — 朱迪斯·巴特勒", "《赛博格宣言》 — 唐娜·哈拉维", "《另一个女人的窥镜》 — 伊利格瑞"] },
+  intersectional: { name: "Intersectional Feminism", nameZh: "交叉性女性主义", color: purple, paper: "#FFFFFF", ink: white,
+    books: ["Sister Outsider — Audre Lorde", "Mapping the Margins — Kimberlé Crenshaw", "Black Feminist Thought — Patricia Hill Collins"],
+    booksZh: ["《局外姐妹》 — 奥德丽·洛德", "《绘制边缘》 — 金伯利·克伦肖", "《黑人女性主义思想》 — 帕特里夏·希尔·柯林斯"] },
 };
 
-function Results({ scores }: { scores: Scores }) {
+function Results({ scores, isZh }: { scores: Scores; isZh: boolean }) {
   const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
   const pcts = Object.fromEntries(
     Object.entries(scores).map(([k, v]) => [k, Math.round((v / total) * 100)])
@@ -180,7 +326,7 @@ function Results({ scores }: { scores: Scores }) {
   const info = resultInfo[primary[0]];
 
   const radarData = Object.entries(pcts).map(([k, v]) => ({
-    subject: resultInfo[k as keyof Scores].name.replace(" Feminism", ""),
+    subject: isZh ? resultInfo[k as keyof Scores].nameZh.replace("女性主义", "") : resultInfo[k as keyof Scores].name.replace(" Feminism", ""),
     value: v,
   }));
 
@@ -203,13 +349,13 @@ function Results({ scores }: { scores: Scores }) {
       }}>
         <div style={{ borderBottom: `1px solid ${info.color}30`, paddingBottom: "0.3rem", marginBottom: "0.3rem" }}>
           <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: info.color, opacity: 0.7 }}>
-            FEMINIST ARCHIVE — THEORY ASSESSMENT — RESULT CLASSIFIED
+            {isZh ? "女性主义档案 — 理论测评 — 结果已归档" : "FEMINIST ARCHIVE — THEORY ASSESSMENT — RESULT CLASSIFIED"}
           </span>
         </div>
       </div>
 
       <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "3rem", color: info.ink, lineHeight: 0.9, marginBottom: "0.4rem" }}>
-        YOUR TENDENCY:
+        {isZh ? "你的倾向：" : "YOUR TENDENCY:"}
       </h3>
       <div style={{
         fontFamily: "'Bebas Neue', sans-serif",
@@ -218,7 +364,7 @@ function Results({ scores }: { scores: Scores }) {
         lineHeight: 0.9,
         marginBottom: "1.5rem",
       }}>
-        {info.name.toUpperCase()}
+        {isZh ? info.nameZh : info.name.toUpperCase()}
       </div>
 
       <div style={{ height: "1px", background: info.color, opacity: 0.2, marginBottom: "1.5rem" }} />
@@ -237,13 +383,13 @@ function Results({ scores }: { scores: Scores }) {
       {/* Score bars */}
       <div style={{ marginBottom: "1.5rem" }}>
         <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: info.color, opacity: 0.6, marginBottom: "0.75rem" }}>
-          COMPATIBILITY BREAKDOWN
+          {isZh ? "匹配度分布" : "COMPATIBILITY BREAKDOWN"}
         </div>
         {sorted.map(([key, pct]) => (
           <div key={key} style={{ marginBottom: "0.5rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.2rem" }}>
               <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.75rem", color: info.ink, opacity: 0.7 }}>
-                {resultInfo[key].name}
+                {isZh ? resultInfo[key].nameZh : resultInfo[key].name}
               </span>
               <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.65rem", color: info.color }}>
                 {pct}%
@@ -264,9 +410,9 @@ function Results({ scores }: { scores: Scores }) {
       {/* Recommended reading */}
       <div>
         <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: info.color, opacity: 0.6, marginBottom: "0.6rem" }}>
-          ASSIGNED READING
+          {isZh ? "推荐阅读" : "ASSIGNED READING"}
         </div>
-        {info.books.map((b, i) => (
+        {(isZh ? info.booksZh : info.books).map((b, i) => (
           <div key={i} style={{ display: "flex", gap: "0.75rem", marginBottom: "0.4rem", alignItems: "flex-start" }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.6rem", color: info.color, opacity: 0.5, flexShrink: 0, marginTop: "0.1rem" }}>
               {String(i + 1).padStart(2, "0")}
@@ -288,7 +434,7 @@ function Results({ scores }: { scores: Scores }) {
         fontSize: "0.5rem", color: `${info.color}50`,
         letterSpacing: "0.2em", lineHeight: 1.5,
       }}>
-        CERTIFIED<br />FEMINIST<br />♀
+        {isZh ? "女性主义" : "CERTIFIED"}<br />{isZh ? "认证" : "FEMINIST"}<br />♀
       </div>
     </motion.div>
   );
@@ -299,6 +445,7 @@ export function QuizRoom() {
   const [sel, setSel] = useState<number | null>(null);
   const [scores, setScores] = useState<Scores>({ liberal: 0, radical: 0, socialist: 0, marxist: 0, cultural: 0, postmodern: 0, intersectional: 0 });
   const [done, setDone] = useState(false);
+  const { isZh } = useLanguage();
 
   const advance = () => {
     if (sel === null) return;
@@ -313,6 +460,10 @@ export function QuizRoom() {
   const reset = () => { setQi(0); setSel(null); setDone(false); setScores({ liberal: 0, radical: 0, socialist: 0, marxist: 0, cultural: 0, postmodern: 0, intersectional: 0 }); };
 
   const progress = (qi / questions.length) * 100;
+  const question = isZh ? questionsZh[qi] : {
+    q: questions[qi].q,
+    options: questions[qi].options.map((option) => option.text),
+  };
 
   return (
     <section
@@ -370,24 +521,24 @@ export function QuizRoom() {
           <div style={{ borderTop: `3px solid ${purple}`, borderBottom: `1px solid ${purple}`, padding: "0.35rem 0", marginBottom: "0.3rem" }}>
             <div style={{ borderBottom: "1px solid rgba(111,0,255,0.18)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
               <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: purple, opacity: 1 }}>
-                FEMINIST ARCHIVE — SECTION IV — THEORY ASSESSMENT FORM
+                {isZh ? "女性主义档案 — 第三展厅 — 理论测评表" : "FEMINIST ARCHIVE — SECTION IV — THEORY ASSESSMENT FORM"}
               </span>
             </div>
           </div>
 
           <h2 style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(3rem, 8vw, 5.5rem)", color: white, lineHeight: 0.88 }}>
-            FEMINIST<br />
-            <span style={{ color: "transparent", WebkitTextStroke: `1.5px ${purple}` }}>THEORY</span> QUIZ
+            {isZh ? "女性主义" : "FEMINIST"}<br />
+            <span style={{ color: "transparent", WebkitTextStroke: `1.5px ${purple}` }}>{isZh ? "理论" : "THEORY"}</span> {isZh ? "测验" : "QUIZ"}
           </h2>
           <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(17,17,17,0.68)", fontStyle: "italic", marginTop: "0.75rem" }}>
-            15 questions. Discover your feminist tradition.
+            {isZh ? "15 道问题，发现你的女性主义传统。" : "15 questions. Discover your feminist tradition."}
           </p>
         </motion.div>
 
         <AnimatePresence mode="wait">
           {done ? (
             <motion.div key="done" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <Results scores={scores} />
+              <Results scores={scores} isZh={isZh} />
               <div style={{ marginTop: "2rem", textAlign: "center" }}>
                 <button
                   onClick={reset}
@@ -399,7 +550,7 @@ export function QuizRoom() {
                     display: "inline-flex", alignItems: "center", gap: "0.4rem",
                   }}
                 >
-                  <RotateCcw size={12} /> RETAKE
+                  <RotateCcw size={12} /> {isZh ? "重做" : "RETAKE"}
                 </button>
               </div>
             </motion.div>
@@ -431,17 +582,17 @@ export function QuizRoom() {
                 boxShadow: "10px 10px 0 rgba(111,0,255,0.18)",
               }}>
                 <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: purple, opacity: 1, marginBottom: "0.75rem" }}>
-                  QUESTION {String(qi + 1).padStart(2, "0")}
+                  {isZh ? "问题" : "QUESTION"} {String(qi + 1).padStart(2, "0")}
                 </div>
                 <div style={{ height: "1px", background: "rgba(17,17,17,0.14)", marginBottom: "1rem" }} />
                 <p style={{ fontFamily: "'IM Fell English', serif", fontSize: "1.1rem", color: white, lineHeight: 1.55 }}>
-                  {questions[qi].q}
+                  {question.q}
                 </p>
               </div>
 
               {/* Options */}
               <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginBottom: "1.5rem" }}>
-                {questions[qi].options.map((opt, i) => (
+                {question.options.map((option, i) => (
                   <button
                     key={i}
                     onClick={() => setSel(i)}
@@ -470,7 +621,7 @@ export function QuizRoom() {
                     }}>
                       {sel === i ? "✓" : String.fromCharCode(65 + i)}
                     </span>
-                    {opt.text}
+                    {option}
                   </button>
                 ))}
               </div>
@@ -491,7 +642,7 @@ export function QuizRoom() {
                     transition: "all 0.2s",
                   }}
                 >
-                  {qi + 1 === questions.length ? "SUBMIT →" : "NEXT →"}
+                  {qi + 1 === questions.length ? (isZh ? "提交 →" : "SUBMIT →") : (isZh ? "下一题 →" : "NEXT →")}
                 </button>
               </div>
             </motion.div>

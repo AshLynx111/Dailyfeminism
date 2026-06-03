@@ -2,13 +2,14 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import sewingRoad from "../../imports/9b362052e5b7524cc56549a710bbf89c-1.jpg";
 import blueHands from "../../imports/c16b39abb2f8e74ec1e49a0fd3a23c96-1.jpg";
+import { useLanguage } from "../i18n";
 
 const fragments = [
-  { text: "THE PERSONAL IS POLITICAL", top: "18%", left: "64%", rot: "-2deg", tone: "violet" },
-  { text: "NO GODS / NO MASTERS / NO SILENCE", top: "30%", left: "6%", rot: "-1deg", tone: "white" },
-  { text: "SISTERHOOD IS GLOBAL", top: "52%", left: "56%", rot: "2deg", tone: "dark" },
-  { text: "FROM THEORY TO PRAXIS", top: "72%", left: "8%", rot: "1.5deg", tone: "violet" },
-  { text: "ARCHIVE / ATLAS / QUIZ", top: "82%", left: "61%", rot: "-3deg", tone: "white" },
+  { en: "THE PERSONAL IS POLITICAL", zh: "个人的即政治的", top: "18%", left: "64%", rot: "-2deg", tone: "violet" },
+  { en: "NO GODS / NO MASTERS / NO SILENCE", zh: "不沉默 / 不服从 / 不退让", top: "30%", left: "6%", rot: "-1deg", tone: "white" },
+  { en: "SISTERHOOD IS GLOBAL", zh: "姐妹情谊是全球性的", top: "52%", left: "56%", rot: "2deg", tone: "dark" },
+  { en: "FROM THEORY TO PRAXIS", zh: "从理论到实践", top: "72%", left: "8%", rot: "1.5deg", tone: "violet" },
+  { en: "ARCHIVE / ATLAS / QUIZ", zh: "档案 / 图谱 / 测验", top: "82%", left: "61%", rot: "-3deg", tone: "white" },
 ];
 
 const violet = "#6F00FF";
@@ -19,6 +20,7 @@ const paper = "#F7F4FF";
 
 export function Entrance() {
   const ref = useRef<HTMLDivElement>(null);
+  const { isZh } = useLanguage();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const yFast = useTransform(scrollYProgress, [0, 1], [0, -56]);
   const ySlow = useTransform(scrollYProgress, [0, 1], [0, -32]);
@@ -301,7 +303,7 @@ export function Entrance() {
           color: "rgba(17,17,17,0.72)",
         }}
       >
-        Explore feminist thought through collage, theory, memory, and self-discovery.
+          {isZh ? "通过拼贴、理论、记忆与自我发现，进入女性主义思想。" : "Explore feminist thought through collage, theory, memory, and self-discovery."}
       </motion.p>
 
       {fragments.map((fragment, index) => {
@@ -314,7 +316,7 @@ export function Entrance() {
 
         return (
           <motion.div
-            key={fragment.text}
+            key={fragment.en}
             className="entrance-fragment"
             data-fragment={index}
             initial={{ opacity: 0 }}
@@ -339,7 +341,7 @@ export function Entrance() {
               userSelect: "none",
             }}
           >
-            {fragment.text}
+            {isZh ? fragment.zh : fragment.en}
           </motion.div>
         );
       })}
@@ -360,7 +362,7 @@ export function Entrance() {
           whiteSpace: "nowrap",
         }}
       >
-        FEMINIST ARCHIVE / PURPLE ISSUE / 1792 TO NOW
+        {isZh ? "女性主义档案 / 紫色特刊 / 1792 至今" : "FEMINIST ARCHIVE / PURPLE ISSUE / 1792 TO NOW"}
       </div>
 
       <div
@@ -420,7 +422,7 @@ export function Entrance() {
             event.currentTarget.style.background = violet;
           }}
         >
-          START
+          {isZh ? "开始" : "START"}
         </button>
         <motion.span
           aria-hidden="true"

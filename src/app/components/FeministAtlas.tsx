@@ -10,6 +10,7 @@ import claraZetkin from "../../imports/portraits/clara-zetkin.jpg";
 import carolGilligan from "../../imports/portraits/carol-gilligan.jpg";
 import judithButler from "../../imports/portraits/judith-butler.jpg";
 import audreLorde from "../../imports/portraits/audre-lorde.jpg";
+import { useLanguage } from "../i18n";
 
 const violet = "#6F00FF";
 const deepViolet = "#24004D";
@@ -21,14 +22,18 @@ const theories = [
     id: "liberal",
     reading: "LIBERAL",
     label: "LIBERAL FEMINISM",
+    labelZh: "自由主义女性主义",
     stamp: "§ 01",
     figure: "Mary Wollstonecraft",
     tagline: "Equal rights within existing structures",
+    taglineZh: "在既有结构中争取平等权利",
     core: "Advocates for legal equality, institutional reform, and equal access to education and opportunity. Believes the system can be reformed, not dismantled.",
+    coreZh: "主张法律平等、制度改革，以及教育和机会的平等可及。它相信制度可以被改革，而不必完全拆除。",
     thinkers: "Wollstonecraft · Friedan · Steinem",
     quote: "\"I do not wish women to have power over men, but over themselves.\"",
     quoteBy: "Mary Wollstonecraft, 1792",
     concepts: ["Legal Reform", "Equal Opportunity", "Individual Rights", "Education"],
+    conceptsZh: ["法律改革", "机会平等", "个人权利", "教育"],
     portrait: maryWollstonecraft,
     accent: violet,
     rot: "-5deg",
@@ -39,14 +44,18 @@ const theories = [
     id: "radical",
     reading: "RADICAL",
     label: "RADICAL FEMINISM",
+    labelZh: "激进女性主义",
     stamp: "⬛ 02",
     figure: "Kate Millett",
     tagline: "Dismantle patriarchy at the root",
+    taglineZh: "从根部拆解父权制",
     core: "Identifies patriarchy as the foundational system of all oppression. Male dominance pervades institutions, language, culture, intimacy, and law.",
+    coreZh: "将父权制视为压迫的基础系统。男性支配渗透进制度、语言、文化、亲密关系与法律。",
     thinkers: "Millett · Dworkin · MacKinnon",
     quote: "\"The personal is political.\"",
     quoteBy: "Radical feminist movement slogan",
     concepts: ["Patriarchy", "Sisterhood", "Sexual Politics", "Consciousness Raising"],
+    conceptsZh: ["父权制", "姐妹情谊", "性政治", "意识提升"],
     portrait: kateMillett,
     accent: violet,
     rot: "4deg",
@@ -57,14 +66,18 @@ const theories = [
     id: "socialist",
     reading: "SOCIALIST",
     label: "SOCIALIST FEMINISM",
+    labelZh: "社会主义女性主义",
     stamp: "✦ 03",
     figure: "Silvia Federici",
     tagline: "Capitalism and patriarchy, inseparable",
+    taglineZh: "资本主义与父权制不可分割",
     core: "Analyzes women's oppression as a product of both class society and male domination. Domestic labor, wages, and reproduction are battlegrounds.",
+    coreZh: "分析女性压迫如何同时来自阶级社会与男性支配。家务劳动、工资与再生产都是斗争现场。",
     thinkers: "Federici · Davis · Hartmann",
     quote: "\"The house is not the woman's world, but her prison.\"",
     quoteBy: "Silvia Federici",
     concepts: ["Domestic Labor", "Dual Systems", "Reproductive Work", "Class"],
+    conceptsZh: ["家务劳动", "双重系统", "再生产劳动", "阶级"],
     portrait: silviaFederici,
     accent: violet,
     rot: "-2deg",
@@ -75,14 +88,18 @@ const theories = [
     id: "marxist",
     reading: "MARXIST",
     label: "MARXIST FEMINISM",
+    labelZh: "马克思主义女性主义",
     stamp: "⚙ 04",
     figure: "Clara Zetkin",
     tagline: "Private property is the origin",
+    taglineZh: "私有财产是压迫的起源",
     core: "Traces women's subordination to private property and class relations. Economic liberation is inseparable from women's liberation.",
+    coreZh: "将女性从属追溯到私有财产和阶级关系。经济解放与女性解放无法分离。",
     thinkers: "Zetkin · Kollontai · Engels",
     quote: "\"Only in conjunction with the proletarian woman will socialism be victorious.\"",
     quoteBy: "Clara Zetkin",
     concepts: ["Class Struggle", "Social Reproduction", "Labor", "Alienation"],
+    conceptsZh: ["阶级斗争", "社会再生产", "劳动", "异化"],
     portrait: claraZetkin,
     accent: violet,
     rot: "6deg",
@@ -93,14 +110,18 @@ const theories = [
     id: "cultural",
     reading: "CULTURAL",
     label: "CULTURAL FEMINISM",
+    labelZh: "文化女性主义",
     stamp: "♾ 05",
     figure: "Carol Gilligan",
     tagline: "Celebrate care, relation, and difference",
+    taglineZh: "珍视照护、关系与差异",
     core: "Argues that care, empathy, and cooperation have been undervalued because they are coded feminine. It reframes those values as cultural strengths.",
+    coreZh: "认为照护、共情与合作因被编码为女性化而长期遭到贬低，并将这些价值重新理解为文化力量。",
     thinkers: "Gilligan · Daly · Noddings",
     quote: "\"Women's ways of knowing are not inferior. They are different.\"",
     quoteBy: "Carol Gilligan",
     concepts: ["Ethics of Care", "Feminine Values", "Ecology", "Relationality"],
+    conceptsZh: ["照护伦理", "女性价值", "生态", "关系性"],
     portrait: carolGilligan,
     accent: violet,
     rot: "-7deg",
@@ -111,14 +132,18 @@ const theories = [
     id: "postmodern",
     reading: "POSTMODERN",
     label: "POSTMODERN FEMINISM",
+    labelZh: "后现代女性主义",
     stamp: "∞ 06",
     figure: "Judith Butler",
     tagline: "Gender is performance",
+    taglineZh: "性别是一种表演",
     core: "Challenges fixed identity. Gender is constituted through repetitive acts, discourse, citation, and power rather than a stable essence.",
+    coreZh: "挑战固定身份。性别不是稳定本质，而是在重复行为、话语、引用和权力中被构成。",
     thinkers: "Butler · Haraway · Irigaray",
     quote: "\"There is no gender identity behind the expressions of gender.\"",
     quoteBy: "Judith Butler, 1990",
     concepts: ["Performativity", "Deconstruction", "Anti-Essentialism", "Discourse"],
+    conceptsZh: ["表演性", "解构", "反本质主义", "话语"],
     portrait: judithButler,
     accent: violet,
     rot: "3deg",
@@ -129,14 +154,18 @@ const theories = [
     id: "intersectional",
     reading: "INTERSECTIONAL",
     label: "INTERSECTIONAL FEMINISM",
+    labelZh: "交叉性女性主义",
     stamp: "⬡ 07",
     figure: "Audre Lorde",
     tagline: "All oppressions are connected",
+    taglineZh: "所有压迫彼此相连",
     core: "Gender intersects with race, class, sexuality, disability, and nationality. No single axis can describe a woman's life.",
+    coreZh: "性别与种族、阶级、性取向、残障和国籍交织。任何单一轴线都无法完整描述女性的生活。",
     thinkers: "Lorde · Crenshaw · hooks · Collins",
     quote: "\"There is no such thing as a single-issue struggle.\"",
     quoteBy: "Audre Lorde",
     concepts: ["Intersectionality", "Coalition", "Structural Racism", "Multiple Identities"],
+    conceptsZh: ["交叉性", "联盟", "结构性种族主义", "多重身份"],
     portrait: audreLorde,
     accent: violet,
     rot: "-3deg",
@@ -152,7 +181,7 @@ function readMode(theory: Theory) {
   document.querySelector("#reading")?.scrollIntoView({ behavior: "smooth" });
 }
 
-function TheoryCard({ theory, index, opened, onOpen }: { theory: Theory; index: number; opened: boolean; onOpen: () => void }) {
+function TheoryCard({ theory, index, opened, onOpen, isZh }: { theory: Theory; index: number; opened: boolean; onOpen: () => void; isZh: boolean }) {
   return (
     <motion.button
       initial={false}
@@ -211,13 +240,13 @@ function TheoryCard({ theory, index, opened, onOpen }: { theory: Theory; index: 
       <div style={{ padding: "1rem 1rem 1.15rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.65rem", color: theory.accent, fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.56rem", letterSpacing: "0.18em" }}>
           <span>{theory.stamp}</span>
-          <span>ARCHIVE CARD</span>
+          <span>{isZh ? "档案卡" : "ARCHIVE CARD"}</span>
         </div>
         <h3 style={{ margin: "0 0 0.55rem", fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.6rem", lineHeight: 0.9, letterSpacing: "0.02em", color: ink }}>
-          {theory.label}
+          {isZh ? theory.labelZh : theory.label}
         </h3>
         <p style={{ margin: "0 0 0.85rem", fontFamily: "'Special Elite', cursive", color: "rgba(17,17,17,0.64)", fontSize: "0.78rem", lineHeight: 1.45, fontStyle: "italic" }}>
-          {theory.tagline}
+          {isZh ? theory.taglineZh : theory.tagline}
         </p>
         <div style={{ height: "1px", background: `${theory.accent}55`, marginBottom: "0.75rem" }} />
         <p style={{ margin: 0, fontFamily: "'IBM Plex Mono', monospace", color: "rgba(17,17,17,0.5)", fontSize: "0.58rem", lineHeight: 1.55, letterSpacing: "0.04em" }}>
@@ -228,7 +257,7 @@ function TheoryCard({ theory, index, opened, onOpen }: { theory: Theory; index: 
   );
 }
 
-function DetailModal({ theory, onClose }: { theory: Theory; onClose: () => void }) {
+function DetailModal({ theory, onClose, isZh }: { theory: Theory; onClose: () => void; isZh: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -285,25 +314,25 @@ function DetailModal({ theory, onClose }: { theory: Theory; onClose: () => void 
           </button>
 
           <div style={{ fontFamily: "'IBM Plex Mono', monospace", color: theory.accent, fontSize: "0.58rem", letterSpacing: "0.2em", marginBottom: "0.55rem" }}>
-            {theory.stamp} / FEMINIST ARCHIVE
+            {theory.stamp} / {isZh ? "女性主义档案" : "FEMINIST ARCHIVE"}
           </div>
           <h2 style={{ margin: "0 0 0.55rem", fontFamily: "'Bebas Neue', sans-serif", fontSize: "2.7rem", lineHeight: 0.9, letterSpacing: "0.02em" }}>
-            {theory.label}
+            {isZh ? theory.labelZh : theory.label}
           </h2>
           <p style={{ margin: "0 0 1.35rem", color: "rgba(17,17,17,0.66)", fontFamily: "'Special Elite', cursive", fontSize: "0.86rem", lineHeight: 1.5, fontStyle: "italic" }}>
-            {theory.tagline}
+            {isZh ? theory.taglineZh : theory.tagline}
           </p>
           <div style={{ height: "1px", background: `${theory.accent}55`, marginBottom: "1.35rem" }} />
 
           <p style={{ margin: "0 0 1.25rem", fontFamily: "'IM Fell English', serif", fontSize: "1rem", lineHeight: 1.7, color: "rgba(17,17,17,0.76)" }}>
-            {theory.core}
+            {isZh ? theory.coreZh : theory.core}
           </p>
           <blockquote style={{ margin: "0 0 1.25rem", padding: "0.95rem 1rem", borderLeft: `5px solid ${theory.accent}`, background: "rgba(111,0,255,0.16)" }}>
             <p style={{ margin: "0 0 0.35rem", fontFamily: "'IM Fell English', serif", fontStyle: "italic", lineHeight: 1.55, color: "rgba(17,17,17,0.78)" }}>{theory.quote}</p>
             <cite style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.56rem", color: theory.accent, letterSpacing: "0.1em" }}>{theory.quoteBy}</cite>
           </blockquote>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.45rem", marginBottom: "1.4rem" }}>
-            {theory.concepts.map((concept) => (
+            {(isZh ? theory.conceptsZh : theory.concepts).map((concept) => (
               <span key={concept} style={{ border: `1px solid ${theory.accent}55`, color: theory.accent, padding: "0.28rem 0.62rem", fontFamily: "'Special Elite', cursive", fontSize: "0.72rem" }}>
                 {concept}
               </span>
@@ -327,7 +356,7 @@ function DetailModal({ theory, onClose }: { theory: Theory; onClose: () => void 
               boxShadow: `7px 7px 0 ${deepViolet}`,
             }}
           >
-            <BookOpen size={14} /> Read mode
+            <BookOpen size={14} /> {isZh ? "阅读模式" : "Read mode"}
           </button>
         </div>
       </motion.div>
@@ -338,6 +367,7 @@ function DetailModal({ theory, onClose }: { theory: Theory; onClose: () => void 
 export function FeministAtlas() {
   const [opened, setOpened] = useState(false);
   const [selected, setSelected] = useState<Theory | null>(null);
+  const { isZh } = useLanguage();
 
   const openEnvelope = () => {
     setOpened(true);
@@ -377,14 +407,14 @@ export function FeministAtlas() {
       <div style={{ maxWidth: "1160px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ marginBottom: "3rem" }}>
           <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.56rem", letterSpacing: "0.28em", color: violet, marginBottom: "0.8rem" }}>
-            FEMINIST ARCHIVE / SECTION II / SEALED THEORY FILES
+            {isZh ? "女性主义档案 / 第二展厅 / 封存的理论文件" : "FEMINIST ARCHIVE / SECTION II / SEALED THEORY FILES"}
           </div>
           <h2 style={{ margin: 0, fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(3.6rem, 9vw, 8rem)", lineHeight: 0.86, letterSpacing: 0 }}>
-            THEORY<br />
-            <span style={{ color: "transparent", WebkitTextStroke: `2px ${violet}` }}>ARCHIVE</span>
+            {isZh ? "理论" : "THEORY"}<br />
+            <span style={{ color: "transparent", WebkitTextStroke: `2px ${violet}` }}>{isZh ? "档案" : "ARCHIVE"}</span>
           </h2>
           <p style={{ margin: "1rem 0 0", maxWidth: "520px", fontFamily: "'Special Elite', cursive", fontSize: "0.92rem", lineHeight: 1.65, fontStyle: "italic", color: "rgba(17,17,17,0.64)" }}>
-            Open the envelope. Seven theory cards, seven representative voices, one living map of feminist thought.
+            {isZh ? "打开信封。七张理论卡片、七位代表性声音，共同组成一张活的女性主义思想地图。" : "Open the envelope. Seven theory cards, seven representative voices, one living map of feminist thought."}
           </p>
         </motion.div>
 
@@ -416,8 +446,8 @@ export function FeministAtlas() {
               ♀
             </div>
             <div style={{ position: "absolute", left: "2rem", bottom: "1.35rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.68rem", color: "rgba(17,17,17,0.72)", letterSpacing: "0.18em", textAlign: "left" }}>
-              {opened ? "ARCHIVE OPENED" : "CLICK TO OPEN"}<br />
-              <span style={{ color: "rgba(17,17,17,0.52)" }}>THEORY CARDS / 7 FILES</span>
+              {opened ? (isZh ? "档案已打开" : "ARCHIVE OPENED") : (isZh ? "点击打开" : "CLICK TO OPEN")}<br />
+              <span style={{ color: "rgba(17,17,17,0.52)" }}>{isZh ? "理论卡片 / 7 份文件" : "THEORY CARDS / 7 FILES"}</span>
             </div>
           </motion.button>
 
@@ -431,14 +461,14 @@ export function FeministAtlas() {
             }}
           >
             {theories.map((theory, index) => (
-              <TheoryCard key={theory.id} theory={theory} index={index} opened={opened} onOpen={() => setSelected(theory)} />
+              <TheoryCard key={theory.id} theory={theory} index={index} opened={opened} onOpen={() => setSelected(theory)} isZh={isZh} />
             ))}
           </div>
         </div>
       </div>
 
       <AnimatePresence>
-        {selected && <DetailModal theory={selected} onClose={() => setSelected(null)} />}
+        {selected && <DetailModal theory={selected} onClose={() => setSelected(null)} isZh={isZh} />}
       </AnimatePresence>
     </section>
   );

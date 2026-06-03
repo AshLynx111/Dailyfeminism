@@ -1,30 +1,31 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import mirrorGarden from "../../imports/collage/mirror-garden.jpg";
+import { useLanguage } from "../i18n";
 
 const nodes = [
-  { id: "liberal", label: "LIBERAL", x: 340, y: 110, r: 48, fill: "#F5F5F5", stroke: "#6F00FF" },
-  { id: "radical", label: "RADICAL", x: 580, y: 210, r: 52, fill: "#6F00FF", stroke: "#F5F5F5" },
-  { id: "socialist", label: "SOCIALIST", x: 500, y: 390, r: 50, fill: "#F5F5F5", stroke: "#6F00FF" },
-  { id: "marxist", label: "MARXIST", x: 210, y: 360, r: 46, fill: "#24004D", stroke: "#6F00FF" },
-  { id: "cultural", label: "CULTURAL", x: 120, y: 200, r: 46, fill: "#F5F5F5", stroke: "#6F00FF" },
-  { id: "postmodern", label: "POSTMODERN", x: 310, y: 510, r: 52, fill: "#6F00FF", stroke: "#F5F5F5" },
-  { id: "intersectional", label: "INTERSECTIONAL", x: 510, y: 550, r: 58, fill: "#F5F5F5", stroke: "#6F00FF" },
+  { id: "liberal", label: "LIBERAL", labelZh: "自由", x: 340, y: 110, r: 48, fill: "#F5F5F5", stroke: "#6F00FF" },
+  { id: "radical", label: "RADICAL", labelZh: "激进", x: 580, y: 210, r: 52, fill: "#6F00FF", stroke: "#F5F5F5" },
+  { id: "socialist", label: "SOCIALIST", labelZh: "社会主义", x: 500, y: 390, r: 50, fill: "#F5F5F5", stroke: "#6F00FF" },
+  { id: "marxist", label: "MARXIST", labelZh: "马克思", x: 210, y: 360, r: 46, fill: "#24004D", stroke: "#6F00FF" },
+  { id: "cultural", label: "CULTURAL", labelZh: "文化", x: 120, y: 200, r: 46, fill: "#F5F5F5", stroke: "#6F00FF" },
+  { id: "postmodern", label: "POSTMODERN", labelZh: "后现代", x: 310, y: 510, r: 52, fill: "#6F00FF", stroke: "#F5F5F5" },
+  { id: "intersectional", label: "INTERSECTIONAL", labelZh: "交叉性", x: 510, y: 550, r: 58, fill: "#F5F5F5", stroke: "#6F00FF" },
 ];
 
 const connections = [
-  { a: "liberal", b: "radical", w: 1.5, label: "rights focus" },
-  { a: "liberal", b: "socialist", w: 1.2, label: "workplace equality" },
-  { a: "radical", b: "cultural", w: 2, label: "patriarchy critique" },
-  { a: "radical", b: "socialist", w: 1.5, label: "systemic analysis" },
-  { a: "socialist", b: "marxist", w: 2.8, label: "economic analysis" },
-  { a: "marxist", b: "liberal", w: 0.8, label: "class vs. rights" },
-  { a: "postmodern", b: "intersectional", w: 2.2, label: "identity politics" },
-  { a: "postmodern", b: "radical", w: 1.2, label: "gender critique" },
-  { a: "intersectional", b: "socialist", w: 2, label: "class+race+gender" },
-  { a: "intersectional", b: "liberal", w: 1.5, label: "rights expansion" },
-  { a: "cultural", b: "liberal", w: 1.2, label: "women's values" },
-  { a: "postmodern", b: "cultural", w: 1, label: "identity" },
+  { a: "liberal", b: "radical", w: 1.5, label: "rights focus", labelZh: "权利焦点" },
+  { a: "liberal", b: "socialist", w: 1.2, label: "workplace equality", labelZh: "职场平等" },
+  { a: "radical", b: "cultural", w: 2, label: "patriarchy critique", labelZh: "父权批判" },
+  { a: "radical", b: "socialist", w: 1.5, label: "systemic analysis", labelZh: "系统分析" },
+  { a: "socialist", b: "marxist", w: 2.8, label: "economic analysis", labelZh: "经济分析" },
+  { a: "marxist", b: "liberal", w: 0.8, label: "class vs. rights", labelZh: "阶级与权利" },
+  { a: "postmodern", b: "intersectional", w: 2.2, label: "identity politics", labelZh: "身份政治" },
+  { a: "postmodern", b: "radical", w: 1.2, label: "gender critique", labelZh: "性别批判" },
+  { a: "intersectional", b: "socialist", w: 2, label: "class+race+gender", labelZh: "阶级+种族+性别" },
+  { a: "intersectional", b: "liberal", w: 1.5, label: "rights expansion", labelZh: "权利扩展" },
+  { a: "cultural", b: "liberal", w: 1.2, label: "women's values", labelZh: "女性价值" },
+  { a: "postmodern", b: "cultural", w: 1, label: "identity", labelZh: "身份" },
 ];
 
 const descriptions: Record<string, string> = {
@@ -37,10 +38,21 @@ const descriptions: Record<string, string> = {
   intersectional: "Race, class, gender, sexuality intersect. No single-axis politics.",
 };
 
+const descriptionsZh: Record<string, string> = {
+  liberal: "通过改革和法律准入实现平等，在既有结构内部行动。",
+  radical: "父权制是根源。要拆解整个系统，而不只是处理症状。",
+  socialist: "资本主义与父权制共同运作，二者都必须被挑战。",
+  marxist: "私有财产创造了女性压迫，阶级斗争是解放路径。",
+  cultural: "照护、共情与合作等女性化价值是一种力量。",
+  postmodern: "性别是一种表演，不是本质。解构一切固定范畴。",
+  intersectional: "种族、阶级、性别与性取向彼此交叉，不能只用单一轴线理解政治。",
+};
+
 export function SpectrumRoom() {
   const [active, setActive] = useState<string | null>(null);
   const [compare, setCompare] = useState<string[]>([]);
   const [compareMode, setCompareMode] = useState(false);
+  const { isZh } = useLanguage();
 
   const getNode = (id: string) => nodes.find((n) => n.id === id)!;
 
@@ -118,16 +130,16 @@ export function SpectrumRoom() {
           fontSize: "0.55rem", letterSpacing: "0.3em",
           color: "#6F00FF", opacity: 1, marginBottom: "0.75rem",
         }}>
-          FEMINIST ARCHIVE — SECTION III — SPECTRUM MAP
+          {isZh ? "女性主义档案 — 第四展厅 — 光谱地图" : "FEMINIST ARCHIVE — SECTION III — SPECTRUM MAP"}
         </div>
         <h2 style={{
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: "clamp(3rem, 8vw, 6.5rem)",
           color: "#111111", lineHeight: 0.88,
         }}>
-          THEORY<br />
+          {isZh ? "理论" : "THEORY"}<br />
           <span style={{ color: "transparent", WebkitTextStroke: "1.5px #6F00FF" }}>
-            SPECTRUM
+            {isZh ? "光谱" : "SPECTRUM"}
           </span>
         </h2>
         <p style={{
@@ -135,7 +147,7 @@ export function SpectrumRoom() {
           fontSize: "0.85rem", color: "rgba(17,17,17,0.62)",
           fontStyle: "italic", marginTop: "0.75rem",
         }}>
-          A map of tensions, overlaps, and alliances.
+          {isZh ? "一张关于张力、重叠与联盟的地图。" : "A map of tensions, overlaps, and alliances."}
         </p>
 
         <div style={{ marginTop: "1.25rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
@@ -151,11 +163,11 @@ export function SpectrumRoom() {
               fontSize: "0.6rem", letterSpacing: "0.12em",
             }}
           >
-            {compareMode ? "▪ COMPARING" : "COMPARE MODE"}
+            {compareMode ? (isZh ? "▪ 对比中" : "▪ COMPARING") : (isZh ? "对比模式" : "COMPARE MODE")}
           </button>
           {compareMode && (
             <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", color: "rgba(17,17,17,0.5)", paddingTop: "0.35rem", fontStyle: "italic" }}>
-              click two nodes
+              {isZh ? "点击两个节点" : "click two nodes"}
             </span>
           )}
         </div>
@@ -219,7 +231,7 @@ export function SpectrumRoom() {
                       textAnchor="middle"
                       fontFamily="'IBM Plex Mono', monospace"
                     >
-                      {conn.label}
+                      {isZh ? conn.labelZh : conn.label}
                     </text>
                   )}
                 </g>
@@ -272,7 +284,7 @@ export function SpectrumRoom() {
                     opacity={dim ? 0.2 : 1}
                     style={{ transition: "all 0.3s" }}
                   >
-                    {node.label}
+                    {isZh ? node.labelZh : node.label}
                   </text>
                 </g>
               );
@@ -288,7 +300,7 @@ export function SpectrumRoom() {
                 style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
               >
                 <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: "#6F00FF", marginBottom: "0.25rem" }}>
-                  COMPARING
+                  {isZh ? "正在对比" : "COMPARING"}
                 </div>
                 {compare.map((id) => {
                   const n = getNode(id);
@@ -298,10 +310,10 @@ export function SpectrumRoom() {
                       border: `1px solid ${n.stroke}40`,
                     }}>
                       <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.2rem", color: n.fill, marginBottom: "0.4rem" }}>
-                        {n.label}
+                        {isZh ? n.labelZh : n.label}
                       </div>
                       <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.78rem", color: "rgba(17,17,17,0.68)", lineHeight: 1.55 }}>
-                        {descriptions[id]}
+                        {isZh ? descriptionsZh[id] : descriptions[id]}
                       </p>
                     </div>
                   );
@@ -312,7 +324,7 @@ export function SpectrumRoom() {
                   fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.6rem",
                   letterSpacing: "0.1em", padding: "0.4rem",
                 }}>
-                  CLEAR
+                  {isZh ? "清除" : "CLEAR"}
                 </button>
               </motion.div>
             ) : active ? (
@@ -326,13 +338,13 @@ export function SpectrumRoom() {
                       border: `1px solid ${n.stroke}50`,
                     }}>
                       <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.8rem", color: n.fill, lineHeight: 1, marginBottom: "0.5rem" }}>
-                        {n.label}
+                        {isZh ? n.labelZh : n.label}
                       </div>
                       <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(17,17,17,0.68)", lineHeight: 1.6, marginBottom: "1rem" }}>
-                        {descriptions[active]}
+                        {isZh ? descriptionsZh[active] : descriptions[active]}
                       </p>
                       <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.15em", color: "#6F00FF", marginBottom: "0.5rem" }}>
-                        CONNECTED TO:
+                        {isZh ? "连接到：" : "CONNECTED TO:"}
                       </div>
                       {connections
                         .filter((c) => c.a === active || c.b === active)
@@ -342,7 +354,7 @@ export function SpectrumRoom() {
                             <div key={other.id} style={{ display: "flex", gap: "0.4rem", alignItems: "center", marginBottom: "0.3rem" }}>
                               <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: other.fill, flexShrink: 0 }} />
                               <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", color: "rgba(17,17,17,0.5)" }}>
-                                {other.label} <em>— {c.label}</em>
+                                {isZh ? other.labelZh : other.label} <em>— {isZh ? c.labelZh : c.label}</em>
                               </span>
                             </div>
                           );
@@ -357,15 +369,15 @@ export function SpectrumRoom() {
               >
                 <p style={{ fontFamily: "'Special Elite', cursive", fontStyle: "italic", fontSize: "0.82rem", color: "rgba(17,17,17,0.56)", lineHeight: 1.65 }}>
                   {compareMode
-                    ? "Click two nodes to compare their theoretical positions."
-                    : "Hover a node to see connections and alliances between traditions."}
+                    ? (isZh ? "点击两个节点，对比它们的理论位置。" : "Click two nodes to compare their theoretical positions.")
+                    : (isZh ? "悬停节点，查看不同传统之间的连接和联盟。" : "Hover a node to see connections and alliances between traditions.")}
                 </p>
                 <div style={{ marginTop: "1.5rem" }}>
                   {nodes.map((n) => (
                     <div key={n.id} style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.35rem" }}>
                       <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: n.fill, border: `1px solid ${n.stroke}`, flexShrink: 0 }} />
                       <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.58rem", color: "rgba(17,17,17,0.52)", letterSpacing: "0.06em" }}>
-                        {n.label}
+                        {isZh ? n.labelZh : n.label}
                       </span>
                     </div>
                   ))}

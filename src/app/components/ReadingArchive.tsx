@@ -2,16 +2,19 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import img1 from "figma:asset/9b362052e5b7524cc56549a710bbf89c-1.jpg";
 import woolfWaves from "../../imports/collage/woolf-waves.jpg";
+import { useLanguage } from "../i18n";
 
 const books = [
   {
     num: "001",
     title: "A Vindication of the Rights of Woman",
+    titleZh: "女权辩护",
     author: "Mary Wollstonecraft",
     year: "1792",
     theory: "LIBERAL",
     quote: "\"I do not wish women to have power over men — but over themselves.\"",
     body: "The foundational text of liberal feminism. Wollstonecraft argues that women appear inferior only from lack of education. She demands equal educational opportunity as the bedrock of political equality.",
+    bodyZh: "自由主义女性主义的奠基文本。沃斯通克拉夫特认为，女性显得低下只是因为缺乏教育；平等教育机会是政治平等的基础。",
     rot: "-1.2deg",
     offset: "0px",
     paperBg: "#FFFFFF",
@@ -19,11 +22,13 @@ const books = [
   {
     num: "002",
     title: "Gender Trouble",
+    titleZh: "性别麻烦",
     author: "Judith Butler",
     year: "1990",
     theory: "POSTMODERN",
     quote: "\"There is no gender identity behind the expressions of gender; that identity is performatively constituted.\"",
     body: "Butler's revolutionary thesis: gender is not something you are — it is something you do. Acts, gestures, and desire create the illusion of a stable gender self. This detonated feminist theory.",
+    bodyZh: "巴特勒的革命性命题：性别不是你是什么，而是你做什么。行为、姿态与欲望制造出稳定性别自我的幻象，并重塑了女性主义理论。",
     rot: "2.5deg",
     offset: "12px",
     paperBg: "#F1EBFF",
@@ -31,11 +36,13 @@ const books = [
   {
     num: "003",
     title: "Sister Outsider",
+    titleZh: "局外姐妹",
     author: "Audre Lorde",
     year: "1984",
     theory: "INTERSECTIONAL",
     quote: "\"It is not our differences that divide us. It is our inability to recognize, accept, and celebrate those differences.\"",
     body: "Essays and speeches by the visionary Black lesbian feminist. Lorde maps the intersections of race, gender, class, and sexuality with extraordinary force — essential reading.",
+    bodyZh: "这是一位黑人女同性恋女性主义者的论文与演讲集。洛德以强大的语言勾勒种族、性别、阶级与性取向的交叉，是必读文本。",
     rot: "-3deg",
     offset: "5px",
     paperBg: "#FFFFFF",
@@ -43,11 +50,13 @@ const books = [
   {
     num: "004",
     title: "Caliban and the Witch",
+    titleZh: "卡利班与女巫",
     author: "Silvia Federici",
     year: "2004",
     theory: "SOCIALIST",
     quote: "\"The witch-hunt was a war against women — an attempt to destroy the control women had exercised over their reproductive function.\"",
     body: "Federici traces how the transition to capitalism required destroying women's communal power. The witch hunts were deliberate attacks on female autonomy. A paradigm-shifting materialist analysis.",
+    bodyZh: "费代里奇追踪资本主义转型如何需要摧毁女性的共同体力量。猎巫是对女性自主性的蓄意攻击，也是一种范式转换式的唯物主义分析。",
     rot: "1.5deg",
     offset: "-8px",
     paperBg: "#F4F0FF",
@@ -55,11 +64,13 @@ const books = [
   {
     num: "005",
     title: "Sexual Politics",
+    titleZh: "性政治",
     author: "Kate Millett",
     year: "1970",
     theory: "RADICAL",
     quote: "\"Coitus is set deeply within the larger context of human affairs that it serves as a charged microcosm of the variety of attitudes and values to which culture subscribes.\"",
     body: "The radical feminist breakthrough. Millett analyses literature to show how patriarchy pervades culture — not just law. The personal is political. Sex is power.",
+    bodyZh: "激进女性主义的突破性文本。米利特通过文学分析展示父权制如何渗透文化，而不只是法律。个人的即政治的，性也是权力。",
     rot: "-2deg",
     offset: "18px",
     paperBg: "#FFFFFF",
@@ -67,11 +78,13 @@ const books = [
   {
     num: "006",
     title: "Women, Race & Class",
+    titleZh: "妇女、种族与阶级",
     author: "Angela Y. Davis",
     year: "1981",
     theory: "INTERSECTIONAL",
     quote: "\"Racism and sexism are not simply analogous — they are deeply interconnected.\"",
     body: "Davis traces the inseparable history of race, class, and gender in American life. The suffrage movement's racism undermined its own goals. Liberation requires solidarity across all these axes.",
+    bodyZh: "戴维斯追踪美国生活中种族、阶级与性别不可分割的历史。选举权运动中的种族主义削弱了自身目标；解放需要跨越这些轴线的团结。",
     rot: "3deg",
     offset: "0px",
     paperBg: "#F2ECFF",
@@ -79,11 +92,13 @@ const books = [
   {
     num: "007",
     title: "The Origin of the Family",
+    titleZh: "家庭、私有制和国家的起源",
     author: "Friedrich Engels",
     year: "1884",
     theory: "MARXIST",
     quote: "\"The first class antagonism which appears in history coincides with the development of the antagonism between man and woman.\"",
     body: "Engels locates the origin of women's oppression in the emergence of private property and the patriarchal family — the world historical defeat of the female sex.",
+    bodyZh: "恩格斯将女性压迫的起源定位在私有财产和父权家庭的出现之中，称之为女性的世界历史性失败。",
     rot: "-1.5deg",
     offset: "8px",
     paperBg: "#FFFFFF",
@@ -91,11 +106,13 @@ const books = [
   {
     num: "008",
     title: "In a Different Voice",
+    titleZh: "不同的声音",
     author: "Carol Gilligan",
     year: "1982",
     theory: "CULTURAL",
     quote: "\"The different voice I describe is characterized not by gender but by theme — its association with women is empirical, not necessary.\"",
     body: "Gilligan challenges male-centered developmental psychology. Women's ethics of care and relational moral reasoning are not inferior — they are different. The first major work of cultural feminism.",
+    bodyZh: "吉利根挑战以男性为中心的发展心理学。女性的照护伦理与关系性道德推理并不低劣，而是不同。这是文化女性主义的重要文本。",
     rot: "2deg",
     offset: "-5px",
     paperBg: "#F3EFFF",
@@ -105,7 +122,18 @@ const books = [
 export function ReadingArchive() {
   const [open, setOpen] = useState<typeof books[0] | null>(null);
   const [filter, setFilter] = useState<string>("ALL");
+  const { isZh } = useLanguage();
   const filters = ["ALL", "LIBERAL", "RADICAL", "SOCIALIST", "MARXIST", "CULTURAL", "POSTMODERN", "INTERSECTIONAL"];
+  const filterLabels: Record<string, string> = {
+    ALL: "全部",
+    LIBERAL: "自由主义",
+    RADICAL: "激进",
+    SOCIALIST: "社会主义",
+    MARXIST: "马克思",
+    CULTURAL: "文化",
+    POSTMODERN: "后现代",
+    INTERSECTIONAL: "交叉性",
+  };
 
   const shown = filter === "ALL" ? books : books.filter((b) => b.theory === filter);
 
@@ -177,7 +205,7 @@ export function ReadingArchive() {
           <div style={{ borderTop: "3px solid #6F00FF", borderBottom: "1px solid rgba(111,0,255,0.28)", padding: "0.4rem 0", marginBottom: "0.35rem" }}>
             <div style={{ borderBottom: "1px solid rgba(111,0,255,0.16)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: "#6F00FF", opacity: 1 }}>
-                FEMINIST ARCHIVE — SECTION V — READING ROOM
+                {isZh ? "女性主义档案 — 第五展厅 — 阅读室" : "FEMINIST ARCHIVE — SECTION V — READING ROOM"}
               </span>
             </div>
           </div>
@@ -187,14 +215,14 @@ export function ReadingArchive() {
             fontSize: "clamp(3rem, 8vw, 6.5rem)",
             color: "#111111", lineHeight: 0.88, letterSpacing: "0.01em",
           }}>
-            READING<br />
+            {isZh ? "阅读" : "READING"}<br />
             <span style={{ color: "transparent", WebkitTextStroke: "1.5px #6F00FF" }}>
-              ARCHIVE
+              {isZh ? "档案" : "ARCHIVE"}
             </span>
           </h2>
 
           <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(17,17,17,0.68)", fontStyle: "italic", marginTop: "0.75rem" }}>
-            Eight essential texts. The feminist library.
+            {isZh ? "八本重要文本，一座女性主义图书馆。" : "Eight essential texts. The feminist library."}
           </p>
         </motion.div>
 
@@ -215,7 +243,7 @@ export function ReadingArchive() {
                 transition: "all 0.2s",
               }}
             >
-              {f}
+              {isZh ? filterLabels[f] : f}
             </button>
           ))}
         </div>
@@ -268,7 +296,7 @@ export function ReadingArchive() {
                   <div style={{ height: "1px", background: "rgba(111,0,255,0.75)", marginBottom: "0.75rem" }} />
 
                   <h3 style={{ fontFamily: "'IM Fell English', serif", fontSize: "1rem", color: "#111111", lineHeight: 1.25, marginBottom: "0.4rem" }}>
-                    {book.title}
+                    {isZh ? book.titleZh : book.title}
                   </h3>
 
                   <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.72rem", color: "rgba(17,17,17,0.58)", fontStyle: "italic" }}>
@@ -282,7 +310,7 @@ export function ReadingArchive() {
                   </p>
 
                   <div style={{ marginTop: "0.75rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "#6F00FF", letterSpacing: "0.1em" }}>
-                    ↗ OPEN FILE
+                    ↗ {isZh ? "打开文件" : "OPEN FILE"}
                   </div>
                 </motion.button>
               </motion.div>
@@ -330,10 +358,10 @@ export function ReadingArchive() {
               </button>
 
               <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.25em", color: "#6F00FF", marginBottom: "0.4rem" }}>
-                FILE {open.num} — {open.theory} — {open.year}
+                {isZh ? "文件" : "FILE"} {open.num} — {isZh ? filterLabels[open.theory] : open.theory} — {open.year}
               </div>
               <h2 style={{ fontFamily: "'IM Fell English', serif", fontSize: "1.6rem", color: "#111111", lineHeight: 1.15, marginBottom: "0.3rem" }}>
-                {open.title}
+                {isZh ? open.titleZh : open.title}
               </h2>
               <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(17,17,17,0.66)", fontStyle: "italic", marginBottom: "1.5rem" }}>
                 — {open.author}
@@ -348,7 +376,7 @@ export function ReadingArchive() {
               </blockquote>
 
               <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.88rem", color: "#111111", lineHeight: 1.7, opacity: 0.7 }}>
-                {open.body}
+                {isZh ? open.bodyZh : open.body}
               </p>
             </motion.div>
           </motion.div>
@@ -361,10 +389,10 @@ export function ReadingArchive() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1rem" }}>
           <div>
             <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "2rem", color: "#6F00FF", lineHeight: 1, opacity: 0.36 }}>
-              DAILY FEMINISM
+              {isZh ? "日常女性主义" : "DAILY FEMINISM"}
             </div>
             <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.5rem", color: "rgba(17,17,17,0.34)", letterSpacing: "0.2em", marginTop: "0.3rem" }}>
-              A LIVING COLLAGE EXHIBITION — FOR EDUCATION & SOLIDARITY
+              {isZh ? "一场活的拼贴展览 — 为了教育与团结" : "A LIVING COLLAGE EXHIBITION — FOR EDUCATION & SOLIDARITY"}
             </div>
           </div>
           <blockquote style={{ maxWidth: "300px", textAlign: "right" }}>

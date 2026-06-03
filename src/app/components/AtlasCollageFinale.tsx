@@ -1,6 +1,9 @@
 import femaleCollagePreview from "../../imports/collage/female-collage-violet-soft.png";
+import { useLanguage } from "../i18n";
 
 export function AtlasCollageFinale() {
+  const { isZh } = useLanguage();
+
   return (
     <section
       id="atlas-collage-finale"
@@ -77,7 +80,7 @@ export function AtlasCollageFinale() {
             color: "rgba(17,17,17,0.72)",
           }}
         >
-          Explore feminist thought through collage, theory, memory, and self-discovery, then return to the body as an archive of many voices.
+          {isZh ? "通过拼贴、理论、记忆与自我发现探索女性主义思想，最终回到身体本身：它也是许多声音的档案。" : "Explore feminist thought through collage, theory, memory, and self-discovery, then return to the body as an archive of many voices."}
         </figcaption>
       </figure>
     </section>
