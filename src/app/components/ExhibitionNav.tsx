@@ -45,7 +45,7 @@ export function ExhibitionNav() {
       >
         <style>
           {`
-            @media (max-width: 767px) {
+            @media (max-width: 920px) {
               .exhibition-nav {
                 padding: 0 1rem !important;
               }
@@ -68,7 +68,7 @@ export function ExhibitionNav() {
               }
             }
 
-            @media (min-width: 768px) {
+            @media (min-width: 921px) {
               .mobile-nav-actions {
                 display: none !important;
               }
@@ -127,7 +127,7 @@ export function ExhibitionNav() {
           </button>
         </div>
 
-        <div className="mobile-nav-actions md:hidden" style={{ display: "none", alignItems: "center", gap: "0.45rem" }}>
+        <div className="mobile-nav-actions" style={{ display: "none", alignItems: "center", gap: "0.45rem" }}>
           <button
             onClick={toggleLanguage}
             aria-label={isZh ? "Switch to English" : "切换到中文"}
