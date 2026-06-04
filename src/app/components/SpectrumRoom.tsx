@@ -171,7 +171,7 @@ export function SpectrumRoom() {
           opacity: 1,
           marginBottom: "0.75rem",
         }}>
-          {isZh ? "女性主义档案 — 第四展厅 — 光谱地图" : "FEMINIST ARCHIVE — SECTION III — SPECTRUM MAP"}
+          {isZh ? "女性主义档案 — 第五展厅 — 光谱地图" : "FEMINIST ARCHIVE — SECTION V — SPECTRUM MAP"}
         </div>
         <h2 style={{
           fontFamily: "'Bebas Neue', sans-serif",

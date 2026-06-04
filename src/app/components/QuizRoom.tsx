@@ -521,7 +521,7 @@ export function QuizRoom() {
           <div style={{ borderTop: `3px solid ${purple}`, borderBottom: `1px solid ${purple}`, padding: "0.35rem 0", marginBottom: "0.3rem" }}>
             <div style={{ borderBottom: "1px solid rgba(111,0,255,0.18)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
               <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: purple, opacity: 1 }}>
-                {isZh ? "女性主义档案 — 第三展厅 — 理论测评表" : "FEMINIST ARCHIVE — SECTION IV — THEORY ASSESSMENT FORM"}
+                {isZh ? "女性主义档案 — 第四展厅 — 理论测评表" : "FEMINIST ARCHIVE — SECTION IV — THEORY ASSESSMENT FORM"}
               </span>
             </div>
           </div>

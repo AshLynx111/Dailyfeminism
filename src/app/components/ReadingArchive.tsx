@@ -300,7 +300,7 @@ export function ReadingArchive() {
           <div style={{ borderTop: "3px solid #6F00FF", borderBottom: "1px solid rgba(111,0,255,0.28)", padding: "0.4rem 0", marginBottom: "0.35rem" }}>
             <div style={{ borderBottom: "1px solid rgba(111,0,255,0.16)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
             <span className="reading-archive-kicker" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: "#6F00FF", opacity: 1 }}>
-                {isZh ? "女性主义档案 — 第五展厅 — 阅读室" : "FEMINIST ARCHIVE — SECTION V — READING ROOM"}
+                {isZh ? "女性主义档案 — 第六展厅 — 阅读室" : "FEMINIST ARCHIVE — SECTION VI — READING ROOM"}
               </span>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { ExhibitionNav } from "./components/ExhibitionNav";
 import { Entrance } from "./components/Entrance";
 import { FeministAtlas } from "./components/FeministAtlas";
+import { LineageRoom } from "./components/LineageRoom";
 import { SpectrumRoom } from "./components/SpectrumRoom";
 import { QuizRoom } from "./components/QuizRoom";
 import { ReadingArchive } from "./components/ReadingArchive";
@@ -14,6 +15,7 @@ export default function App() {
         <ExhibitionNav />
         <Entrance />
         <FeministAtlas />
+        <LineageRoom />
         <QuizRoom />
         <SpectrumRoom />
         <ReadingArchive />
