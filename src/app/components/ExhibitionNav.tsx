@@ -62,6 +62,16 @@ export function ExhibitionNav() {
               .mobile-nav-actions {
                 display: inline-flex !important;
               }
+
+              .exhibition-desktop-rooms {
+                display: none !important;
+              }
+            }
+
+            @media (min-width: 768px) {
+              .mobile-nav-actions {
+                display: none !important;
+              }
             }
           `}
         </style>
@@ -80,7 +90,7 @@ export function ExhibitionNav() {
         </button>
 
         {/* Desktop rooms */}
-        <div style={{ display: "flex", gap: "2rem", alignItems: "center" }} className="hidden md:flex">
+        <div className="exhibition-desktop-rooms" style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
           {rooms.map((r) => (
             <button
               key={r.href}
@@ -130,10 +140,10 @@ export function ExhibitionNav() {
               fontSize: "0.55rem",
               color: "#6F00FF",
               padding: "0.34rem 0.48rem",
-              minWidth: "2.7rem",
+              minWidth: "3.4rem",
             }}
           >
-            {language === "zh" ? "EN" : "中"}
+            {language === "zh" ? "EN" : "中文"}
           </button>
 
           {/* Mobile menu toggle */}
