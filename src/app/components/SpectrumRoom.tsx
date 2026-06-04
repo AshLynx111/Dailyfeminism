@@ -29,11 +29,11 @@ const connections = [
 ];
 
 const descriptions: Record<string, string> = {
-  liberal: "Equality through reform and legal access — working within existing structures.",
+  liberal: "Equality through reform and legal access - working within existing structures.",
   radical: "Patriarchy is the root. Dismantle the entire system, not just its symptoms.",
   socialist: "Capitalism and patriarchy operate together. Both must fall.",
   marxist: "Private property created women's oppression. Class struggle is the path.",
-  cultural: "Feminine values — care, empathy, cooperation — are our strength.",
+  cultural: "Feminine values - care, empathy, cooperation - are our strength.",
   postmodern: "Gender is a performance, not an essence. Deconstruct everything.",
   intersectional: "Race, class, gender, sexuality intersect. No single-axis politics.",
 };
@@ -59,7 +59,7 @@ export function SpectrumRoom() {
   const isConnected = (id: string) => {
     if (!active) return true;
     return id === active || connections.some(
-      (c) => (c.a === active && c.b === id) || (c.b === active && c.a === id)
+      (c) => (c.a === active && c.b === id) || (c.b === active && c.a === id),
     );
   };
 
@@ -69,9 +69,15 @@ export function SpectrumRoom() {
     else setCompare([compare[1], id]);
   };
 
+  const handleNodeClick = (id: string) => {
+    if (compareMode) toggleCompare(id);
+    else setActive((current) => (current === id ? null : id));
+  };
+
   return (
     <section
       id="spectrum"
+      className="spectrum-room-section"
       style={{
         background: "#F7F4FF",
         position: "relative",
@@ -80,28 +86,60 @@ export function SpectrumRoom() {
         minHeight: "100vh",
       }}
     >
-      {/* Halftone dot texture */}
+      <style>
+        {`
+          @media (max-width: 820px) {
+            .spectrum-room-section {
+              padding: 4.5rem 1rem 6rem !important;
+            }
+
+            .spectrum-room-kicker {
+              font-size: 0.46rem !important;
+              letter-spacing: 0.16em !important;
+              line-height: 1.7 !important;
+            }
+
+            .spectrum-room-header {
+              margin-bottom: 2rem !important;
+            }
+
+            .spectrum-room-layout {
+              display: flex !important;
+              flex-direction: column !important;
+              gap: 1rem !important;
+            }
+
+            .spectrum-map-frame {
+              overflow-x: auto !important;
+              overflow-y: hidden !important;
+              -webkit-overflow-scrolling: touch !important;
+              scrollbar-width: thin !important;
+            }
+
+            .spectrum-map-svg {
+              width: 620px !important;
+              max-width: none !important;
+              height: auto !important;
+            }
+
+            .spectrum-info-card {
+              padding: 1.15rem !important;
+            }
+          }
+        `}
+      </style>
+
       <div style={{
         position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
         backgroundImage: "radial-gradient(circle, rgba(17,17,17,0.12) 1px, transparent 1.5px), repeating-linear-gradient(0deg, transparent 0 15px, rgba(17,17,17,0.035) 15px 16px)",
         backgroundSize: "18px 18px, auto",
         opacity: 0.36,
       }} />
-
-      {/* Grain */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E")`,
-        backgroundSize: "200px 200px", opacity: 0.5,
-      }} />
-
-      {/* Collage layer */}
-      <div style={{
-        position: "absolute", bottom: "3%", left: "-5%",
-        width: "min(34vw, 430px)",
-        zIndex: 0, pointerEvents: "none",
-        opacity: 0.08,
-        transform: "rotate(-3deg)",
+        backgroundSize: "200px 200px",
+        opacity: 0.5,
       }} />
       <img
         src={mirrorGarden}
@@ -118,24 +156,28 @@ export function SpectrumRoom() {
         }}
       />
 
-      {/* Section header */}
       <motion.div
+        className="spectrum-room-header"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         style={{ position: "relative", zIndex: 2, marginBottom: "3rem" }}
       >
-        <div style={{
+        <div className="spectrum-room-kicker" style={{
           fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: "0.55rem", letterSpacing: "0.3em",
-          color: "#6F00FF", opacity: 1, marginBottom: "0.75rem",
+          fontSize: "0.55rem",
+          letterSpacing: "0.3em",
+          color: "#6F00FF",
+          opacity: 1,
+          marginBottom: "0.75rem",
         }}>
           {isZh ? "女性主义档案 — 第四展厅 — 光谱地图" : "FEMINIST ARCHIVE — SECTION III — SPECTRUM MAP"}
         </div>
         <h2 style={{
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: "clamp(3rem, 8vw, 6.5rem)",
-          color: "#111111", lineHeight: 0.88,
+          color: "#111111",
+          lineHeight: 0.88,
         }}>
           {isZh ? "理论" : "THEORY"}<br />
           <span style={{ color: "transparent", WebkitTextStroke: "1.5px #6F00FF" }}>
@@ -144,15 +186,17 @@ export function SpectrumRoom() {
         </h2>
         <p style={{
           fontFamily: "'Special Elite', cursive",
-          fontSize: "0.85rem", color: "rgba(17,17,17,0.62)",
-          fontStyle: "italic", marginTop: "0.75rem",
+          fontSize: "0.85rem",
+          color: "rgba(17,17,17,0.62)",
+          fontStyle: "italic",
+          marginTop: "0.75rem",
         }}>
           {isZh ? "一张关于张力、重叠与联盟的地图。" : "A map of tensions, overlaps, and alliances."}
         </p>
 
         <div style={{ marginTop: "1.25rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
           <button
-            onClick={() => { setCompareMode(!compareMode); setCompare([]); }}
+            onClick={() => { setCompareMode(!compareMode); setCompare([]); setActive(null); }}
             style={{
               padding: "0.35rem 0.9rem",
               background: compareMode ? "#6F00FF" : "transparent",
@@ -160,7 +204,8 @@ export function SpectrumRoom() {
               color: compareMode ? "#F5F5F5" : "#6F00FF",
               cursor: "pointer",
               fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.6rem", letterSpacing: "0.12em",
+              fontSize: "0.6rem",
+              letterSpacing: "0.12em",
             }}
           >
             {compareMode ? (isZh ? "▪ 对比中" : "▪ COMPARING") : (isZh ? "对比模式" : "COMPARE MODE")}
@@ -173,9 +218,9 @@ export function SpectrumRoom() {
         </div>
       </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 280px", gap: "2rem", position: "relative", zIndex: 2, alignItems: "start" }}>
-        {/* SVG Network */}
+      <div className="spectrum-room-layout" style={{ display: "grid", gridTemplateColumns: "1fr 280px", gap: "2rem", position: "relative", zIndex: 2, alignItems: "start" }}>
         <motion.div
+          className="spectrum-map-frame"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -186,7 +231,7 @@ export function SpectrumRoom() {
             position: "relative",
           }}
         >
-          <svg viewBox="0 0 700 660" style={{ width: "100%", height: "auto", display: "block" }}>
+          <svg className="spectrum-map-svg" viewBox="0 0 700 660" style={{ width: "100%", height: "auto", display: "block" }}>
             <defs>
               <filter id="hand-drawn">
                 <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="1" seed="2" result="noise" />
@@ -200,11 +245,8 @@ export function SpectrumRoom() {
                 <circle cx="8" cy="8" r="0.8" fill="rgba(17,17,17,0.08)" />
               </pattern>
             </defs>
-
-            {/* Background dot grid */}
             <rect width="700" height="660" fill="url(#dots)" />
 
-            {/* Connections */}
             {connections.map((conn, i) => {
               const a = getNode(conn.a);
               const b = getNode(conn.b);
@@ -214,7 +256,10 @@ export function SpectrumRoom() {
               return (
                 <g key={i}>
                   <line
-                    x1={a.x} y1={a.y} x2={b.x} y2={b.y}
+                    x1={a.x}
+                    y1={a.y}
+                    x2={b.x}
+                    y2={b.y}
                     stroke={isActive || isCompared ? "#6F00FF" : "rgba(17,17,17,0.16)"}
                     strokeWidth={isActive || isCompared ? conn.w * 2 : conn.w * 0.8}
                     strokeDasharray={isActive || isCompared ? "none" : "3,5"}
@@ -238,10 +283,9 @@ export function SpectrumRoom() {
               );
             })}
 
-            {/* Nodes */}
             {nodes.map((node) => {
               const dim = !!active && !isConnected(node.id) && !compare.includes(node.id);
-              const isActive = active === node.id || compare.includes(node.id);
+              const isNodeActive = active === node.id || compare.includes(node.id);
 
               return (
                 <g
@@ -249,11 +293,13 @@ export function SpectrumRoom() {
                   style={{ cursor: "pointer" }}
                   onMouseEnter={() => !compareMode && setActive(node.id)}
                   onMouseLeave={() => !compareMode && setActive(null)}
-                  onClick={() => compareMode && toggleCompare(node.id)}
+                  onClick={() => handleNodeClick(node.id)}
                 >
-                  {/* Outer glow ring */}
-                  {isActive && (
-                    <circle cx={node.x} cy={node.y} r={node.r + 12}
+                  {isNodeActive && (
+                    <circle
+                      cx={node.x}
+                      cy={node.y}
+                      r={node.r + 12}
                       fill="none"
                       stroke={node.stroke}
                       strokeWidth="1"
@@ -261,22 +307,21 @@ export function SpectrumRoom() {
                       filter="url(#glow-sm)"
                     />
                   )}
-
-                  {/* Main circle */}
                   <circle
-                    cx={node.x} cy={node.y} r={node.r}
+                    cx={node.x}
+                    cy={node.y}
+                    r={node.r}
                     fill={node.fill}
                     stroke={node.stroke}
-                    strokeWidth={isActive ? 2 : 1}
-                    opacity={dim ? 0.18 : isActive ? 1 : 0.65}
+                    strokeWidth={isNodeActive ? 2 : 1}
+                    opacity={dim ? 0.18 : isNodeActive ? 1 : 0.65}
                     style={{ transition: "all 0.3s" }}
-                    filter={isActive ? "url(#hand-drawn)" : undefined}
+                    filter={isNodeActive ? "url(#hand-drawn)" : undefined}
                   />
-
-                  {/* Label */}
                   <text
-                    x={node.x} y={node.y + 4}
-                    fill={isActive ? node.stroke : "rgba(13,13,13,0.7)"}
+                    x={node.x}
+                    y={node.y + 4}
+                    fill={isNodeActive ? node.stroke : "rgba(13,13,13,0.7)"}
                     fontSize={node.id === "intersectional" ? "8" : "9"}
                     textAnchor="middle"
                     fontFamily="'IBM Plex Mono', monospace"
@@ -292,23 +337,17 @@ export function SpectrumRoom() {
           </svg>
         </motion.div>
 
-        {/* Info panel */}
         <div>
           <AnimatePresence mode="wait">
             {compareMode && compare.length === 2 ? (
-              <motion.div key="comp" initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}
-                style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
-              >
+              <motion.div key="comp" initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: "#6F00FF", marginBottom: "0.25rem" }}>
                   {isZh ? "正在对比" : "COMPARING"}
                 </div>
                 {compare.map((id) => {
                   const n = getNode(id);
                   return (
-                    <div key={id} style={{
-                      padding: "1.25rem", background: "rgba(255,255,255,0.72)",
-                      border: `1px solid ${n.stroke}40`,
-                    }}>
+                    <div className="spectrum-info-card" key={id} style={{ padding: "1.25rem", background: "rgba(255,255,255,0.72)", border: `1px solid ${n.stroke}40` }}>
                       <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.2rem", color: n.fill, marginBottom: "0.4rem" }}>
                         {isZh ? n.labelZh : n.label}
                       </div>
@@ -318,12 +357,7 @@ export function SpectrumRoom() {
                     </div>
                   );
                 })}
-                <button onClick={() => setCompare([])} style={{
-                  background: "none", border: "1px solid rgba(111,0,255,0.6)",
-                  color: "#6F00FF", cursor: "pointer",
-                  fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.6rem",
-                  letterSpacing: "0.1em", padding: "0.4rem",
-                }}>
+                <button onClick={() => setCompare([])} style={{ background: "none", border: "1px solid rgba(111,0,255,0.6)", color: "#6F00FF", cursor: "pointer", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.1em", padding: "0.4rem" }}>
                   {isZh ? "清除" : "CLEAR"}
                 </button>
               </motion.div>
@@ -332,11 +366,7 @@ export function SpectrumRoom() {
                 {(() => {
                   const n = getNode(active);
                   return (
-                    <div style={{
-                      padding: "1.5rem",
-                      background: "rgba(255,255,255,0.72)",
-                      border: `1px solid ${n.stroke}50`,
-                    }}>
+                    <div className="spectrum-info-card" style={{ padding: "1.5rem", background: "rgba(255,255,255,0.72)", border: `1px solid ${n.stroke}50` }}>
                       <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.8rem", color: n.fill, lineHeight: 1, marginBottom: "0.5rem" }}>
                         {isZh ? n.labelZh : n.label}
                       </div>
@@ -354,7 +384,7 @@ export function SpectrumRoom() {
                             <div key={other.id} style={{ display: "flex", gap: "0.4rem", alignItems: "center", marginBottom: "0.3rem" }}>
                               <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: other.fill, flexShrink: 0 }} />
                               <span style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", color: "rgba(17,17,17,0.5)" }}>
-                                {isZh ? other.labelZh : other.label} <em>— {isZh ? c.labelZh : c.label}</em>
+                                {isZh ? other.labelZh : other.label} <em>- {isZh ? c.labelZh : c.label}</em>
                               </span>
                             </div>
                           );
@@ -364,13 +394,11 @@ export function SpectrumRoom() {
                 })()}
               </motion.div>
             ) : (
-              <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                style={{ padding: "1.5rem", border: "1px solid rgba(111,0,255,0.28)", background: "rgba(255,255,255,0.72)" }}
-              >
+              <motion.div className="spectrum-info-card" key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ padding: "1.5rem", border: "1px solid rgba(111,0,255,0.28)", background: "rgba(255,255,255,0.72)" }}>
                 <p style={{ fontFamily: "'Special Elite', cursive", fontStyle: "italic", fontSize: "0.82rem", color: "rgba(17,17,17,0.56)", lineHeight: 1.65 }}>
                   {compareMode
                     ? (isZh ? "点击两个节点，对比它们的理论位置。" : "Click two nodes to compare their theoretical positions.")
-                    : (isZh ? "悬停节点，查看不同传统之间的连接和联盟。" : "Hover a node to see connections and alliances between traditions.")}
+                    : (isZh ? "点击节点，查看不同传统之间的连接和联盟。" : "Tap a node to see connections and alliances between traditions.")}
                 </p>
                 <div style={{ marginTop: "1.5rem" }}>
                   {nodes.map((n) => (

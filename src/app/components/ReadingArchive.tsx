@@ -157,6 +157,7 @@ export function ReadingArchive() {
   return (
     <section
       id="reading"
+      className="reading-archive-section"
       style={{
         background: "#F7F4FF",
         position: "relative",
@@ -165,6 +166,100 @@ export function ReadingArchive() {
         minHeight: "100vh",
       }}
     >
+      <style>
+        {`
+          @media (max-width: 720px) {
+            .reading-archive-section {
+              padding: 4.5rem 1rem 6rem !important;
+              overflow: hidden !important;
+            }
+
+            .reading-archive-inner {
+              max-width: 100% !important;
+            }
+
+            .reading-archive-header {
+              margin-bottom: 2rem !important;
+            }
+
+            .reading-archive-kicker {
+              display: block !important;
+              font-size: 0.46rem !important;
+              letter-spacing: 0.16em !important;
+              line-height: 1.7 !important;
+            }
+
+            .reading-archive-filters {
+              gap: 0.45rem !important;
+              margin-bottom: 1.75rem !important;
+              overflow-x: auto !important;
+              flex-wrap: nowrap !important;
+              padding-bottom: 0.35rem !important;
+              scrollbar-width: none !important;
+            }
+
+            .reading-archive-filters::-webkit-scrollbar {
+              display: none !important;
+            }
+
+            .reading-archive-filter {
+              flex: 0 0 auto !important;
+              min-height: 2rem !important;
+              padding: 0.42rem 0.68rem !important;
+              white-space: nowrap !important;
+            }
+
+            .reading-book-grid {
+              grid-template-columns: 1fr !important;
+              gap: 1rem !important;
+            }
+
+            .reading-book-shell {
+              transform: none !important;
+            }
+
+            .reading-book-button {
+              min-height: 0 !important;
+              padding: 1.15rem !important;
+              clip-path: none !important;
+              box-shadow: 0 5px 16px rgba(17,17,17,0.09) !important;
+            }
+
+            .reading-book-title {
+              font-size: 1.04rem !important;
+              overflow-wrap: anywhere !important;
+            }
+
+            .reading-book-theory {
+              max-width: 52% !important;
+              text-align: right !important;
+              overflow-wrap: anywhere !important;
+            }
+
+            .reading-open-file {
+              margin-top: 1rem !important;
+              padding-top: 0.65rem !important;
+              border-top: 1px solid rgba(111,0,255,0.2) !important;
+              font-size: 0.56rem !important;
+              line-height: 1.35 !important;
+            }
+
+            .reading-detail-card {
+              padding: 2.4rem 1.2rem 1.4rem !important;
+              clip-path: none !important;
+            }
+
+            .reading-footer-row {
+              align-items: flex-start !important;
+            }
+
+            .reading-footer-quote {
+              max-width: 100% !important;
+              text-align: left !important;
+            }
+          }
+        `}
+      </style>
       {/* Halftone dots */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
@@ -199,12 +294,12 @@ export function ReadingArchive() {
         <img src={img1} alt="" style={{ width: "100%" }} />
       </div>
 
-      <div style={{ maxWidth: "1100px", margin: "0 auto", position: "relative", zIndex: 2 }}>
+      <div className="reading-archive-inner" style={{ maxWidth: "1100px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ marginBottom: "3.5rem" }}>
+        <motion.div className="reading-archive-header" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ marginBottom: "3.5rem" }}>
           <div style={{ borderTop: "3px solid #6F00FF", borderBottom: "1px solid rgba(111,0,255,0.28)", padding: "0.4rem 0", marginBottom: "0.35rem" }}>
             <div style={{ borderBottom: "1px solid rgba(111,0,255,0.16)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
-            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: "#6F00FF", opacity: 1 }}>
+            <span className="reading-archive-kicker" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: "#6F00FF", opacity: 1 }}>
                 {isZh ? "女性主义档案 — 第五展厅 — 阅读室" : "FEMINIST ARCHIVE — SECTION V — READING ROOM"}
               </span>
             </div>
@@ -227,9 +322,10 @@ export function ReadingArchive() {
         </motion.div>
 
         {/* Filters */}
-        <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
+        <div className="reading-archive-filters" style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
           {filters.map((f) => (
             <button
+              className="reading-archive-filter"
               key={f}
               onClick={() => setFilter(f)}
               style={{
@@ -249,10 +345,11 @@ export function ReadingArchive() {
         </div>
 
         {/* Book scatter layout */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "1.5rem 2rem" }}>
+        <div className="reading-book-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "1.5rem 2rem" }}>
           <AnimatePresence>
             {shown.map((book, i) => (
               <motion.div
+                className="reading-book-shell"
                 key={book.num}
                 id={`reading-${book.theory.toLowerCase()}-${book.num}`}
                 data-reading-theory={book.theory}
@@ -264,6 +361,7 @@ export function ReadingArchive() {
                 style={{ transform: `rotate(${book.rot}) translateY(${book.offset})` }}
               >
                 <motion.button
+                  className="reading-book-button"
                   whileHover={{ y: -5, rotate: "0deg", scale: 1.02 }}
                   onClick={() => setOpen(book)}
                   style={{
@@ -288,14 +386,14 @@ export function ReadingArchive() {
                     <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.55rem", color: "#6F00FF", letterSpacing: "0.15em" }}>
                       {book.num}
                     </span>
-                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "rgba(17,17,17,0.52)", letterSpacing: "0.1em" }}>
+                    <span className="reading-book-theory" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "rgba(17,17,17,0.52)", letterSpacing: "0.1em" }}>
                       {book.theory}
                     </span>
                   </div>
 
                   <div style={{ height: "1px", background: "rgba(111,0,255,0.75)", marginBottom: "0.75rem" }} />
 
-                  <h3 style={{ fontFamily: "'IM Fell English', serif", fontSize: "1rem", color: "#111111", lineHeight: 1.25, marginBottom: "0.4rem" }}>
+                  <h3 className="reading-book-title" style={{ fontFamily: "'IM Fell English', serif", fontSize: "1rem", color: "#111111", lineHeight: 1.25, marginBottom: "0.4rem" }}>
                     {isZh ? book.titleZh : book.title}
                   </h3>
 
@@ -309,7 +407,7 @@ export function ReadingArchive() {
                     {book.quote.length > 90 ? book.quote.slice(0, 87) + "…\"" : book.quote}
                   </p>
 
-                  <div style={{ marginTop: "0.75rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "#6F00FF", letterSpacing: "0.1em" }}>
+                  <div className="reading-open-file" style={{ marginTop: "0.75rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "#6F00FF", letterSpacing: "0.1em" }}>
                     ↗ {isZh ? "打开文件" : "OPEN FILE"}
                   </div>
                 </motion.button>
@@ -335,6 +433,7 @@ export function ReadingArchive() {
             }}
           >
             <motion.div
+              className="reading-detail-card"
               initial={{ scale: 0.9, rotate: "2deg", y: 20 }}
               animate={{ scale: 1, rotate: "0.3deg", y: 0 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -386,7 +485,7 @@ export function ReadingArchive() {
       {/* Footer */}
       <div style={{ maxWidth: "1100px", margin: "6rem auto 0", position: "relative", zIndex: 2 }}>
         <div style={{ height: "1px", background: "rgba(111,0,255,0.22)", marginBottom: "2rem" }} />
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1rem" }}>
+        <div className="reading-footer-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1rem" }}>
           <div>
             <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "2rem", color: "#6F00FF", lineHeight: 1, opacity: 0.36 }}>
               {isZh ? "日常女性主义" : "DAILY FEMINISM"}
@@ -395,7 +494,7 @@ export function ReadingArchive() {
               {isZh ? "一场活的拼贴展览 — 为了教育与团结" : "A LIVING COLLAGE EXHIBITION — FOR EDUCATION & SOLIDARITY"}
             </div>
           </div>
-          <blockquote style={{ maxWidth: "300px", textAlign: "right" }}>
+          <blockquote className="reading-footer-quote" style={{ maxWidth: "300px", textAlign: "right" }}>
             <p style={{ fontFamily: "'IM Fell English', serif", fontStyle: "italic", fontSize: "0.78rem", color: "rgba(17,17,17,0.42)", lineHeight: 1.6 }}>
               "Feminism is not simply a struggle to end male chauvinism — it is a commitment to eradicating the ideology of domination."
             </p>

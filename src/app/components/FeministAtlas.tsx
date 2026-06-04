@@ -184,6 +184,7 @@ function readMode(theory: Theory) {
 function TheoryCard({ theory, index, opened, onOpen, isZh }: { theory: Theory; index: number; opened: boolean; onOpen: () => void; isZh: boolean }) {
   return (
     <motion.button
+      className="atlas-theory-card"
       initial={false}
       animate={
         opened
@@ -276,6 +277,7 @@ function DetailModal({ theory, onClose, isZh }: { theory: Theory; onClose: () =>
       }}
     >
       <motion.div
+        className="atlas-detail-card"
         initial={{ scale: 0.92, rotate: "1deg", y: 24 }}
         animate={{ scale: 1, rotate: "-0.4deg", y: 0 }}
         exit={{ scale: 0.9, opacity: 0 }}
@@ -292,7 +294,7 @@ function DetailModal({ theory, onClose, isZh }: { theory: Theory; onClose: () =>
           gridTemplateColumns: "minmax(190px, 0.82fr) 1.2fr",
         }}
       >
-        <div style={{ position: "relative", minHeight: "420px", background: nearBlack }}>
+        <div className="atlas-detail-portrait" style={{ position: "relative", minHeight: "420px", background: nearBlack }}>
           <img
             src={theory.portrait}
             alt={theory.figure}
@@ -304,7 +306,7 @@ function DetailModal({ theory, onClose, isZh }: { theory: Theory; onClose: () =>
             {theory.figure}
           </div>
         </div>
-        <div style={{ padding: "2.3rem", position: "relative" }}>
+        <div className="atlas-detail-body" style={{ padding: "2.3rem", position: "relative" }}>
           <button
             onClick={onClose}
             style={{ position: "absolute", right: "1.1rem", top: "1.1rem", border: "none", background: "transparent", color: ink, cursor: "pointer" }}
@@ -379,6 +381,7 @@ export function FeministAtlas() {
   return (
     <section
       id="atlas"
+      className="atlas-section"
       style={{
         background: `linear-gradient(90deg, rgba(111,0,255,0.12) 1px, transparent 1px), linear-gradient(0deg, rgba(17,17,17,0.055) 1px, transparent 1px), ${nearBlack}`,
         backgroundSize: "72px 72px",
@@ -392,8 +395,76 @@ export function FeministAtlas() {
       <style>
         {`
           @media (max-width: 820px) {
-            #atlas {
-              min-height: 1700px !important;
+            .atlas-section {
+              min-height: auto !important;
+              padding: 4.75rem 1rem 6rem !important;
+              overflow: hidden !important;
+            }
+
+            .atlas-kicker {
+              font-size: 0.46rem !important;
+              letter-spacing: 0.16em !important;
+              line-height: 1.7 !important;
+            }
+
+            .atlas-envelope-stage {
+              min-height: 380px !important;
+            }
+
+            .atlas-envelope-button {
+              width: min(94vw, 520px) !important;
+              top: 46% !important;
+            }
+
+            .atlas-envelope-button[aria-expanded="true"] {
+              opacity: 0 !important;
+              pointer-events: none !important;
+            }
+
+            .atlas-card-stage {
+              position: relative !important;
+              inset: auto !important;
+              display: grid !important;
+              grid-template-columns: 1fr !important;
+              gap: 1rem !important;
+              margin-top: 1rem !important;
+              pointer-events: auto !important;
+              contain: none !important;
+            }
+
+            .atlas-card-stage[data-opened="false"] {
+              display: none !important;
+            }
+
+            .atlas-theory-card {
+              position: relative !important;
+              left: auto !important;
+              top: auto !important;
+              width: 100% !important;
+              min-height: 0 !important;
+              translate: none !important;
+              transform: none !important;
+              opacity: 1 !important;
+              clip-path: none !important;
+              box-shadow: 0 6px 18px rgba(17,17,17,0.1), 5px 5px 0 rgba(111,0,255,0.14) !important;
+              pointer-events: auto !important;
+            }
+
+            .atlas-theory-card > div:first-child {
+              height: 128px !important;
+            }
+
+            .atlas-detail-card {
+              display: block !important;
+              max-height: 88vh !important;
+            }
+
+            .atlas-detail-portrait {
+              min-height: 220px !important;
+            }
+
+            .atlas-detail-body {
+              padding: 1.5rem !important;
             }
           }
         `}
@@ -406,7 +477,7 @@ export function FeministAtlas() {
 
       <div style={{ maxWidth: "1160px", margin: "0 auto", position: "relative", zIndex: 2 }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ marginBottom: "3rem" }}>
-          <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.56rem", letterSpacing: "0.28em", color: violet, marginBottom: "0.8rem" }}>
+          <div className="atlas-kicker" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.56rem", letterSpacing: "0.28em", color: violet, marginBottom: "0.8rem" }}>
             {isZh ? "女性主义档案 / 第二展厅 / 封存的理论文件" : "FEMINIST ARCHIVE / SECTION II / SEALED THEORY FILES"}
           </div>
           <h2 style={{ margin: 0, fontFamily: "'Bebas Neue', sans-serif", fontSize: "clamp(3.6rem, 9vw, 8rem)", lineHeight: 0.86, letterSpacing: 0 }}>
@@ -418,9 +489,11 @@ export function FeministAtlas() {
           </p>
         </motion.div>
 
-        <div style={{ position: "relative", minHeight: "720px" }}>
+        <div className="atlas-envelope-stage" style={{ position: "relative", minHeight: "720px" }}>
           <motion.button
+            className="atlas-envelope-button"
             onClick={openEnvelope}
+            aria-expanded={opened}
             animate={opened ? { y: 178, scale: 0.62, opacity: 0.16 } : { y: 0, scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 150, damping: 24, mass: 0.8 }}
             style={{
@@ -453,6 +526,8 @@ export function FeministAtlas() {
 
           <div
             id="atlas-card-stage"
+            className="atlas-card-stage"
+            data-opened={opened}
             style={{
               position: "absolute",
               inset: 0,

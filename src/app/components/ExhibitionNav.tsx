@@ -29,6 +29,7 @@ export function ExhibitionNav() {
   return (
     <>
       <motion.nav
+        className="exhibition-nav"
         initial={{ y: -60 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
@@ -42,7 +43,30 @@ export function ExhibitionNav() {
           transition: "background 0.25s ease, border-color 0.25s ease",
         }}
       >
+        <style>
+          {`
+            @media (max-width: 767px) {
+              .exhibition-nav {
+                padding: 0 1rem !important;
+              }
+
+              .exhibition-brand {
+                max-width: calc(100vw - 8.5rem) !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                white-space: nowrap !important;
+                font-size: 0.54rem !important;
+                letter-spacing: 0.16em !important;
+              }
+
+              .mobile-nav-actions {
+                display: inline-flex !important;
+              }
+            }
+          `}
+        </style>
         <button
+          className="exhibition-brand"
           onClick={() => go("#entrance")}
           style={{
             background: "none", border: "none", cursor: "pointer",
@@ -93,19 +117,43 @@ export function ExhibitionNav() {
           </button>
         </div>
 
-        {/* Mobile menu toggle */}
-        <button
-          className="md:hidden"
-          onClick={() => setOpen(!open)}
-          style={{
-            background: "none", border: "none", cursor: "pointer",
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: "0.7rem",
-            color: scrolled ? "#6F00FF" : "rgba(17,17,17,0.7)",
-          }}
-        >
-          {open ? "✕" : "≡"}
-        </button>
+        <div className="mobile-nav-actions md:hidden" style={{ display: "none", alignItems: "center", gap: "0.45rem" }}>
+          <button
+            onClick={toggleLanguage}
+            aria-label={isZh ? "Switch to English" : "切换到中文"}
+            title={isZh ? "Switch to English" : "切换到中文"}
+            style={{
+              background: scrolled ? "rgba(111,0,255,0.1)" : "rgba(255,255,255,0.62)",
+              border: "1px solid rgba(111,0,255,0.45)",
+              cursor: "pointer",
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.55rem",
+              color: "#6F00FF",
+              padding: "0.34rem 0.48rem",
+              minWidth: "2.7rem",
+            }}
+          >
+            {language === "zh" ? "EN" : "中"}
+          </button>
+
+          {/* Mobile menu toggle */}
+          <button
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Close navigation" : "Open navigation"}
+            style={{
+              background: scrolled ? "rgba(111,0,255,0.08)" : "rgba(255,255,255,0.52)",
+              border: "1px solid rgba(111,0,255,0.32)",
+              cursor: "pointer",
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.82rem",
+              color: scrolled ? "#6F00FF" : "rgba(17,17,17,0.7)",
+              width: "2.2rem",
+              height: "2rem",
+            }}
+          >
+            {open ? "✕" : "≡"}
+          </button>
+        </div>
       </motion.nav>
 
       <AnimatePresence>
