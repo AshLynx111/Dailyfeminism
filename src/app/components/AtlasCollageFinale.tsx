@@ -71,16 +71,17 @@ export function AtlasCollageFinale() {
         <figcaption
           style={{
             margin: "1.55rem auto 0",
-            maxWidth: "680px",
+            maxWidth: "none",
+            whiteSpace: "nowrap",
             textAlign: "center",
             fontFamily: "'IM Fell English', Georgia, serif",
             fontStyle: "italic",
-            fontSize: "clamp(1rem, 2vw, 1.3rem)",
+            fontSize: "clamp(0.72rem, 1.6vw, 1.3rem)",
             lineHeight: 1.55,
             color: "rgba(17,17,17,0.72)",
           }}
         >
-          {isZh ? "通过拼贴、理论、记忆与自我发现探索女性主义思想，最终回到身体本身：它也是许多声音的档案。" : "Explore feminist thought through collage, theory, memory, and self-discovery, then return to the body as an archive of many voices."}
+          {isZh ? "女性主义从来不是一种声音，而是一代代女性留下的思想与行动。" : "Feminism has never been a single voice, but the ideas and actions women leave for one another."}
         </figcaption>
       </figure>
     </section>

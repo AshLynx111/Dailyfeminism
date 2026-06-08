@@ -303,7 +303,7 @@ export function Entrance() {
           color: "rgba(17,17,17,0.72)",
         }}
       >
-          {isZh ? "通过拼贴、理论、记忆与自我发现，进入女性主义思想。" : "Explore feminist thought through collage, theory, memory, and self-discovery."}
+          {isZh ? "女性主义从来不是一种声音，而是一代代女性留下的思想与行动。" : "Feminism has never been a single voice, but the ideas and actions women leave for one another."}
       </motion.p>
 
       {fragments.map((fragment, index) => {
