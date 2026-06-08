@@ -110,8 +110,14 @@ export function SpectrumRoom() {
             }
 
             .spectrum-map-frame {
+              width: 100% !important;
+              max-width: 100% !important;
+              min-width: 0 !important;
+              box-sizing: border-box !important;
               overflow-x: scroll !important;
               overflow-y: hidden !important;
+              touch-action: pan-x pan-y !important;
+              overscroll-behavior-x: contain !important;
               -webkit-overflow-scrolling: touch !important;
               scrollbar-width: thin !important;
               scrollbar-color: #6F00FF rgba(111,0,255,0.12) !important;

@@ -412,7 +412,7 @@ export function LineageRoom() {
           .lineage-room-section { padding: 4.5rem 1rem 6rem !important; }
           .lineage-room-kicker { font-size: 0.46rem !important; letter-spacing: 0.16em !important; line-height: 1.7 !important; }
           .lineage-room-layout { display: flex !important; flex-direction: column !important; gap: 1.25rem !important; }
-          .lineage-timeline-shell { overflow-x: scroll !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: thin !important; scrollbar-color: ${purple} rgba(111,0,255,0.12) !important; padding-bottom: 0.75rem !important; }
+          .lineage-timeline-shell { width: 100% !important; max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; overflow-x: scroll !important; overflow-y: hidden !important; touch-action: pan-x pan-y !important; overscroll-behavior-x: contain !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: thin !important; scrollbar-color: ${purple} rgba(111,0,255,0.12) !important; padding-bottom: 0.75rem !important; }
           .lineage-timeline-shell::-webkit-scrollbar { height: 8px; }
           .lineage-timeline-shell::-webkit-scrollbar-track { background: rgba(111,0,255,0.12); }
           .lineage-timeline-shell::-webkit-scrollbar-thumb { background: ${purple}; border-radius: 999px; }
