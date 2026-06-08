@@ -656,10 +656,11 @@ function Results({ answers, isZh }: { answers: number[]; isZh: boolean }) {
       <h3
         style={{
           fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: "clamp(2.8rem, 8vw, 4.4rem)",
+          fontSize: isZh ? "2.2rem" : "2rem",
           color: ink,
-          lineHeight: 0.9,
+          lineHeight: 1,
           marginBottom: "0.8rem",
+          whiteSpace: "nowrap",
         }}
       >
         {isZh ? "你的女权主义画像" : "YOUR FEMINIST PROFILE"}
@@ -680,7 +681,7 @@ function Results({ answers, isZh }: { answers: number[]; isZh: boolean }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
           gap: "0.75rem",
           marginBottom: "1.75rem",
         }}
@@ -713,10 +714,15 @@ function Results({ answers, isZh }: { answers: number[]; isZh: boolean }) {
             <div
               style={{
                 fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: "1.65rem",
+                fontSize:
+                  (isZh ? schoolInfo[key].nameZh : schoolInfo[key].name).length >
+                  18
+                    ? "1.05rem"
+                    : "1.3rem",
                 color: ink,
-                lineHeight: 0.95,
+                lineHeight: 1,
                 marginBottom: "0.45rem",
+                whiteSpace: "nowrap",
               }}
             >
               {isZh ? schoolInfo[key].nameZh : schoolInfo[key].name}
