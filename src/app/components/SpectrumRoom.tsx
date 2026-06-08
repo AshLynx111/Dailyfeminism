@@ -110,10 +110,25 @@ export function SpectrumRoom() {
             }
 
             .spectrum-map-frame {
-              overflow-x: auto !important;
+              overflow-x: scroll !important;
               overflow-y: hidden !important;
               -webkit-overflow-scrolling: touch !important;
               scrollbar-width: thin !important;
+              scrollbar-color: #6F00FF rgba(111,0,255,0.12) !important;
+              padding-bottom: 0.75rem !important;
+            }
+
+            .spectrum-map-frame::-webkit-scrollbar {
+              height: 8px;
+            }
+
+            .spectrum-map-frame::-webkit-scrollbar-track {
+              background: rgba(111,0,255,0.12);
+            }
+
+            .spectrum-map-frame::-webkit-scrollbar-thumb {
+              background: #6F00FF;
+              border-radius: 999px;
             }
 
             .spectrum-map-svg {
