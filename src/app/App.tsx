@@ -15,8 +15,8 @@ export default function App() {
         <ExhibitionNav />
         <Entrance />
         <FeministAtlas />
-        <LineageRoom />
         <QuizRoom />
+        <LineageRoom />
         <SpectrumRoom />
         <ReadingArchive />
         <AtlasCollageFinale />

@@ -378,6 +378,10 @@ export function FeministAtlas() {
     }, 120);
   };
 
+  const startQuiz = () => {
+    document.querySelector("#quiz")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <section
       id="atlas"
@@ -540,6 +544,70 @@ export function FeministAtlas() {
             ))}
           </div>
         </div>
+
+        <AnimatePresence>
+          {opened && (
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 16 }}
+              transition={{ delay: 0.35, duration: 0.5 }}
+              style={{
+                maxWidth: "760px",
+                margin: "3rem auto 0",
+                padding: "2rem clamp(1.25rem, 4vw, 2.5rem)",
+                background: "rgba(255,255,255,0.72)",
+                border: `1px solid ${violet}55`,
+                boxShadow: `10px 10px 0 ${violet}18`,
+                textAlign: "center",
+              }}
+            >
+              <p
+                style={{
+                  margin: "0 0 0.6rem",
+                  fontFamily: "'IM Fell English', serif",
+                  fontSize: "clamp(1.2rem, 3vw, 1.65rem)",
+                  lineHeight: 1.35,
+                  color: ink,
+                }}
+              >
+                {isZh
+                  ? "还不知道自己更接近哪一种女权主义吗？"
+                  : "Not sure which kind of feminism resonates with you?"}
+              </p>
+              <p
+                style={{
+                  margin: "0 auto 1.5rem",
+                  maxWidth: "580px",
+                  fontFamily: "'Special Elite', cursive",
+                  fontSize: "0.88rem",
+                  lineHeight: 1.6,
+                  color: "rgba(17,17,17,0.64)",
+                }}
+              >
+                {isZh
+                  ? "完成一组价值判断，生成你的女权主义画像。"
+                  : "Answer a set of value-based statements and generate your feminist profile."}
+              </p>
+              <button
+                onClick={startQuiz}
+                style={{
+                  border: `1px solid ${violet}`,
+                  background: violet,
+                  color: "#FFFFFF",
+                  padding: "0.78rem 1.25rem",
+                  cursor: "pointer",
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.65rem",
+                  letterSpacing: "0.12em",
+                  boxShadow: `7px 7px 0 ${deepViolet}`,
+                }}
+              >
+                {isZh ? "生成我的画像" : "Generate My Profile"}
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <AnimatePresence>

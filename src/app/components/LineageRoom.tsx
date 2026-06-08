@@ -438,7 +438,7 @@ export function LineageRoom() {
           <div style={{ borderTop: `3px solid ${purple}`, borderBottom: "1px solid rgba(111,0,255,0.28)", padding: "0.4rem 0", marginBottom: "0.35rem" }}>
             <div style={{ borderBottom: "1px solid rgba(111,0,255,0.16)", paddingBottom: "0.25rem", marginBottom: "0.25rem" }}>
               <span className="lineage-room-kicker" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", letterSpacing: "0.28em", color: purple }}>
-                {isZh ? "女性主义档案 — 第三展厅 — 全球理论年轮" : "FEMINIST ARCHIVE — SECTION III — GLOBAL LINEAGES"}
+                {isZh ? "女性主义档案 — 第四展厅 — 全球理论年轮" : "FEMINIST ARCHIVE — SECTION IV — GLOBAL LINEAGES"}
               </span>
             </div>
           </div>

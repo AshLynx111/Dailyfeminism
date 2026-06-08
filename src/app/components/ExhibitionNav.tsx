@@ -5,8 +5,8 @@ import { useLanguage } from "../i18n";
 const rooms = [
   { en: "I. ENTRANCE", zh: "I. 入口", href: "#entrance" },
   { en: "II. ATLAS", zh: "II. 图谱", href: "#atlas" },
-  { en: "III. LINEAGE", zh: "III. 年轮", href: "#lineage" },
-  { en: "IV. QUIZ", zh: "IV. 测验", href: "#quiz" },
+  { en: "III. QUIZ", zh: "III. 测验", href: "#quiz" },
+  { en: "IV. LINEAGE", zh: "IV. 年轮", href: "#lineage" },
   { en: "V. SPECTRUM", zh: "V. 光谱", href: "#spectrum" },
   { en: "VI. ARCHIVE", zh: "VI. 档案室", href: "#reading" },
 ];

@@ -983,13 +983,19 @@ export function QuizRoom() {
     if (selected === null) return;
     const nextAnswers = saveCurrentAnswer();
     setAnswers(nextAnswers);
-    if (questionIndex + 1 >= questions.length) {
-      setDone(true);
-      return;
-    }
     const nextIndex = questionIndex + 1;
     setQuestionIndex(nextIndex);
     setSelected(nextAnswers[nextIndex] ?? null);
+  };
+
+  const selectAnswer = (value: number) => {
+    setSelected(value);
+    if (questionIndex !== questions.length - 1) return;
+
+    const nextAnswers = [...answers];
+    nextAnswers[questionIndex] = value;
+    setAnswers(nextAnswers);
+    setDone(true);
   };
 
   const goBack = () => {
@@ -1006,6 +1012,10 @@ export function QuizRoom() {
     setSelected(null);
     setDone(false);
     setAnswers([]);
+  };
+
+  const exploreMore = () => {
+    document.querySelector("#lineage")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -1084,8 +1094,8 @@ export function QuizRoom() {
               }}
             >
               {isZh
-                ? "女性主义档案 — 第四展厅 — 理论张力测评表"
-                : "FEMINIST ARCHIVE — SECTION IV — THEORY-TENSION FORM"}
+                ? "女性主义档案 — 第三展厅 — 理论张力测评表"
+                : "FEMINIST ARCHIVE — SECTION III — THEORY-TENSION FORM"}
             </span>
           </div>
           <h2
@@ -1127,9 +1137,27 @@ export function QuizRoom() {
           {done ? (
             <motion.div key="done" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <Results answers={answers} isZh={isZh} />
-              <div style={{ marginTop: "2rem", textAlign: "center" }}>
+              <div
+                style={{
+                  marginTop: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  gap: "0.75rem",
+                }}
+              >
                 <button onClick={reset} style={secondaryButtonStyle}>
                   <RotateCcw size={13} /> {isZh ? "重新作答" : "RETAKE"}
+                </button>
+                <button
+                  onClick={exploreMore}
+                  style={{
+                    ...secondaryButtonStyle,
+                    background: purple,
+                    color: paperWhite,
+                  }}
+                >
+                  {isZh ? "继续探索" : "EXPLORE MORE"} -&gt;
                 </button>
               </div>
             </motion.div>
@@ -1216,7 +1244,7 @@ export function QuizRoom() {
                   return (
                     <button
                       key={option.value}
-                      onClick={() => setSelected(option.value)}
+                      onClick={() => selectAnswer(option.value)}
                       style={{
                         minHeight: "86px",
                         padding: "0.75rem 0.55rem",
@@ -1277,31 +1305,27 @@ export function QuizRoom() {
                     {isZh ? "上一题" : "PREVIOUS"}
                   </button>
                 )}
-                <button
-                  onClick={advance}
-                  disabled={selected === null}
-                  style={{
-                    padding: "0.68rem 1.4rem",
-                    background: selected !== null ? purple : "transparent",
-                    border: `1px solid ${
-                      selected !== null ? purple : "rgba(111,0,255,0.18)"
-                    }`,
-                    color:
-                      selected !== null ? paperWhite : "rgba(17,17,17,0.28)",
-                    cursor: selected !== null ? "pointer" : "not-allowed",
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.12em",
-                  }}
-                >
-                  {questionIndex + 1 === questions.length
-                    ? isZh
-                      ? "生成画像 ->"
-                      : "CREATE PROFILE ->"
-                    : isZh
-                      ? "下一题 ->"
-                      : "NEXT ->"}
-                </button>
+                {questionIndex + 1 < questions.length && (
+                  <button
+                    onClick={advance}
+                    disabled={selected === null}
+                    style={{
+                      padding: "0.68rem 1.4rem",
+                      background: selected !== null ? purple : "transparent",
+                      border: `1px solid ${
+                        selected !== null ? purple : "rgba(111,0,255,0.18)"
+                      }`,
+                      color:
+                        selected !== null ? paperWhite : "rgba(17,17,17,0.28)",
+                      cursor: selected !== null ? "pointer" : "not-allowed",
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.12em",
+                    }}
+                  >
+                    {isZh ? "下一题 ->" : "NEXT ->"}
+                  </button>
+                )}
               </div>
             </motion.div>
           )}
