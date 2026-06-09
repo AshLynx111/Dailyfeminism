@@ -146,8 +146,8 @@ const theoryStages: TheoryStage[] = [
         url: "https://www.britannica.com/topic/The-Second-Sex",
       },
       {
-        label: t("National Women's History Alliance: The Personal is Political", "美国国家妇女史联盟：私人即政治"),
-        url: "https://nationalwomenshistoryalliance.org/the-personal-is-political/",
+        label: t("Carol Hanisch: The Personal is Political", "卡罗尔·哈尼什：《私人即政治》"),
+        url: "https://www.carolhanisch.org/CHwritings/PersonalIsPol.pdf",
       },
     ],
     accent: profiles.radical.accent,
@@ -190,7 +190,7 @@ const theoryStages: TheoryStage[] = [
       },
       {
         label: t("Wages Against Housework", "《反对家务劳动》"),
-        url: "https://thecommoner.org/wp-content/uploads/2019/10/Federici-Wages-Against-Housework.pdf",
+        url: "https://files.libcom.org/files/Federici-Silvia-Wages-Against-Housework.pdf",
       },
     ],
     accent: profiles.socialist.accent,
@@ -332,8 +332,29 @@ const theoryStages: TheoryStage[] = [
         url: "https://www.unwomen.org/en/news/stories/2017/11/op-ed-ed-phumzile-16days-day5",
       },
       {
-        label: t("UN Women: The Global #MeToo Movement", "联合国妇女署：全球 #MeToo 运动"),
-        url: "https://www.unwomen.org/en/digital-library/publications/2021/09/me-too-heads-to-court",
+        label: t("Wikipedia: #MeToo", "维基百科：＃MeToo"),
+        url: "https://zh.wikipedia.org/w/index.php?title=%EF%BC%83MeToo",
+      },
+      {
+        label: t(
+          "Initium Media: South Korea's Radical Feminism and Gender Politics",
+          "端传媒：韩国激进女权的进击与政界的性别之战",
+        ),
+        url: "https://theinitium.com/20210511-opinion-korean-radical-feminism-zh-hans/",
+      },
+      {
+        label: t(
+          "Gender & Education: What Is '6B4T' in China?",
+          "《性别与教育》：中国的“6B4T”是什么？",
+        ),
+        url: "https://www.tandfonline.com/doi/full/10.1080/09589236.2025.2521682",
+      },
+      {
+        label: t(
+          "Oxfam: #MeToo with Chinese Characteristics",
+          "乐施会：中国特色的 #MeToo",
+        ),
+        url: "https://policy-practice.oxfam.org/resources/metoo-with-chinese-characteristics-analysis-through-a-lens-of-chinese-feminism-621506/",
       },
     ],
     accent: "#C026D3",
