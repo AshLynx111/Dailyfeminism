@@ -1,56 +1,206 @@
-# Automatic Publish Workflow Design
+# Automatic Publish Workflow Specification
 
-## Goal
+## 1. Purpose
 
-After Codex completes a code or content change directly requested by the user, it should automatically:
+This specification defines the repository-enforced workflow for automatically validating, committing, pushing, and verifying changes that a user directly requests Codex to make in `AshLynx111/Dailyfeminism`.
 
-1. validate the change locally;
-2. commit only files belonging to that request;
-3. push the commit directly to `main`;
-4. wait for GitHub Pages and Cloudflare Pages to redeploy; and
-5. verify that both public sites serve the exact pushed commit.
+The workflow is intentionally fail-closed. A publish operation may proceed only when the Agent can prove the authorization, file ownership, validation, branch state, commit contents, and deployment version required by this specification.
 
-The workflow must not publish unrelated, temporary, generated, or pre-existing worktree changes.
+The production branch is `main`.
 
-## Scope
+## 2. Normative Terms
 
-This automation applies only to changes explicitly requested by the user in the active Codex conversation. It does not apply to:
+`MUST`, `MUST NOT`, `SHOULD`, and `MAY` are requirements for the Agent and the repository-local publish skill.
 
-- exploratory edits that have not become part of the requested result;
-- changes made independently by the user;
-- pre-existing modified or untracked files;
-- design documents created during a gated design process unless the user has approved publishing them;
-- requests where the user explicitly says not to commit or push.
+An **active user request** is the specific change the user directly asked the Agent to complete in the current conversation.
 
-The target repository is `AshLynx111/Dailyfeminism`, and the deployment branch is `main`.
+A **publish blocker** is a condition that requires the Agent to stop before the next irreversible publishing step and report the reason.
 
-## Architecture
+## 3. Authorization Boundary
 
-### Project Agent Rule
+Automatic publishing MUST remain disabled until the user explicitly enables this workflow for the repository `AshLynx111/Dailyfeminism`.
 
-A repository-level `AGENTS.md` will define the trigger and permission boundary. It will instruct Codex to invoke the project publish skill after completing a directly requested change unless the user opts out.
+Before the first automatic publish, the Agent MUST:
 
-The rule will also state that publishing is allowed without an additional approval prompt when all required validation succeeds.
+1. name the repository and production branch;
+2. explain that successful requested changes will be committed and pushed directly to `main`;
+3. explain that local validation and file-scope checks occur before push;
+4. ask the user for explicit confirmation; and
+5. record the confirmed authorization in the repository-level project rules.
 
-### Project Publish Skill
+Authorization for another repository, a general preference, or an inferred preference is not sufficient.
 
-A repository-local skill will implement the repeatable workflow. It will:
+After authorization is recorded, the Agent MAY publish later qualifying requests without asking again. The user retains control at all times:
 
-1. record the initial worktree state before editing;
-2. identify the files changed for the current request;
-3. run the required local checks;
-4. inspect the final diff;
-5. stage only the identified files;
-6. create a concise commit;
-7. push `main` to `origin`;
-8. poll both deployment URLs; and
-9. report the commit and deployment results.
+- `不要提交`, `不要推送`, `do not commit`, or `do not push` disables publishing for the active request.
+- `关闭自动发布`, `disable automatic publishing`, or equivalent explicit language disables the workflow until the user explicitly enables it again.
+- Ambiguous language MUST NOT be interpreted as permission to publish.
 
-The skill is procedural guidance for the active Agent. It is not a background process and does not monitor arbitrary filesystem changes.
+The repository-level rule MUST identify the authorized repository and MUST direct the Agent to use the repository-local publish skill. Authorization changes MUST be reviewable as ordinary tracked repository changes.
 
-### Deployment Version Marker
+## 4. Qualifying Changes
 
-The Vite build will emit a small JSON artifact such as:
+The workflow applies only to files created or modified solely to satisfy the active user request.
+
+It does not automatically include:
+
+- changes independently made by the user;
+- changes that existed before the active request;
+- exploratory edits not selected as part of the final result;
+- unrelated cleanup, refactoring, or formatting;
+- files discovered during implementation but not required by the request; or
+- any file whose ownership cannot be proven.
+
+The following content MUST NOT be committed unless the user explicitly requests that it be part of the result:
+
+- temporary files;
+- local logs;
+- process ID files or caches;
+- build output;
+- screenshots;
+- generated drafts;
+- exploratory design documents; and
+- Codex intermediate artifacts.
+
+## 5. Required State Tracking
+
+### 5.1 Initial Worktree State
+
+Before editing, the Agent MUST record at minimum:
+
+- repository identity and root;
+- current branch;
+- current `HEAD`;
+- tracked modified, deleted, renamed, and staged files;
+- untracked files; and
+- relevant ignored or generated paths when they could overlap with the request.
+
+This snapshot is the **initial worktree state**. Files already modified or untracked in that snapshot are pre-existing work and are not publishable by default.
+
+The Agent MUST NOT overwrite, reformat, stage, delete, rename, or clean pre-existing worktree changes. It may read them when necessary to understand the project.
+
+### 5.2 Request File Manifest
+
+During implementation, the Agent MUST maintain a **request file manifest** containing every path it creates or modifies for the active user request.
+
+For each manifest entry, the Agent MUST be able to establish:
+
+- why the file is required by the request;
+- whether it existed or was dirty in the initial worktree state;
+- what request-specific change the Agent made; and
+- that the final diff contains no unrelated or pre-existing change.
+
+Paths MUST be added deliberately as work proceeds. A final scan of all changed files MUST be compared against both the initial worktree state and the request file manifest.
+
+### 5.3 Hard Ownership Rule
+
+> If the Agent cannot prove that every staged file was created or modified solely for the active user request, it must stop before commit. Uncertainty is a publish blocker.
+
+The Agent MUST NOT guess that a file belongs to the request.
+
+## 6. Dirty Worktree Protection
+
+A dirty worktree does not by itself prevent work, but it narrows what can be published.
+
+If modified or untracked files existed before the request, the Agent MUST:
+
+1. preserve their paths and initial status;
+2. avoid changing them unless the active request explicitly requires the same file;
+3. exclude them from staging unless their complete request ownership can be proven; and
+4. verify before commit that they remain unstaged and unaltered by the publish procedure.
+
+If the request requires a file that already contains pre-existing changes, the Agent may edit it only when it can reliably distinguish and stage only the request-specific diff. If request changes and pre-existing changes become mixed so that the diff cannot be separated with confidence, automatic publishing MUST stop and the Agent MUST report that manual handling is required.
+
+The Agent MUST NOT use formatting or code-generation commands that rewrite pre-existing dirty files outside the manifest.
+
+## 7. Validation Gate
+
+Before commit, the Agent MUST run:
+
+```text
+pnpm build
+```
+
+The Agent MUST also run any repository-provided test, lint, type-check, or targeted validation command relevant to the files in the request manifest.
+
+Validation MUST use the final intended source state. Any required validation failure is a publish blocker.
+
+Build output and other generated validation artifacts MUST remain untracked and unstaged unless the user explicitly requested them as source deliverables.
+
+## 8. Branch Synchronization Gate
+
+Publishing is allowed only from local `main`.
+
+Immediately before final diff inspection and staging, the Agent MUST confirm the current branch is `main` and run:
+
+```bash
+git fetch origin
+git rebase origin/main
+```
+
+The Agent may continue only if:
+
+- fetch succeeds;
+- rebase completes without conflict;
+- no unexpected automatic merge occurs;
+- the active request remains intact; and
+- the rebase does not introduce worktree changes outside the request manifest, except clean upstream commits already represented by `origin/main`.
+
+Any conflict, unexpected merge result, ambiguous ownership after rebase, or manifest-external worktree change is a publish blocker. The Agent MUST stop and report the condition without attempting an automatic conflict resolution that could alter pre-existing or unrelated work.
+
+The workflow MUST NOT use destructive Git operations, including:
+
+- `git reset --hard`;
+- `git clean -fd` or broader clean variants;
+- checkout or restore commands that discard user work;
+- force push or `--force-with-lease`; or
+- history rewriting after a commit has been pushed.
+
+## 9. Final Diff and Staging Gate
+
+After branch synchronization, the Agent MUST:
+
+1. recapture worktree status;
+2. compare it with the initial worktree state;
+3. inspect the complete diff for every manifest file;
+4. confirm no non-manifest file was changed by the request or synchronization procedure;
+5. confirm every intended change is represented in the manifest; and
+6. stage only explicit manifest paths or explicitly selected request-owned hunks.
+
+The following commands are prohibited:
+
+```bash
+git add -A
+git add .
+```
+
+An equivalent unrestricted staging command is also prohibited.
+
+After staging, the Agent MUST inspect the staged name list and staged diff. Every staged path and every staged hunk MUST satisfy the hard ownership rule in Section 5.3. Non-manifest staged content MUST be removed from the index without modifying the worktree, then treated as a publish blocker until its origin is understood.
+
+## 10. Commit and Push Gate
+
+The Agent may create a commit only after authorization, validation, synchronization, manifest, ownership, and staged-diff checks all succeed.
+
+The commit MUST:
+
+- contain only request-owned staged content;
+- use a concise message describing the active request; and
+- leave all pre-existing unrelated worktree changes untouched.
+
+After commit, the Agent MUST verify the commit file list and patch once more. If the commit contains anything outside the proven request scope, the Agent MUST stop before push and report it.
+
+Only then may the Agent run a normal push of local `main` to `origin/main`. Force push is prohibited.
+
+## 11. Deployment Version Artifact
+
+The Vite production build MUST generate:
+
+```text
+dist/deployment-version.json
+```
+
+with this schema:
 
 ```json
 {
@@ -58,97 +208,98 @@ The Vite build will emit a small JSON artifact such as:
 }
 ```
 
-The SHA will be resolved from the deployment provider's commit environment variable, with `git rev-parse HEAD` as a fallback. The artifact will be generated in the build output without modifying tracked source files.
+The `commit` value MUST be a full Git SHA.
 
-This marker allows the Agent to distinguish a successful redeployment of the new commit from an older deployment that merely returns HTTP 200.
+SHA resolution MUST prefer a deployment-provider commit environment variable when available, including the commit SHA exposed by GitHub Actions or Cloudflare Pages. A local production build MUST fall back to:
 
-## Workflow
-
-### Before Editing
-
-The Agent captures:
-
-- current branch and HEAD;
-- tracked modifications;
-- untracked files; and
-- the expected files for the request as they become known.
-
-Existing unrelated changes remain untouched.
-
-### Validation
-
-For the current Vite application, the minimum required validation is:
-
-```text
-pnpm build
+```bash
+git rev-parse HEAD
 ```
 
-Any more specific test, lint, or type-check command added to the project later must also run when relevant. A failed required check prevents commit and push.
+The implementation MUST fail the build if it cannot resolve and validate a full commit SHA.
 
-### Commit and Push
+`dist/deployment-version.json` is a build artifact. It MUST NOT be tracked or staged as a source file.
 
-The Agent must be on `main` and synchronized with `origin/main` before publishing. It stages explicit paths rather than using an unrestricted `git add -A`.
+## 12. Deployment Verification
 
-If remote `main` moved, the Agent fetches and integrates it only when doing so is conflict-free and preserves both the user's work and the completed request. Conflicts stop automatic publication and are reported.
+GitHub Pages deploys pushes to `main` through `.github/workflows/deploy-pages.yml`. Cloudflare Pages is expected to be connected to the same repository and branch through the Cloudflare dashboard.
 
-After a successful commit, the Agent pushes directly to `origin/main`. No pull request or additional approval is required under the permission granted for this workflow.
-
-### Deployment Verification
-
-The Agent polls these endpoints:
+After push, the Agent MUST poll:
 
 - GitHub Pages: `https://ashlynx111.github.io/Dailyfeminism/deployment-version.json`
 - Cloudflare Pages: `https://dailyfeminism.pages.dev/deployment-version.json`
 
-Each request uses a cache-busting query parameter. Success requires both endpoints to:
+Every request SHOULD include a cache-busting query parameter. For each attempt, the Agent MUST retain:
 
-- return HTTP 200;
-- contain valid JSON; and
-- report the exact full SHA that was pushed.
+- provider name;
+- observation time;
+- HTTP status code; and
+- observed commit SHA, when valid JSON is returned.
 
-Polling uses a bounded timeout and moderate retry interval so normal provider build latency does not cause an immediate false failure.
+A provider is verified only when its endpoint returns HTTP 200, valid JSON, and the exact full SHA pushed by the Agent. A successful HTTP response containing an older SHA is not a successful deployment.
 
-## Existing Deployment Integration
+Verification MUST use a bounded timeout and retry interval. Both providers MUST report the pushed full SHA for the overall publish workflow to be reported as fully deployed.
 
-GitHub Pages already deploys on pushes to `main` through `.github/workflows/deploy-pages.yml`.
+## 13. Failure Boundaries and Reporting
 
-Cloudflare Pages is expected to remain connected to the same GitHub repository and `main` branch through the Cloudflare dashboard. The first implementation run will verify this assumption by pushing the workflow changes and observing whether the Cloudflare version marker advances to the pushed SHA.
+### 13.1 Before Push
 
-No Cloudflare API token is required for routine verification because the deployed version artifact is authoritative for the public site. If Cloudflare does not redeploy from the test push, dashboard integration becomes a documented external blocker rather than being silently treated as success.
+Failure of any of the following MUST prevent push:
 
-## Failure Handling
+- authorization check;
+- initial state capture;
+- request manifest validation;
+- file ownership proof;
+- dirty worktree protection;
+- required local validation;
+- branch check;
+- fetch or rebase;
+- final diff inspection;
+- staged diff inspection; or
+- commit creation and post-commit inspection.
 
-### Before Push
+The Agent MUST report the blocking condition and the last completed gate. It MUST leave unrelated user work untouched.
 
-If build, diff inspection, branch synchronization, or commit creation fails, the Agent does not push and reports the failure.
+### 13.2 After Push
 
-### After Push
+After a commit reaches `origin/main`, deployment failure MUST NOT trigger an automatic revert or another production commit.
 
-Once a commit has reached `main`, the Agent cannot truthfully describe the operation as uncommitted. If either deployment does not reach the expected SHA before timeout, it reports:
+If either deployment does not reach the pushed SHA within the timeout, the Agent MUST report:
 
-- the pushed commit SHA;
-- which deployment succeeded;
-- which deployment failed or timed out; and
-- the last observed status or SHA.
+- pushed full SHA;
+- GitHub Pages result;
+- Cloudflare Pages result;
+- the last observed HTTP status code for each provider;
+- the last observed SHA for each provider, when available; and
+- whether each provider succeeded, failed, or timed out.
 
-The Agent does not automatically revert `main`. A deployment failure may be transient or provider-specific, and an automatic revert would create another production change without diagnosis.
+The report MUST distinguish a successful push from a successful deployment.
 
-## Security and Safety
+## 14. Repository Components
 
-- No credentials are stored in the repository.
-- No Cloudflare API token is needed for the default flow.
-- Existing unrelated changes are never staged implicitly.
-- Generated logs, process IDs, build output, and local artifacts are excluded unless explicitly requested.
-- Destructive Git commands are not part of the workflow.
-- The user can disable automatic publication for any request by saying so explicitly.
+The implementation will contain:
 
-## Acceptance Criteria
+1. a repository-level `AGENTS.md` authorization and trigger rule;
+2. a repository-local publish skill implementing the gates in this specification;
+3. Vite build integration that generates `dist/deployment-version.json`; and
+4. the existing GitHub Pages workflow, adjusted only if necessary to expose a reliable deployment commit SHA.
 
-The implementation is complete when:
+The skill is invoked by the active Agent after a qualifying request. It is not a filesystem watcher, background loop, or general-purpose auto-commit process.
 
-1. the repository contains the Agent trigger rule and project publish skill;
-2. a production build emits `deployment-version.json`;
-3. a directly requested test change can pass local validation and be committed to `main`;
-4. the commit is pushed without staging unrelated worktree files;
-5. both deployment endpoints eventually report the pushed full SHA; and
-6. failures stop at the correct boundary and produce a clear report.
+## 15. Acceptance Criteria
+
+The implementation is complete only when all of the following are demonstrated:
+
+1. A repository-specific first-authorization rule exists and prevents automatic publishing before explicit user confirmation.
+2. Temporary and long-term user opt-out instructions are enforced.
+3. The Agent records the initial worktree state before editing.
+4. Manifest-based staging exists, and unrestricted `git add -A` or `git add .` staging is prohibited.
+5. Pre-existing modified and untracked files remain untouched and are not accidentally committed.
+6. Mixed request and pre-existing changes in the same file stop automatic publishing when they cannot be reliably separated.
+7. `git fetch origin` and conflict-free `git rebase origin/main` are required before commit.
+8. Destructive Git commands and force pushes are prohibited.
+9. A production build generates an untracked `dist/deployment-version.json` containing a valid full Git SHA.
+10. GitHub Pages and Cloudflare Pages version endpoints both return the pushed full SHA.
+11. Pre-push failures prevent push, and post-push deployment failures do not trigger an automatic revert.
+12. Deployment failure reports include the pushed SHA and the last observed HTTP status code or SHA for both providers.
+13. If the Agent cannot prove file ownership, it stops publishing instead of guessing or committing.
