@@ -233,7 +233,7 @@ function TheoryCard({ theory, index, opened, onOpen, isZh }: { theory: Theory; i
         />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(120deg, ${theory.accent}38 0 22%, transparent 22% 100%)` }} />
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.34) 1px, transparent 1.5px)", backgroundSize: "9px 9px", opacity: 0.16 }} />
-        <div style={{ position: "absolute", left: "0.8rem", bottom: "0.65rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.54rem", letterSpacing: "0.16em", color: ink, background: "rgba(5,4,7,0.72)", padding: "0.28rem 0.45rem" }}>
+        <div style={{ position: "absolute", left: "0.8rem", bottom: "0.65rem", fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.54rem", letterSpacing: "0.16em", color: "#FFFFFF", background: "rgba(5,4,7,0.72)", padding: "0.28rem 0.45rem" }}>
           {theory.figure}
         </div>
       </div>
