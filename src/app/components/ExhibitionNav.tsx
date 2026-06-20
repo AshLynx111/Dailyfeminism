@@ -9,6 +9,7 @@ const rooms = [
   { en: "IV. LINEAGE", zh: "IV. 年轮", href: "#lineage" },
   { en: "V. SPECTRUM", zh: "V. 光谱", href: "#spectrum" },
   { en: "VI. ARCHIVE", zh: "VI. 档案室", href: "#reading" },
+  { en: "VII. MY RINGS", zh: "VII. 我的年轮", href: "#thought-rings" },
 ];
 
 export function ExhibitionNav() {
@@ -91,7 +92,7 @@ export function ExhibitionNav() {
         </button>
 
         {/* Desktop rooms */}
-        <div className="exhibition-desktop-rooms" style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
+        <div className="exhibition-desktop-rooms" style={{ display: "flex", gap: "clamp(0.75rem, 1.6vw, 2rem)", alignItems: "center" }}>
           {rooms.map((r) => (
             <button
               key={r.href}

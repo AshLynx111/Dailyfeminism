@@ -11,6 +11,7 @@ import carolGilligan from "../../imports/portraits/carol-gilligan.jpg";
 import judithButler from "../../imports/portraits/judith-butler.jpg";
 import audreLorde from "../../imports/portraits/audre-lorde.jpg";
 import { useLanguage } from "../i18n";
+import { ReflectionTrigger, type TheoryId } from "../reflections";
 
 const violet = "#6F00FF";
 const deepViolet = "#24004D";
@@ -340,26 +341,38 @@ function DetailModal({ theory, onClose, isZh }: { theory: Theory; onClose: () =>
               </span>
             ))}
           </div>
-          <button
-            onClick={() => readMode(theory)}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              border: `1px solid ${theory.accent}`,
-              background: theory.accent,
-              color: nearBlack,
-              padding: "0.72rem 1rem",
-              cursor: "pointer",
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.64rem",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              boxShadow: `7px 7px 0 ${deepViolet}`,
-            }}
-          >
-            <BookOpen size={14} /> {isZh ? "阅读模式" : "Read mode"}
-          </button>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.8rem" }}>
+            <button
+              onClick={() => readMode(theory)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                border: `1px solid ${theory.accent}`,
+                background: theory.accent,
+                color: nearBlack,
+                padding: "0.72rem 1rem",
+                cursor: "pointer",
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "0.64rem",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                boxShadow: `7px 7px 0 ${deepViolet}`,
+              }}
+            >
+              <BookOpen size={14} /> {isZh ? "阅读模式" : "Read mode"}
+            </button>
+            <ReflectionTrigger
+              onBeforeOpen={onClose}
+              source={{
+                type: "theory",
+                id: theory.id,
+                title: isZh ? theory.labelZh : theory.label,
+                theoryIds: [theory.id as TheoryId],
+                snapshot: isZh ? theory.coreZh : theory.core,
+              }}
+            />
+          </div>
         </div>
       </motion.div>
     </motion.div>

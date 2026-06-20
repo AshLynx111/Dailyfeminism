@@ -10,6 +10,7 @@ import {
 import { ArrowLeft, RotateCcw } from "lucide-react";
 import cameraRays from "../../imports/collage/camera-rays.jpg";
 import { useLanguage } from "../i18n";
+import { ReflectionTrigger, type TheoryId } from "../reflections";
 
 type TensionKey =
   | "reformStructure"
@@ -940,6 +941,20 @@ function Results({ answers, isZh }: { answers: number[]; isZh: boolean }) {
           );
         }
       )}
+      <div style={{ borderTop: "1px solid rgba(111,0,255,0.22)", marginTop: "1.6rem", paddingTop: "1.25rem" }}>
+        <p style={{ margin: "0 0 0.8rem", fontFamily: "'Special Elite', cursive", fontSize: "0.78rem", lineHeight: 1.55, color: "rgba(17,17,17,0.62)" }}>
+          {isZh ? "画像不是结论。把此刻的倾向带回你的生活经验，留下它将来可能改变的证据。" : "A profile is not a conclusion. Bring this tendency back to lived experience and preserve how it may change."}
+        </p>
+        <ReflectionTrigger
+          source={{
+            type: "quiz",
+            id: `profile-${primary[0]}-${secondary[0]}`,
+            title: isZh ? "我的女权主义画像" : "My Feminist Profile",
+            theoryIds: [primary[0], secondary[0], influence[0]] as TheoryId[],
+            snapshot: `${profile.summary} ${primary[1]}% / ${secondary[1]}% / ${influence[1]}%`,
+          }}
+        />
+      </div>
     </motion.div>
   );
 }

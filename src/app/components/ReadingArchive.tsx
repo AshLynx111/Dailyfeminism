@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import img1 from "figma:asset/9b362052e5b7524cc56549a710bbf89c-1.jpg";
 import woolfWaves from "../../imports/collage/woolf-waves.jpg";
 import { useLanguage } from "../i18n";
+import { ReflectionTrigger, type TheoryId } from "../reflections";
 
 const books = [
   {
@@ -477,6 +478,21 @@ export function ReadingArchive() {
               <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.88rem", color: "#111111", lineHeight: 1.7, opacity: 0.7 }}>
                 {isZh ? open.bodyZh : open.body}
               </p>
+              <div style={{ borderTop: "1px solid rgba(111,0,255,0.22)", paddingTop: "1rem", marginTop: "1.2rem" }}>
+                <p style={{ margin: "0 0 0.7rem", fontFamily: "'Special Elite', cursive", fontSize: "0.72rem", lineHeight: 1.5, color: "rgba(17,17,17,0.58)" }}>
+                  {isZh ? "这本书让你如何重新理解一段真实经验？" : "How does this book change the way you understand a lived experience?"}
+                </p>
+                <ReflectionTrigger
+                  onBeforeOpen={() => setOpen(null)}
+                  source={{
+                    type: "reading",
+                    id: `book-${open.num}`,
+                    title: isZh ? open.titleZh : open.title,
+                    theoryIds: [open.theory.toLowerCase() as TheoryId],
+                    snapshot: `${open.author}, ${open.year} · ${isZh ? open.bodyZh : open.body}`,
+                  }}
+                />
+              </div>
             </motion.div>
           </motion.div>
         )}

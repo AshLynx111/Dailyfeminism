@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLanguage } from "../i18n";
+import { ReflectionTrigger, type TheoryId } from "../reflections";
 
 type TheoryId =
   | "liberal"
@@ -669,6 +670,21 @@ export function LineageRoom() {
                       </a>
                     ))}
                   </div>
+                </div>
+                <div style={{ borderTop: `1px solid ${activeStage.accent}33`, paddingTop: "1rem", marginTop: "1rem" }}>
+                  <p style={{ margin: "0 0 0.7rem", fontFamily: "'Special Elite', cursive", fontSize: "0.7rem", lineHeight: 1.5, color: softInk }}>
+                    {isZh ? "这段历史与理论，让你重新看见了生活中的什么？" : "What in your life becomes visible again through this history and theory?"}
+                  </p>
+                  <ReflectionTrigger
+                    compact
+                    source={{
+                      type: "lineage",
+                      id: activeStage.id,
+                      title: localized(activeStage.title, isZh),
+                      theoryIds: [...activeStage.mainTheories, ...activeStage.relatedSchools] as TheoryId[],
+                      snapshot: `${localized(activeStage.period, isZh)} · ${localized(activeStage.coreQuestion, isZh)}`,
+                    }}
+                  />
                 </div>
               </motion.aside>
             )}
