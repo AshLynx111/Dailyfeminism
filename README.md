@@ -10,6 +10,7 @@ The project responds to a common problem in public discussion: feminism is often
 
 Live sites:
 
+- [dailyfeminism.xyz](https://dailyfeminism.xyz/)
 - [dailyfeminism.pages.dev](https://dailyfeminism.pages.dev/)
 - [ashlynx111.github.io/Dailyfeminism](https://ashlynx111.github.io/Dailyfeminism/)
 
@@ -83,7 +84,7 @@ Dailyfeminism/
 
 This repository includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml`. On pushes to `main`, it installs dependencies, builds the Vite app, uploads `dist/`, and deploys it to GitHub Pages.
 
-The project is also available through Cloudflare Pages at [dailyfeminism.pages.dev](https://dailyfeminism.pages.dev/).
+The project is available at the custom domain [dailyfeminism.xyz](https://dailyfeminism.xyz/), with Cloudflare Pages also available at [dailyfeminism.pages.dev](https://dailyfeminism.pages.dev/).
 
 ## Attributions
 
