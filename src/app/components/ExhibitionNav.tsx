@@ -77,38 +77,51 @@ export function ExhibitionNav() {
             }
           `}
         </style>
-        <button
+        <a
           className="exhibition-brand"
-          onClick={() => go("#entrance")}
+          href="#entrance"
+          onClick={(event) => {
+            event.preventDefault();
+            go("#entrance");
+          }}
           style={{
             background: "none", border: "none", cursor: "pointer",
             fontFamily: "'IBM Plex Mono', monospace",
             fontSize: "0.6rem", letterSpacing: "0.25em",
-          color: scrolled ? "#6F00FF" : "rgba(17,17,17,0.72)",
+            fontWeight: 500,
+            color: scrolled ? "#6F00FF" : "rgba(17,17,17,0.72)",
             transition: "color 0.4s",
+            textDecoration: "none",
+            display: "inline-block",
           }}
         >
           ♀ {isZh ? "日常女性主义" : "DAILY FEMINISM"}
-        </button>
+        </a>
 
         {/* Desktop rooms */}
         <div className="exhibition-desktop-rooms" style={{ display: "flex", gap: "clamp(0.75rem, 1.6vw, 2rem)", alignItems: "center" }}>
           {rooms.map((r) => (
-            <button
+            <a
               key={r.href}
-              onClick={() => go(r.href)}
+              href={r.href}
+              onClick={(event) => {
+                event.preventDefault();
+                go(r.href);
+              }}
               style={{
                 background: "none", border: "none", cursor: "pointer",
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: "0.52rem", letterSpacing: "0.18em",
+                fontWeight: 500,
                 color: scrolled ? "rgba(17,17,17,0.52)" : "rgba(17,17,17,0.5)",
                 transition: "all 0.2s",
+                textDecoration: "none",
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = "#6F00FF")}
               onMouseLeave={(e) => (e.currentTarget.style.color = scrolled ? "rgba(17,17,17,0.52)" : "rgba(17,17,17,0.5)")}
             >
               {isZh ? r.zh : r.en}
-            </button>
+            </a>
           ))}
           <button
             onClick={toggleLanguage}
@@ -183,20 +196,26 @@ export function ExhibitionNav() {
             }}
           >
             {rooms.map((r) => (
-              <button
+              <a
                 key={r.href}
-                onClick={() => go(r.href)}
+                href={r.href}
+                onClick={(event) => {
+                  event.preventDefault();
+                  go(r.href);
+                }}
                 style={{
                   background: "none", border: "none", cursor: "pointer",
                   fontFamily: "'IBM Plex Mono', monospace",
                   fontSize: "0.65rem", letterSpacing: "0.2em",
+                  fontWeight: 500,
                   color: "rgba(17,17,17,0.72)",
                   textAlign: "left",
                   transition: "color 0.2s",
+                  textDecoration: "none",
                 }}
               >
                 {isZh ? r.zh : r.en}
-              </button>
+              </a>
             ))}
             <button
               onClick={() => {

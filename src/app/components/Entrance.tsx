@@ -29,6 +29,7 @@ export function Entrance() {
   return (
     <section
       id="entrance"
+      aria-labelledby="page-title"
       ref={ref}
       style={{
         position: "relative",
@@ -243,13 +244,15 @@ export function Entrance() {
         }}
       />
 
-      <motion.div
+      <motion.h1
+        id="page-title"
         style={{
           position: "absolute",
           left: "clamp(2rem, 8vw, 7rem)",
           top: "clamp(7.5rem, 18vh, 11rem)",
           zIndex: 14,
           y: titleY,
+          margin: 0,
         }}
         initial={{ opacity: 0, x: -36 }}
         animate={{ opacity: 1, x: 0 }}
@@ -282,7 +285,7 @@ export function Entrance() {
         >
           FEMINISM
         </div>
-      </motion.div>
+      </motion.h1>
 
       <motion.p
         className="entrance-subtitle"

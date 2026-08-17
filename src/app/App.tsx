@@ -16,14 +16,16 @@ export default function App() {
       <ReflectionProvider>
         <div style={{ background: "var(--daily-paper)", overflowX: "hidden" }}>
           <ExhibitionNav />
-          <Entrance />
-          <FeministAtlas />
-          <QuizRoom />
-          <LineageRoom />
-          <SpectrumRoom />
-          <ReadingArchive />
-          <ThoughtRings />
-          <AtlasCollageFinale />
+          <main>
+            <Entrance />
+            <FeministAtlas />
+            <QuizRoom />
+            <LineageRoom />
+            <SpectrumRoom />
+            <ReadingArchive />
+            <ThoughtRings />
+            <AtlasCollageFinale />
+          </main>
         </div>
       </ReflectionProvider>
     </LanguageProvider>
