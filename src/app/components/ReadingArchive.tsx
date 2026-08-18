@@ -16,6 +16,7 @@ const books = [
     quote: "\"I do not wish women to have power over men — but over themselves.\"",
     body: "The foundational text of liberal feminism. Wollstonecraft argues that women appear inferior only from lack of education. She demands equal educational opportunity as the bedrock of political equality.",
     bodyZh: "自由主义女性主义的奠基文本。沃斯通克拉夫特认为，女性显得低下只是因为缺乏教育；平等教育机会是政治平等的基础。",
+    affiliateUrl: "",
     rot: "-1.2deg",
     offset: "0px",
     paperBg: "#FFFFFF",
@@ -30,6 +31,7 @@ const books = [
     quote: "\"There is no gender identity behind the expressions of gender; that identity is performatively constituted.\"",
     body: "Butler's revolutionary thesis: gender is not something you are — it is something you do. Acts, gestures, and desire create the illusion of a stable gender self. This detonated feminist theory.",
     bodyZh: "巴特勒的革命性命题：性别不是你是什么，而是你做什么。行为、姿态与欲望制造出稳定性别自我的幻象，并重塑了女性主义理论。",
+    affiliateUrl: "",
     rot: "2.5deg",
     offset: "12px",
     paperBg: "#F1EBFF",
@@ -44,6 +46,7 @@ const books = [
     quote: "\"It is not our differences that divide us. It is our inability to recognize, accept, and celebrate those differences.\"",
     body: "Essays and speeches by the visionary Black lesbian feminist. Lorde maps the intersections of race, gender, class, and sexuality with extraordinary force — essential reading.",
     bodyZh: "这是一位黑人女同性恋女性主义者的论文与演讲集。洛德以强大的语言勾勒种族、性别、阶级与性取向的交叉，是必读文本。",
+    affiliateUrl: "",
     rot: "-3deg",
     offset: "5px",
     paperBg: "#FFFFFF",
@@ -58,6 +61,7 @@ const books = [
     quote: "\"The witch-hunt was a war against women — an attempt to destroy the control women had exercised over their reproductive function.\"",
     body: "Federici traces how the transition to capitalism required destroying women's communal power. The witch hunts were deliberate attacks on female autonomy. A paradigm-shifting materialist analysis.",
     bodyZh: "费代里奇追踪资本主义转型如何需要摧毁女性的共同体力量。猎巫是对女性自主性的蓄意攻击，也是一种范式转换式的唯物主义分析。",
+    affiliateUrl: "",
     rot: "1.5deg",
     offset: "-8px",
     paperBg: "#F4F0FF",
@@ -72,6 +76,7 @@ const books = [
     quote: "\"Coitus is set deeply within the larger context of human affairs that it serves as a charged microcosm of the variety of attitudes and values to which culture subscribes.\"",
     body: "The radical feminist breakthrough. Millett analyses literature to show how patriarchy pervades culture — not just law. The personal is political. Sex is power.",
     bodyZh: "激进女性主义的突破性文本。米利特通过文学分析展示父权制如何渗透文化，而不只是法律。个人的即政治的，性也是权力。",
+    affiliateUrl: "",
     rot: "-2deg",
     offset: "18px",
     paperBg: "#FFFFFF",
@@ -86,6 +91,7 @@ const books = [
     quote: "\"Racism and sexism are not simply analogous — they are deeply interconnected.\"",
     body: "Davis traces the inseparable history of race, class, and gender in American life. The suffrage movement's racism undermined its own goals. Liberation requires solidarity across all these axes.",
     bodyZh: "戴维斯追踪美国生活中种族、阶级与性别不可分割的历史。选举权运动中的种族主义削弱了自身目标；解放需要跨越这些轴线的团结。",
+    affiliateUrl: "",
     rot: "3deg",
     offset: "0px",
     paperBg: "#F2ECFF",
@@ -100,6 +106,7 @@ const books = [
     quote: "\"The first class antagonism which appears in history coincides with the development of the antagonism between man and woman.\"",
     body: "Engels locates the origin of women's oppression in the emergence of private property and the patriarchal family — the world historical defeat of the female sex.",
     bodyZh: "恩格斯将女性压迫的起源定位在私有财产和父权家庭的出现之中，称之为女性的世界历史性失败。",
+    affiliateUrl: "",
     rot: "-1.5deg",
     offset: "8px",
     paperBg: "#FFFFFF",
@@ -114,11 +121,23 @@ const books = [
     quote: "\"The different voice I describe is characterized not by gender but by theme — its association with women is empirical, not necessary.\"",
     body: "Gilligan challenges male-centered developmental psychology. Women's ethics of care and relational moral reasoning are not inferior — they are different. The first major work of cultural feminism.",
     bodyZh: "吉利根挑战以男性为中心的发展心理学。女性的照护伦理与关系性道德推理并不低劣，而是不同。这是文化女性主义的重要文本。",
+    affiliateUrl: "",
     rot: "2deg",
     offset: "-5px",
     paperBg: "#F3EFFF",
   },
 ];
+
+function isValidBookshopAffiliateUrl(value: string) {
+  if (!value) return false;
+
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && (url.hostname === "bookshop.org" || url.hostname.endsWith(".bookshop.org"));
+  } catch {
+    return false;
+  }
+}
 
 export function ReadingArchive() {
   const [open, setOpen] = useState<typeof books[0] | null>(null);
@@ -245,6 +264,11 @@ export function ReadingArchive() {
               line-height: 1.35 !important;
             }
 
+            .reading-find-copy {
+              right: 1.15rem !important;
+              bottom: 1.15rem !important;
+            }
+
             .reading-detail-card {
               padding: 2.4rem 1.2rem 1.4rem !important;
               clip-path: none !important;
@@ -320,6 +344,11 @@ export function ReadingArchive() {
           <p style={{ fontFamily: "'Special Elite', cursive", fontSize: "0.82rem", color: "rgba(17,17,17,0.68)", fontStyle: "italic", marginTop: "0.75rem" }}>
             {isZh ? "八本重要文本，一座女性主义图书馆。" : "Eight essential texts. The feminist library."}
           </p>
+          {!isZh && (
+            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "0.52rem", color: "rgba(17,17,17,0.46)", lineHeight: 1.5, marginTop: "0.45rem" }}>
+              Some book links are affiliate links. Daily Feminism may earn a commission at no extra cost to you.
+            </p>
+          )}
         </motion.div>
 
         {/* Filters */}
@@ -359,7 +388,7 @@ export function ReadingArchive() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: i * 0.06 }}
-                style={{ transform: `rotate(${book.rot}) translateY(${book.offset})` }}
+                style={{ position: "relative", transform: `rotate(${book.rot}) translateY(${book.offset})` }}
               >
                 <motion.button
                   className="reading-book-button"
@@ -412,6 +441,27 @@ export function ReadingArchive() {
                     ↗ {isZh ? "打开文件" : "OPEN FILE"}
                   </div>
                 </motion.button>
+                {!isZh && isValidBookshopAffiliateUrl(book.affiliateUrl) && (
+                  <a
+                    className="reading-find-copy"
+                    href={book.affiliateUrl}
+                    target="_blank"
+                    rel="noopener noreferrer sponsored"
+                    style={{
+                      position: "absolute",
+                      right: "1.5rem",
+                      bottom: "1.5rem",
+                      zIndex: 1,
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.52rem",
+                      color: "rgba(111,0,255,0.7)",
+                      letterSpacing: "0.1em",
+                      textDecoration: "none",
+                    }}
+                  >
+                    ↗ FIND A COPY
+                  </a>
+                )}
               </motion.div>
             ))}
           </AnimatePresence>
